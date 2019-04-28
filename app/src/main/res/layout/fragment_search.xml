@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_search"
+    android:orientation="vertical"
+    tools:context=".ui.home.fragments.search.SearchFragment">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        app:cardElevation="@dimen/cardElevation"
+        app:cardCornerRadius="@dimen/noCornerRadius"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_height="wrap_content">
+
+        <SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:closeIcon="@drawable/ic_close"
+            android:layout_margin="@dimen/activity_margin_half"
+            android:backgroundTint="@color/white"
+            android:background="@drawable/border_input"
+            android:inputType="text"
+            android:iconifiedByDefault="true"
+            android:focusableInTouchMode="false"
+            app:defaultQueryHint="@string/hintSearch"/>
+
+    </android.support.v7.widget.CardView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            layout="@layout/fragment_movie_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/textViewFilmNotFound"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="@dimen/textSizeDefault"
+            android:fontFamily="@font/dosis_bold"
+            android:visibility="gone"
+            android:text="@string/errorMessageFilmNotFound"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
