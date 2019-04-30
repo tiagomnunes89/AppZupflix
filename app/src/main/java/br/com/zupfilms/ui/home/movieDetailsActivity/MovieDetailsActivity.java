@@ -3,10 +3,8 @@ package br.com.zupfilms.ui.home.movieDetailsActivity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.SpannableString;
@@ -79,10 +77,14 @@ public class MovieDetailsActivity extends BaseActivity {
             } else {
                 Integer filmID = SingletonFilmID.INSTANCE.getID();
                 MovieDetailsModelDB movieDetailsModelDB = db.getOneFavoritesFilms(filmID);
-                movieDetailsViewHolder.setMovieDetailsDBInformation(movieDetailsModelDB);
-                movieDetailsViewHolder.layoutItemDetails.setVisibility(View.VISIBLE);
+                if(movieDetailsModelDB != null){
+                    movieDetailsViewHolder.setMovieDetailsDBInformation(movieDetailsModelDB);
+                    movieDetailsViewHolder.layoutItemDetails.setVisibility(View.VISIBLE);
+                } else {
+                    TastyToast.makeText(MovieDetailsActivity.this, getString(R.string.NO_SERVICE_OFFILINE_DETAILS), TastyToast.LENGTH_LONG, TastyToast.ERROR)
+                            .setGravity(Gravity.CENTER, 0, 700);
+                }
             }
-
         } else {
             Intent intent = new Intent(MovieDetailsActivity.this, HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -307,18 +309,5 @@ public class MovieDetailsActivity extends BaseActivity {
                 frameLayout.setVisibility(View.INVISIBLE);
             }
         }
-    }
-
-    public boolean verifyConection() {
-        boolean conected;
-        ConnectivityManager conectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (conectivityManager.getActiveNetworkInfo() != null
-                && conectivityManager.getActiveNetworkInfo().isAvailable()
-                && conectivityManager.getActiveNetworkInfo().isConnected()) {
-            conected = true;
-        } else {
-            conected = false;
-        }
-        return conected;
     }
 }

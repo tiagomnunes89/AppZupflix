@@ -18,6 +18,7 @@ public class SearchViewHolder {
     SearchView searchView;
     TextView textViewFilmNotFound;
     BottomNavigationView bottomNavigationView;
+    TextView textViewServiceDisable;
 
 
     public SearchViewHolder(View view) {
@@ -27,5 +28,6 @@ public class SearchViewHolder {
         searchView = view.findViewById(R.id.search_view);
         textViewFilmNotFound = view.findViewById(R.id.textViewFilmNotFound);
         bottomNavigationView = view.findViewById(R.id.botton_nav_view);
+        textViewServiceDisable = view.findViewById(R.id.textViewServiceDisable);
     }
 }

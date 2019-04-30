@@ -32,15 +32,6 @@ public class HomeFragmentViewModel extends BaseViewModel {
         getGenreList.observeForever(filmGenresObserver);
     }
 
-    public FilmGenres changeOrderGenres (FilmGenres filmGenres){
-        if (filmGenres.getGenres() != null && !(filmGenres.getGenres().get(0).getId() == -1)){
-            GenresResponse genresResponse = new GenresResponse(-1, "Lançamentos");
-            filmGenres.getGenres().add(0, genresResponse);
-            filmGenres.getGenres().remove(filmGenres.getGenres().size() - 1);
-        }
-        return filmGenres;
-    }
-
     private Observer<ResponseModel<FilmGenres>> filmGenresObserver = new Observer<ResponseModel<FilmGenres>>() {
         @Override
         public void onChanged(@Nullable ResponseModel<FilmGenres> responseFilmGenres) {

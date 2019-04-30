@@ -52,6 +52,8 @@ public class SearchFragment extends BaseFragment {
 
         searchViewModel = ViewModelProviders.of(SearchFragment.this).get(SearchViewModel.class);
 
+        searchViewHolder.searchView.setQueryHint("Buscar filmes...");
+
         searchViewHolder.searchView.setOnQueryTextListener(searchViewListener);
 
         searchViewHolder.searchView.setIconified(false);
@@ -59,10 +61,23 @@ public class SearchFragment extends BaseFragment {
         return view;
     }
 
+    private View.OnClickListener textServiceDisable = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            searchViewHolder.textViewServiceDisable.setVisibility(View.GONE);
+            if(verifyConection()){
+                searchViewHolder.searchView.setQuery("",false);
+                searchViewHolder.searchView.setQueryHint("Conectado. Busque seu filme aqui!");
+            } else {
+                searchViewHolder.textViewServiceDisable.setVisibility(View.VISIBLE);
+            }
+        }
+    };
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(!hidden){
+        if (!hidden) {
             searchViewHolder.searchView.setIconified(false);
         }
     }
@@ -71,17 +86,17 @@ public class SearchFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         searchViewModel.getIsLoading().setValue(false);
-        Log.d("TAG","onPause");
+        Log.d("TAG", "onPause");
     }
 
     public void onResume() {
         super.onResume();
         if (adapter == null && SingletonFilmGenres.INSTANCE.getFilmGenres() != null) {
-            adapter = new FilmAdapter(getActivity(),SingletonFilmGenres.INSTANCE.getFilmGenres());
+            adapter = new FilmAdapter(getActivity(), SingletonFilmGenres.INSTANCE.getFilmGenres());
         }
         setupObserversAndListeners();
         setupLayoutManager();
-        Log.d("TAG","onResume");
+        Log.d("TAG", "onResume");
     }
 
     private void setupLayoutManager() {
@@ -95,13 +110,14 @@ public class SearchFragment extends BaseFragment {
         searchViewModel.getFragmentTellerThereIsFilmResults().observe(this, homeTellerThereIsFilmResultsObserver);
         searchViewModel.getIsErrorMessageForToast().observe(this, isErrorMessageForToastObserver);
         searchViewModel.getIsSearchEmpty().observe(this, isSearchEmptyObserver);
-        searchViewModel.getThereIsMovieDetailsToSaveOffiline().observe(this,thereIsMovieDetailsObserver);
+        searchViewModel.getThereIsMovieDetailsToSaveOffiline().observe(this, thereIsMovieDetailsObserver);
+        searchViewHolder.textViewServiceDisable.setOnClickListener(textServiceDisable);
     }
 
     private Observer<MovieDetailsModel> thereIsMovieDetailsObserver = new Observer<MovieDetailsModel>() {
         @Override
         public void onChanged(MovieDetailsModel movieDetailsModel) {
-            if(movieDetailsModel != null && db != null){
+            if (movieDetailsModel != null && db != null) {
                 db.insert(movieDetailsModel);
                 adapter.notifyDataSetChanged();
             }
@@ -157,8 +173,8 @@ public class SearchFragment extends BaseFragment {
                 @Override
                 public void OnCheckBoxClick(int position, PagedList<FilmResponse> currentList, Boolean isChecked) {
                     SingletonFilmID.setIDEntered(currentList.get(position).getId());
-                    if(db != null){
-                        if(isChecked){
+                    if (db != null) {
+                        if (isChecked) {
                             searchViewModel.executeServiceGetMovieDetailsToSaveOffiline(currentList.get(position).getId());
                         } else {
                             db.delete(currentList.get(position).getId());
@@ -199,12 +215,25 @@ public class SearchFragment extends BaseFragment {
 
         @Override
         public boolean onQueryTextChange(String newText) {
-            if (!newText.isEmpty()) {
-                SingletonFilmID.setIDEntered(null);
-                adapter.submitList(null);
-                searchViewModel.executeServiceGetFilmResultsSearch(newText);
+            searchViewHolder.recyclerView.setVisibility(View.GONE);
+            if (verifyConection()) {
+                if (!newText.isEmpty()) {
+                    if(SingletonFilmID.INSTANCE.getID() != null && adapter != null){
+                        SingletonFilmID.setIDEntered(null);
+                        adapter.submitList(null);
+                    }
+                    searchViewModel.executeServiceGetFilmResultsSearch(newText);
+                    searchViewHolder.searchView.setQueryHint("Buscar filmes...");
+                } else {
+                    if(adapter!= null){
+                        adapter.submitList(null);
+                    }
+                }
             } else {
-                adapter.submitList(null);
+                searchViewHolder.recyclerView.setVisibility(View.GONE);
+                TastyToast.makeText(getActivity(), getString(R.string.NO_CONNECTION_MESSAGE), TastyToast.LENGTH_LONG, TastyToast.ERROR)
+                        .setGravity(Gravity.CENTER, 0, 700);
+                searchViewHolder.textViewServiceDisable.setVisibility(View.VISIBLE);
             }
             return false;
         }

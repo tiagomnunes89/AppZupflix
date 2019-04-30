@@ -53,10 +53,28 @@ public class MovieListFragment extends BaseFragment {
         movieListViewModel = ViewModelProviders.of(MovieListFragment.this).get(MovieListViewModel.class);
 
         if (SingletonGenreID.INSTANCE.getGenreID() != null) {
-            movieListViewModel.executeServiceGetFilmResults(FIRST_PAGE, SingletonGenreID.INSTANCE.getGenreID());
+            if(verifyConection()){
+                movieListViewModel.executeServiceGetFilmResults(FIRST_PAGE, SingletonGenreID.INSTANCE.getGenreID());
+            } else {
+                TastyToast.makeText(getActivity(), getString(R.string.NO_CONNECTION_MESSAGE_LIST_FILMS), TastyToast.LENGTH_LONG, TastyToast.ERROR)
+                        .setGravity(Gravity.CENTER, 0, 700);
+                movieListViewHolder.textViewServiceDisable.setVisibility(View.VISIBLE);
+            }
         }
         return view;
     }
+
+    private View.OnClickListener textServiceDisable = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            movieListViewHolder.textViewServiceDisable.setVisibility(View.GONE);
+            if(verifyConection()){
+                movieListViewModel.executeServiceGetFilmResults(FIRST_PAGE, SingletonGenreID.INSTANCE.getGenreID());
+            } else {
+                movieListViewHolder.textViewServiceDisable.setVisibility(View.VISIBLE);
+            }
+        }
+    };
 
     @Override
     public void onPause() {
@@ -82,6 +100,7 @@ public class MovieListFragment extends BaseFragment {
         movieListViewModel.getFragmentTellerThereIsFilmResults().observe(this, homeTellerThereIsFilmResultsObserver);
         movieListViewModel.getIsErrorMessageForToast().observe(this, isErrorMessageForToastObserver);
         movieListViewModel.getThereIsMovieDetailsToSaveOffiline().observe(this, thereIsMovieDetailsObserver);
+        movieListViewHolder.textViewServiceDisable.setOnClickListener(textServiceDisable);
     }
 
     private Observer<MovieDetailsModel> thereIsMovieDetailsObserver = new Observer<MovieDetailsModel>() {
@@ -91,7 +110,6 @@ public class MovieListFragment extends BaseFragment {
                 db.insert(movieDetailsModel);
                 adapter.notifyDataSetChanged();
             }
-
         }
     };
 

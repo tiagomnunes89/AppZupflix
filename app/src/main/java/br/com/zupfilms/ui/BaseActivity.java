@@ -1,6 +1,7 @@
 package br.com.zupfilms.ui;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -104,5 +105,18 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         }
         ft.commitAllowingStateLoss();
+    }
+
+    public boolean verifyConection() {
+        boolean conected;
+        ConnectivityManager conectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (conectivityManager.getActiveNetworkInfo() != null
+                && conectivityManager.getActiveNetworkInfo().isAvailable()
+                && conectivityManager.getActiveNetworkInfo().isConnected()) {
+            conected = true;
+        } else {
+            conected = false;
+        }
+        return conected;
     }
 }

@@ -35,17 +35,34 @@ public class HomeFragment extends BaseFragment {
 
         viewModelHome = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
 
-        viewModelHome.executeServiceGetGenreList();
+        if(verifyConection()){
+            viewModelHome.executeServiceGetGenreList();
+        } else {
+            viewHolder.textViewServiceDisable.setVisibility(View.VISIBLE);
+        }
 
-        setupObservers();
+        setupObserversAndListeners();
 
         return view;
     }
 
-    private void setupObservers() {
+    private View.OnClickListener textServiceDisable = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            viewHolder.textViewServiceDisable.setVisibility(View.GONE);
+            if(verifyConection()){
+                viewModelHome.executeServiceGetGenreList();
+            } else {
+                viewHolder.textViewServiceDisable.setVisibility(View.VISIBLE);
+            }
+        }
+    };
+
+    private void setupObserversAndListeners() {
         viewModelHome.getThereIsAGenreList().observe(this, genresObserver);
         viewModelHome.getIsLoading().observe(this,progressBarObserver);
         viewModelHome.getIsErrorMessageForToast().observe(this,isErrorMessageForToastObserver);
+        viewHolder.textViewServiceDisable.setOnClickListener(textServiceDisable);
     }
 
     private Observer<String> isErrorMessageForToastObserver = new Observer<String>() {
@@ -60,8 +77,7 @@ public class HomeFragment extends BaseFragment {
         @Override
         public void onChanged(@Nullable FilmGenres filmGenres) {
             FragmentStatePagerAdapter fragmentStatePagerAdapter =
-                    new FragmentStateAdapter(getFragmentManager(),
-                            viewModelHome.changeOrderGenres(filmGenres));
+                    new FragmentStateAdapter(getFragmentManager(), filmGenres);
 
             SingletonFilmGenres.createFilmGenres(filmGenres);
 

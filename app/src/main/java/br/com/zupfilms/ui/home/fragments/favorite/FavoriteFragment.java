@@ -160,17 +160,4 @@ public class FavoriteFragment extends BaseFragment implements SwipeRefreshLayout
             onRefresh();
         }
     }
-
-    public boolean verifyConection() {
-        boolean conected;
-        ConnectivityManager conectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (conectivityManager.getActiveNetworkInfo() != null
-                && conectivityManager.getActiveNetworkInfo().isAvailable()
-                && conectivityManager.getActiveNetworkInfo().isConnected()) {
-            conected = true;
-        } else {
-            conected = false;
-        }
-        return conected;
-    }
 }

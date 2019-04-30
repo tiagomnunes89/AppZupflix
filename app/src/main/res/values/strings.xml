@@ -1,9 +1,8 @@
 <resources>
-    <string name="app_name">ZupFilms</string>
+    <string name="app_name_zup_flix">Zupflix</string>
     <string name="title_home">Home</string>
     <string name="downloads">Downloads</string>
     <string name="movies">Movies</string>
-    <string name="app_name_caps">OTMOVIES</string>
     <string name="textView_EmailHeadHint">INFORME SUA CONTA DE\n E-MAIL</string>
     <string name="textButton_next">AVANÇAR</string>
     <string name="emailHint">E-mail (exemplo@mail.com)</string>
@@ -111,5 +110,11 @@
     <string name="icon_logout">ícone saída</string>
     <string name="favoriteListEmpty">Sua lista de filmes favoritos está vazia.\n\nDeslize para baixo para atualizar a lista!</string>
     <string name="iconSwipeDescription">ícone swipe down</string>
+    <string name="NO_CONNECTION_MESSAGE">Se conecte a internet para realizar buscas!</string>
+    <string name="NO_CONNECTION_MESSAGE_LIST_FILMS">Conecte-se a internet para listar filmes!</string>
+    <string name="no_connection_list_film">Não é possível listar filmes.\nSe conectou já internet CLIQUE AQUI</string>
+    <string name="no_connection_search_film">Não é possível buscar filmes.\nSe conectou já internet CLIQUE AQUI</string>
+    <string name="no_connection_details_film">Não é mostrar detalhes deste filme.\nSe conectou já internet CLIQUE AQUI</string>
+    <string name="NO_SERVICE_OFFILINE_DETAILS">Não foi possivel recuperar detalhes offline deste filme. Conecte-se a internet!</string>
 </resources>
 

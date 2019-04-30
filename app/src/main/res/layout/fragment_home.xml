@@ -41,4 +41,14 @@
         android:layout_height="match_parent"
         android:visibility="invisible"/>
 
+    <TextView
+        android:id="@+id/textViewServiceDisable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="@dimen/textSizeSmall"
+        android:fontFamily="@font/dosis_bold"
+        android:visibility="gone"
+        android:text="@string/no_connection_list_film"/>
+
 </android.support.design.widget.CoordinatorLayout>

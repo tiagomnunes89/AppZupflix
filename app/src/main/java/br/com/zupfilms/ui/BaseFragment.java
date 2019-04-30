@@ -1,5 +1,7 @@
 package br.com.zupfilms.ui;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
@@ -74,5 +76,18 @@ public abstract class BaseFragment extends Fragment {
         }
         Log.d("KEYWORDS", keywordList.toString());
         return keywordList.toString();
+    }
+
+    public boolean verifyConection() {
+        boolean conected;
+        ConnectivityManager conectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (conectivityManager.getActiveNetworkInfo() != null
+                && conectivityManager.getActiveNetworkInfo().isAvailable()
+                && conectivityManager.getActiveNetworkInfo().isConnected()) {
+            conected = true;
+        } else {
+            conected = false;
+        }
+        return conected;
     }
 }

@@ -35,11 +35,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            layout="@layout/fragment_movie_list"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"/>
+            android:background="@color/colorBlack"
+            android:orientation="horizontal">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                tools:ignore="MissingConstraints"
+                android:visibility="invisible"/>
+
+            <include
+                layout="@layout/loading_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:visibility="invisible"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_films"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+            </android.support.v7.widget.RecyclerView>
+            
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/textViewServiceDisable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="@dimen/textSizeSmall"
+            android:fontFamily="@font/dosis_bold"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:text="@string/no_connection_search_film"/>
 
         <TextView
             android:id="@+id/textViewFilmNotFound"

@@ -29,4 +29,15 @@
         android:scrollbars="none">
     </android.support.v7.widget.RecyclerView>
 
+    <TextView
+        android:id="@+id/textViewServiceDisable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="@dimen/textSizeSmall"
+        android:fontFamily="@font/dosis_bold"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:text="@string/no_connection_list_film"/>
+
 </FrameLayout>
