@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         app:cardElevation="@dimen/cardElevation"
         app:cardCornerRadius="@dimen/noCornerRadius"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="@color/colorBlack"
         android:layout_height="wrap_content">
 
         <SearchView
@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:closeIcon="@drawable/ic_close"
             android:layout_margin="@dimen/activity_margin_half"
-            android:backgroundTint="@color/white"
+            style="@style/Theme.Design.Light"
+            android:backgroundTint="@color/dark_gray"
             android:background="@drawable/border_input"
             android:inputType="text"
             android:iconifiedByDefault="true"
@@ -45,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textSize="@dimen/textSizeDefault"
+            android:textSize="@dimen/textSizeSmall"
             android:fontFamily="@font/dosis_bold"
             android:visibility="gone"
             android:text="@string/errorMessageFilmNotFound"/>

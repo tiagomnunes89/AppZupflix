@@ -20,7 +20,6 @@ public class HomeFragmentViewHolder {
     public HomeFragmentViewHolder(View view) {
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
-        toolbar = view.findViewById(R.id.toolbar);
         progressBar = view.findViewById(R.id.progress_bar);
         frameLayout = view.findViewById(R.id.loading_layout);
     }

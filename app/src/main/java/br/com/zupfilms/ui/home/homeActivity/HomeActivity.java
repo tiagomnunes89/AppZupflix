@@ -13,6 +13,7 @@ import android.view.View;
 import br.com.zupfilms.R;
 import br.com.zupfilms.ui.BaseActivity;
 //import br.com.zupfilms.ui.home.fragments.favorite.FavoriteFragment;
+import br.com.zupfilms.ui.home.fragments.favorite.FavoriteFragment;
 import br.com.zupfilms.ui.home.fragments.home.HomeFragment;
 import br.com.zupfilms.ui.home.fragments.search.SearchFragment;
 
@@ -25,16 +26,16 @@ public class HomeActivity extends BaseActivity
 
 
     private Fragment home = HomeFragment.newInstance();
-    //private Fragment favorite = new FavoriteFragment();
+    private Fragment favorite = new FavoriteFragment();
     private Fragment search = new SearchFragment();
 
     public Fragment getHome() {
         return home;
     }
 
-/*    public Fragment getFavorite() {
+    public Fragment getFavorite() {
         return favorite;
-    }*/
+    }
 
     public Fragment getSearch() {
         return search;
@@ -54,7 +55,7 @@ public class HomeActivity extends BaseActivity
 
         setSupportActionBar(homeActivityViewHolder.toolbar);
 
-        SpannableString spannableString = new SpannableString("OT" + "MOVIES");
+        SpannableString spannableString = new SpannableString("ZUP" + "FLIX");
         spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 2, 0);
         homeActivityViewHolder.titleToolBar.setText(spannableString);
 
@@ -66,7 +67,7 @@ public class HomeActivity extends BaseActivity
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        colorStatusBar(this.getWindow(), R.color.colorPrimary, false);
+        colorStatusBar(this.getWindow(), R.color.colorBlack, false);
     }
 
     private void setupListener() {
@@ -91,9 +92,9 @@ public class HomeActivity extends BaseActivity
             case R.id.navigation_home:
                 pushFragments(TAG_FRAGMENT_HOME, getHome());
                 break;
-/*            case R.id.navigation_favorite:
+            case R.id.navigation_favorite:
                 pushFragments(TAG_FRAGMENT_FAVORITE, getFavorite());
-                break;*/
+                break;
             case R.id.navigation_search:
                 pushFragments(TAG_FRAGMENT_SEARCH, getSearch());
                 break;

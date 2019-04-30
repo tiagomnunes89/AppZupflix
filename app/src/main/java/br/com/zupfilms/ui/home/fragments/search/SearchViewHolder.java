@@ -26,6 +26,6 @@ public class SearchViewHolder {
         recyclerView = view.findViewById(R.id.recycler_films);
         searchView = view.findViewById(R.id.search_view);
         textViewFilmNotFound = view.findViewById(R.id.textViewFilmNotFound);
-        bottomNavigationView = view.findViewById(R.id.bottom_navigation);
+        bottomNavigationView = view.findViewById(R.id.botton_nav_view);
     }
 }

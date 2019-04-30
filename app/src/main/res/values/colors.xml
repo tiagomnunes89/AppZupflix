@@ -23,5 +23,9 @@
     <color name="yellow">#ffcd00</color>
     <color name="imdb_background_color">#ffcd00</color>
     <color name="white">#FFFFFF</color>
+    <color name="blue_background">#3374FF</color>
+    <color name="dark_blue">#020A1C</color>
+    <color name="dark_gray">#202125</color>
+
 
 </resources>

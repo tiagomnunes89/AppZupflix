@@ -26,7 +26,6 @@ public class MovieListViewModel extends BaseViewModel {
     private Integer PAGE_SIZE = 10;
     private String MESSAGE_ERROR_RECURRENT = "Erro inesperado ao receber filmes. Feche o aplicativo e tente novamente mais tarde";
     private FilmRepository filmRepository = new FilmRepository();
-    //private FavoriteListRepository favoriteListRepository = new FavoriteListRepository();
     private String SERVICE_OR_CONNECTION_ERROR = "Falha ao receber filmes. Verifique a conexão e tente novamente.";
     private LiveData<PagedList<FilmResponse>> itemPagedList;
     private LiveData<PageKeyedDataSource<Integer, FilmResponse>> liveDataSource;
@@ -34,6 +33,7 @@ public class MovieListViewModel extends BaseViewModel {
     private MutableLiveData<FilterIDAndPageSize> receiverAPageSizeAndGenreIDService = new MutableLiveData<>();
     private MutableLiveData<FilmsResults> fragmentTellerThereIsFilmResults = new MutableLiveData<>();
     private String genreID;
+
 
     public LiveData<PagedList<FilmResponse>> getItemPagedList() {
         return itemPagedList;

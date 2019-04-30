@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import java.util.List;
 
 import br.com.zupfilms.R;
 import br.com.zupfilms.model.MovieDetailsModel;
+import br.com.zupfilms.model.MovieDetailsModelDB;
 import br.com.zupfilms.server.response.CountriesResponse;
 import br.com.zupfilms.server.response.GenresResponse;
 
@@ -39,8 +41,11 @@ public class MovieDetailsViewHolder {
     ImageView imageViewBanner;
     ImageView imageViewPoster;
     CardView cardViewPoster;
+    TextView textViewTagline;
+    TextView textViewVoteCount;
     CardView cardViewBanner;
     CheckBox checkBox;
+    LinearLayout linearLayoutVote;
 
     public MovieDetailsViewHolder(View view) {
         frameLayout = view.findViewById(R.id.loading_layout);
@@ -53,6 +58,9 @@ public class MovieDetailsViewHolder {
         textViewTitle = view.findViewById(R.id.text_title_details);
         textViewKeywords = view.findViewById(R.id.textView_keywords_details);
         textViewYear = view.findViewById(R.id.textView_year_details);
+        textViewTagline = view.findViewById(R.id.textView_tagline);
+        linearLayoutVote = view.findViewById(R.id.linearLayout_vote_count);
+        textViewVoteCount = linearLayoutVote.findViewById(R.id.textView_voteCountDetails);
         textViewCountries = view.findViewById(R.id.textView_countries_details);
         textViewRuntime = view.findViewById(R.id.textView_runtime_details);
         textViewPoints = view.findViewById(R.id.textView_points_details);
@@ -92,10 +100,12 @@ public class MovieDetailsViewHolder {
         for(CountriesResponse country : countriesResponses){
             listCountries.add(country.getName());
         }
-        this.textViewKeywords.setText(sentenceBuilder(listCountries));
+        this.textViewCountries.setText(sentenceBuilder(listCountries));
         this.textViewPoints.setText(String.valueOf(movieDetailsModel.getVote_average()));
         String runtime = movieDetailsModel.getRuntime() + "min";
         this.textViewRuntime.setText(runtime);
+        this.textViewTagline.setText(movieDetailsModel.getTagline());
+        this.textViewVoteCount.setText(String.valueOf(movieDetailsModel.getVote_count()));
         this.textViewYear.setText(movieDetailsModel.getRelease_date().substring(0,4));
         this.textViewTitle.setText(movieDetailsModel.getTitle());
         if(movieDetailsModel.getPoster_path() == null || movieDetailsModel.getPoster_path().isEmpty()){
@@ -112,6 +122,35 @@ public class MovieDetailsViewHolder {
             this.cardViewBanner.setVisibility(View.VISIBLE);
             Picasso.get()
                     .load("https://image.tmdb.org/t/p/w1280/"+movieDetailsModel.getBackdrop_path())
+                    .into(this.imageViewBanner);
+        }
+    }
+
+    public void setMovieDetailsDBInformation(MovieDetailsModelDB movieDetailsModel){
+        this.textViewOverview.setText(movieDetailsModel.getOverview());
+        this.textViewKeywords.setText(movieDetailsModel.getGenres());
+        this.textViewCountries.setText(movieDetailsModel.getCountries());
+        this.textViewPoints.setText(String.valueOf(movieDetailsModel.getVote_average()));
+        String runtime = movieDetailsModel.getRuntime() + "min";
+        this.textViewRuntime.setText(runtime);
+        this.textViewTagline.setText(movieDetailsModel.getTagline());
+        this.textViewVoteCount.setText(String.valueOf(movieDetailsModel.getVoteCount()));
+        this.textViewYear.setText(movieDetailsModel.getReleaseDate().substring(0,4));
+        this.textViewTitle.setText(movieDetailsModel.getTitle());
+        if(movieDetailsModel.getPosterPath() == null || movieDetailsModel.getPosterPath().isEmpty()){
+            this.cardViewPoster.setVisibility(View.INVISIBLE);
+        } else {
+            this.cardViewPoster.setVisibility(View.VISIBLE);
+            Picasso.get()
+                    .load("https://image.tmdb.org/t/p/w342/"+movieDetailsModel.getPosterPath())
+                    .into(this.imageViewPoster);
+        }
+        if(movieDetailsModel.getBackdropPath() == null || movieDetailsModel.getBackdropPath().isEmpty()){
+            this.cardViewBanner.setVisibility(View.INVISIBLE);
+        } else {
+            this.cardViewBanner.setVisibility(View.VISIBLE);
+            Picasso.get()
+                    .load("https://image.tmdb.org/t/p/w1280/"+movieDetailsModel.getBackdropPath())
                     .into(this.imageViewBanner);
         }
     }

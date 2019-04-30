@@ -3,13 +3,14 @@ package br.com.zupfilms.ui.home.movieDetailsActivity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -23,7 +24,9 @@ import com.sdsmdg.tastytoast.TastyToast;
 import java.util.List;
 
 import br.com.zupfilms.R;
+import br.com.zupfilms.data.DB;
 import br.com.zupfilms.model.MovieDetailsModel;
+import br.com.zupfilms.model.MovieDetailsModelDB;
 import br.com.zupfilms.server.response.FilmResponse;
 import br.com.zupfilms.server.response.FilmsResults;
 import br.com.zupfilms.ui.BaseActivity;
@@ -41,6 +44,7 @@ public class MovieDetailsActivity extends BaseActivity {
     private LinearLayoutManager linearLayoutManager;
     private MovieDetailsModel mMovieDetailsModel;
     private List<FilmResponse> listfilmResponses;
+    private DB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +57,11 @@ public class MovieDetailsActivity extends BaseActivity {
 
         movieDetailsViewModel = ViewModelProviders.of(this).get(MovieDetailsViewModel.class);
 
-        SpannableString spannableString = new SpannableString("OT" + "MOVIES");
+        SpannableString spannableString = new SpannableString("ZUP" + "FLIX");
         spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 2, 0);
         movieDetailsViewHolder.textViewToobar.setText(spannableString);
+
+        db = new DB(this);
 
         setupListeners();
 
@@ -66,9 +72,17 @@ public class MovieDetailsActivity extends BaseActivity {
         setupLayoutManager();
 
         if(SingletonFilmID.INSTANCE.getID() != null){
-            Integer filmID = SingletonFilmID.INSTANCE.getID();
-            movieDetailsViewModel.executeServiceGetMovieDetails(filmID);
-            movieDetailsViewModel.executeServiceGetSimilarMovies("1",filmID);
+            if(verifyConection()){
+                Integer filmID = SingletonFilmID.INSTANCE.getID();
+                movieDetailsViewModel.executeServiceGetMovieDetails(filmID);
+                movieDetailsViewModel.executeServiceGetSimilarMovies("1",filmID);
+            } else {
+                Integer filmID = SingletonFilmID.INSTANCE.getID();
+                MovieDetailsModelDB movieDetailsModelDB = db.getOneFavoritesFilms(filmID);
+                movieDetailsViewHolder.setMovieDetailsDBInformation(movieDetailsModelDB);
+                movieDetailsViewHolder.layoutItemDetails.setVisibility(View.VISIBLE);
+            }
+
         } else {
             Intent intent = new Intent(MovieDetailsActivity.this, HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -85,7 +99,7 @@ public class MovieDetailsActivity extends BaseActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        colorStatusBar(this.getWindow(), R.color.colorPrimary, false);
+        colorStatusBar(this.getWindow(), R.color.colorBlack, false);
     }
 
     private void setupLayoutManager() {
@@ -102,13 +116,20 @@ public class MovieDetailsActivity extends BaseActivity {
     private CompoundButton.OnCheckedChangeListener onCheckedChangeDetailsListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-/*            if(isChecked){
-                movieDetailsViewModel.executeAddFavoriteFilm("email",
-                        String.valueOf(SingletonFilmID.INSTANCE.getID()));
-            } else {
-                movieDetailsViewModel.executeRemoveFavoriteFilm("email",
-                        String.valueOf(SingletonFilmID.INSTANCE.getID()));
-            }*/
+            if(db != null){
+                if(isChecked){
+                    if(movieDetailsViewModel != null){
+                        db.insert(mMovieDetailsModel);
+                        adapter.notifyDataSetChanged();
+                    }
+                } else {
+                    if(SingletonFilmID.INSTANCE.getID() != null){
+                        db.delete(SingletonFilmID.INSTANCE.getID());
+                        adapter.notifyDataSetChanged();
+                    }
+
+                }
+            }
         }
     };
 
@@ -118,7 +139,19 @@ public class MovieDetailsActivity extends BaseActivity {
         movieDetailsViewModel.getThereIsMovieDetails().observe(this,thereIsMovieDetailsObserver);
         movieDetailsViewModel.getActivityTellerThereIsFilmResults().observe(this, homeTellerThereIsFilmResultsObserver);
         movieDetailsViewModel.getIsErrorMessageForToast().observe(this, isErrorMessageForToastObserver);
+        movieDetailsViewModel.getThereIsMovieDetailsToSaveOffiline().observe(this, thereIsMovieDetailsToSaveOffilineObserver);
     }
+
+    private Observer<MovieDetailsModel> thereIsMovieDetailsToSaveOffilineObserver = new Observer<MovieDetailsModel>() {
+        @Override
+        public void onChanged(MovieDetailsModel movieDetailsModel) {
+            if (movieDetailsModel != null && db != null) {
+                db.insert(movieDetailsModel);
+                adapter.notifyDataSetChanged();
+            }
+
+        }
+    };
 
     private View.OnClickListener backArrowListener = new View.OnClickListener() {
         @Override
@@ -163,7 +196,7 @@ public class MovieDetailsActivity extends BaseActivity {
                 } else {
                     if(SingletonFilmID.INSTANCE.getID() != null){
                         Integer filmID = SingletonFilmID.INSTANCE.getID();
-                        movieDetailsViewModel.executeServiceGetMovieDetails(filmID);
+                        movieDetailsViewModel.executeServiceGetMovieDetailsToSaveOffiline(filmID);
                         movieDetailsViewModel.executeServiceGetSimilarMovies("1",filmID);
                     } else {
                         Intent intent = new Intent(MovieDetailsActivity.this, HomeActivity.class);
@@ -226,24 +259,23 @@ public class MovieDetailsActivity extends BaseActivity {
             adapter.setOnCheckBoxClickListener(new FilmAdapterDetailsList.OnCheckBoxClickListener() {
                 @Override
                 public void OnCheckBoxClick(int position, PagedList<FilmResponse> currentList, Boolean isChecked) {
-                    Log.d("positionOnCheck",String.valueOf(position));
-                    if(isChecked){
-/*                        if(position == 0){
-                            movieDetailsViewModel.executeAddFavoriteFilm("email",
-                                    String.valueOf(movieDetailsModel.getId()));
+                    SingletonFilmID.setIDEntered(currentList.get(position).getId());
+                    if (db != null) {
+                        if (isChecked) {
+                            if(position == 0){
+                                movieDetailsViewModel.executeServiceGetMovieDetailsToSaveOffiline(movieDetailsModel.getId());
+                            } else {
+                                movieDetailsViewModel.executeServiceGetMovieDetailsToSaveOffiline(currentList.get(position-1).getId());
+                            }
                         } else {
-                            movieDetailsViewModel.executeAddFavoriteFilm("email",
-                                    String.valueOf(currentList.get(position-1).getId()));
-                        }*/
-                    } else {
-/*                        if(position == 0){
-                            movieDetailsViewModel.executeRemoveFavoriteFilm("email",
-                                    String.valueOf(movieDetailsModel.getId()));
-                        } else {
-                            movieDetailsViewModel.executeRemoveFavoriteFilm("email",
-                                    String.valueOf(currentList.get(position-1).getId()));
-                        }*/
-
+                            if(position == 0) {
+                                db.delete(movieDetailsModel.getId());
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                db.delete(currentList.get(position-1).getId());
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
                     }
                 }
             });
@@ -275,5 +307,18 @@ public class MovieDetailsActivity extends BaseActivity {
                 frameLayout.setVisibility(View.INVISIBLE);
             }
         }
+    }
+
+    public boolean verifyConection() {
+        boolean conected;
+        ConnectivityManager conectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (conectivityManager.getActiveNetworkInfo() != null
+                && conectivityManager.getActiveNetworkInfo().isAvailable()
+                && conectivityManager.getActiveNetworkInfo().isConnected()) {
+            conected = true;
+        } else {
+            conected = false;
+        }
+        return conected;
     }
 }

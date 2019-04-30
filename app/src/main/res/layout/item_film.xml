@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginTop="@dimen/activity_margin"
-        android:background="@android:color/white"
+        android:background="@drawable/border_input"
+        android:backgroundTint="@color/dark_gray"
         android:orientation="vertical"
         android:paddingStart="@dimen/poster_thumb_width"
         android:paddingEnd="@dimen/marginOrPaddingTen"
@@ -34,6 +35,7 @@
                 android:layout_marginStart="@dimen/activity_margin_content"
                 android:layout_marginTop="@dimen/activity_margin_quarter"
                 android:ellipsize="end"
+                android:fontFamily="@font/encodesanssemisondensed_regular"
                 android:gravity="center_vertical"
                 android:maxLines="2"
                 tools:text="@string/movieTitleItem" />
@@ -57,7 +59,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_margin_content"
             android:layout_marginTop="@dimen/marginStandard"
-            android:alpha="@dimen/alphaEffect"
             android:gravity="start"
             android:maxLines="3"
             tools:text="@string/textToolsKeywordsItem" />
@@ -83,9 +84,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/marginStandard"
-                android:alpha="@dimen/alphaEffect"
                 android:fontFamily="@font/robotobold"
                 android:maxLines="1"
+                android:textColor="@color/white"
                 tools:text="@string/textYearItem" />
 
         </LinearLayout>
@@ -96,7 +97,7 @@
             android:layout_marginStart="@dimen/activity_margin_content"
             android:layout_marginTop="@dimen/marginStandard"
             android:alpha="@dimen/alphaEffect"
-            android:background="@android:color/black" />
+            android:background="@android:color/white" />
 
         <TextView
             android:id="@+id/movie_description"
@@ -124,7 +125,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_margin_half"
             android:elevation="@dimen/elevationCardView"
-            app:cardBackgroundColor="@color/placeholder_grey"
+            app:cardBackgroundColor="@color/colorBlack"
+            android:background="@drawable/border_input"
             app:cardCornerRadius="@dimen/cardCornerRadiusItem"
             app:cardPreventCornerOverlap="false">
 
