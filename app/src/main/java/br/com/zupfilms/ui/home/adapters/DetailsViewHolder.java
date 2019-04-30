@@ -111,7 +111,9 @@ public class DetailsViewHolder extends RecyclerView.ViewHolder{
         this.textViewRuntime.setText(runtime);
         this.textViewTagline.setText(movieDetailsModel.getTagline());
         this.textViewVoteCount.setText(String.valueOf(movieDetailsModel.getVote_count()));
-        this.textViewYear.setText(movieDetailsModel.getRelease_date().substring(0,4));
+        if(!movieDetailsModel.getRelease_date().isEmpty() && movieDetailsModel.getRelease_date().length()>=4){
+            textViewYear.setText(movieDetailsModel.getRelease_date().substring(0, 4));
+        }
         this.textViewTitle.setText(movieDetailsModel.getTitle());
         if(movieDetailsModel.getPoster_path() == null || movieDetailsModel.getPoster_path().isEmpty()){
             this.cardViewPoster.setVisibility(View.INVISIBLE);

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.zupfilms.R;
+import br.com.zupfilms.data.DB;
 import br.com.zupfilms.server.response.FilmGenres;
 import br.com.zupfilms.server.response.FilmResponse;
 import br.com.zupfilms.server.response.GenresResponse;
@@ -41,7 +42,6 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
                           final FilmAdapter.OnCheckBoxClickListener onCheckBoxClickListener,
                           final PagedList<FilmResponse> currentList) {
         super(itemView);
-
         progressBar = itemView.findViewById(R.id.movie_progress);
         imageView = itemView.findViewById(R.id.movie_poster);
         keywords = itemView.findViewById(R.id.textView_keywords);
@@ -102,7 +102,9 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         }
         keywords.setText(sentenceBuilder(filmGenreList));
         this.movieDescription.setText(film.getOverview());
-        year.setText(film.getReleaseDate().substring(0, 4));
+        if(!film.getReleaseDate().isEmpty() && film.getReleaseDate().length()>=4){
+            year.setText(film.getReleaseDate().substring(0, 4));
+        }
         this.filmNote.setText(String.valueOf(film.getVoteAverage()));
     }
 

@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 
 import com.sdsmdg.tastytoast.TastyToast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.zupfilms.R;
 import br.com.zupfilms.data.DB;
 import br.com.zupfilms.model.MovieDetailsModel;
@@ -124,7 +127,7 @@ public class MovieListFragment extends BaseFragment {
 
     private final Observer<PagedList<FilmResponse>> pagedListObserver = new Observer<PagedList<FilmResponse>>() {
         @Override
-        public void onChanged(@Nullable PagedList<FilmResponse> filmResponses) {
+        public void onChanged(PagedList<FilmResponse> filmResponses) {
             adapter.submitList(filmResponses);
             movieListViewModel.getIsLoading().setValue(false);
         }

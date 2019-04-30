@@ -36,6 +36,8 @@ public class FilmResponse {
     @SerializedName("release_date")
     private String releaseDate;
 
+    private boolean isFavoriteChecked;
+
     public Integer getVoteCount() {
         return voteCount;
     }
@@ -90,5 +92,13 @@ public class FilmResponse {
 
     public String getReleaseDate() {
         return releaseDate;
+    }
+
+    public boolean getFavoriteChecked() {
+        return isFavoriteChecked;
+    }
+
+    public void setFavoriteChecked(boolean favoriteChecked) {
+        isFavoriteChecked = favoriteChecked;
     }
 }
