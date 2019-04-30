@@ -14,12 +14,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
         @Override
         public void onCreate(SQLiteDatabase bd) {
-            bd.execSQL("create table favorites( " +
-                    "movie_id integer primary key," +
+            bd.execSQL("CREATE TABLE favorites( " +
+                    "movie_id integer PRIMARY KEY," +
                     " poster_path text," +
                     " backdrop_path text," +
                     " vote_average real," +
-                    " title text not null," +
+                    " title text NOT NULL," +
                     " release_date text," +
                     " genres text," +
                     " runtime integer," +
@@ -31,7 +31,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
         @Override
         public void onUpgrade(SQLiteDatabase bd, int arg1, int arg2) {
-            bd.execSQL("drop table favorites;");
+            bd.execSQL("DROP TABLE favorites;");
             onCreate(bd);
         }
 }
