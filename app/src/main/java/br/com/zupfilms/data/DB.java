@@ -38,39 +38,46 @@ public class DB {
         db = auxBd.getWritableDatabase();
     }
 
-    public void insert(MovieDetailsModel movieDetailsModel) {
+    public Boolean insert(MovieDetailsModel movieDetailsModel) {
+        if(!findFavoriteFilmByID(movieDetailsModel.getId())){
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_MOVIEID, movieDetailsModel.getId());
+            values.put(COLUMN_POSTER_PATH, movieDetailsModel.getPoster_path());
+            values.put(COLUMN_BACKDROP_PATH, movieDetailsModel.getBackdrop_path());
+            values.put(COLUMN_VOTE_AVERAGE, movieDetailsModel.getVote_average());
+            values.put(COLUMN_TITLE, movieDetailsModel.getTitle());
+            values.put(COLUMN_RELEASE_DATE, movieDetailsModel.getRelease_date());
+            List<GenresResponse> genresKeywords = movieDetailsModel.getGenres();
+            List<String> listGenres = new ArrayList<>();
+            for (GenresResponse genre : genresKeywords) {
+                listGenres.add(genre.getName());
+            }
+            values.put(COLUMN_GENRES, sentenceBuilder(listGenres));
+            values.put(COLUMN_RUNTIME, movieDetailsModel.getRuntime());
+            values.put(COLUMN_OVERVIEW, movieDetailsModel.getOverview());
+            List<CountriesResponse> countriesResponses = movieDetailsModel.getProduction_countries();
+            List<String> listCountries = new ArrayList<>();
+            for (CountriesResponse country : countriesResponses) {
+                listCountries.add(country.getName());
+            }
+            values.put(COLUMN_COUNTRIES, sentenceBuilder(listCountries));
+            values.put(COLUMN_TAGLINE, movieDetailsModel.getTagline());
+            values.put(COLUMN_VOTE_COUNT, movieDetailsModel.getVote_count());
 
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_MOVIEID, movieDetailsModel.getId());
-        values.put(COLUMN_POSTER_PATH, movieDetailsModel.getPoster_path());
-        values.put(COLUMN_BACKDROP_PATH, movieDetailsModel.getBackdrop_path());
-        values.put(COLUMN_VOTE_AVERAGE, movieDetailsModel.getVote_average());
-        values.put(COLUMN_TITLE, movieDetailsModel.getTitle());
-        values.put(COLUMN_RELEASE_DATE, movieDetailsModel.getRelease_date());
-        List<GenresResponse> genresKeywords = movieDetailsModel.getGenres();
-        List<String> listGenres = new ArrayList<>();
-        for (GenresResponse genre : genresKeywords) {
-            listGenres.add(genre.getName());
+            Log.d("bd", "add film " + movieDetailsModel.getTitle());
+            db.insert(TABLE_NAME, null, values);
+            return true;
         }
-        values.put(COLUMN_GENRES, sentenceBuilder(listGenres));
-        values.put(COLUMN_RUNTIME, movieDetailsModel.getRuntime());
-        values.put(COLUMN_OVERVIEW, movieDetailsModel.getOverview());
-        List<CountriesResponse> countriesResponses = movieDetailsModel.getProduction_countries();
-        List<String> listCountries = new ArrayList<>();
-        for (CountriesResponse country : countriesResponses) {
-            listCountries.add(country.getName());
-        }
-        values.put(COLUMN_COUNTRIES, sentenceBuilder(listCountries));
-        values.put(COLUMN_TAGLINE, movieDetailsModel.getTagline());
-        values.put(COLUMN_VOTE_COUNT, movieDetailsModel.getVote_count());
-
-        Log.d("bd", "add film " + movieDetailsModel.getTitle());
-        db.insert(TABLE_NAME, null, values);
+        return false;
     }
 
-    public void delete(int movieID) {
-        db.delete(TABLE_NAME, " movie_id = " + movieID, null);
-        Log.d("delete", "delete film " + movieID);
+    public boolean delete(int movieID) {
+        if(findFavoriteFilmByID(movieID)){
+            db.delete(TABLE_NAME, " movie_id = " + movieID, null);
+            Log.d("delete", "delete film " + movieID);
+            return true;
+        }
+        return false;
     }
 
     public List<MovieDetailsModelDB> getAllFavoritesFilms() {
@@ -138,6 +145,10 @@ public class DB {
         return movie;
     }
 
+    public Boolean findFavoriteFilmByID (Integer movieID) {
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_MOVIEID + " = " + movieID, null);
+        return cursor.moveToFirst();
+    }
 
     private String sentenceBuilder(List<String> listString) {
         StringBuilder keywordList = new StringBuilder();

@@ -184,7 +184,6 @@ public class SearchFragment extends BaseFragment {
                             searchViewModel.executeServiceGetMovieDetailsToSaveOffiline(currentList.get(position).getId());
                         } else {
                             db.delete(currentList.get(position).getId());
-                            adapter.remove(position);
                             adapter.notifyDataSetChanged();
                         }
                     }

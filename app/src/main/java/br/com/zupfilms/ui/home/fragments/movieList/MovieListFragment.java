@@ -145,7 +145,6 @@ public class MovieListFragment extends BaseFragment {
                             movieListViewModel.executeServiceGetMovieDetailsToSaveOffiline(currentList.get(position).getId());
                         } else {
                             db.delete(currentList.get(position).getId());
-                            adapter.remove(position);
                             adapter.notifyDataSetChanged();
                         }
                     }
