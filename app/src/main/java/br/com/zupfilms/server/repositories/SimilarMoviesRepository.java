@@ -3,6 +3,7 @@ package br.com.zupfilms.server.repositories;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PageKeyedDataSource;
+import android.support.annotation.NonNull;
 
 import br.com.zupfilms.model.ErrorMessage;
 import br.com.zupfilms.model.ResponseModel;
@@ -16,13 +17,13 @@ import retrofit2.Response;
 
 public class SimilarMoviesRepository extends BaseRepository {
 
-    private FilmService filmService;
-    private int SUCCESS_CODE = 200;
-    private String UNEXPECTED_ERROR_KEY = "erro.inesperado";
-    private String UNEXPECTED_ERROR_MESSAGE = "Erro inesperado, tente novamente mais tarde!";
+    private final FilmService filmService;
+    private final int SUCCESS_CODE = 200;
+    private final String UNEXPECTED_ERROR_KEY = "erro.inesperado";
+    private final String UNEXPECTED_ERROR_MESSAGE = "Erro inesperado, tente novamente mais tarde!";
     private static final int FIRST_PAGE = 1;
 
-    private MutableLiveData<ErrorMessage> thereIsPaginationError;
+    private final MutableLiveData<ErrorMessage> thereIsPaginationError;
 
 
     public MutableLiveData<ErrorMessage> getThereIsPaginationError() {
@@ -39,7 +40,7 @@ public class SimilarMoviesRepository extends BaseRepository {
         filmService.getSimilarMovies(movieID,"pt-BR",page)
                 .enqueue(new Callback<FilmsResults>() {
                     @Override
-                    public void onResponse(Call<FilmsResults> call, Response<FilmsResults> response) {
+                    public void onResponse(@NonNull Call<FilmsResults> call, @NonNull Response<FilmsResults> response) {
                         ResponseModel<FilmsResults> responseModel = new ResponseModel<>();
                         if(response.code() == SUCCESS_CODE && response.body() != null){
                             responseModel.setCode(SUCCESS_CODE);
@@ -58,7 +59,7 @@ public class SimilarMoviesRepository extends BaseRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<FilmsResults> call, Throwable t) {
+                    public void onFailure(@NonNull Call<FilmsResults> call, @NonNull Throwable t) {
                         data.setValue(null);
                     }
                 });
@@ -71,7 +72,7 @@ public class SimilarMoviesRepository extends BaseRepository {
         filmService.getSimilarMovies(movieID,"pt-BR",firstPage)
                 .enqueue(new Callback<FilmsResults>() {
                     @Override
-                    public void onResponse(Call<FilmsResults> call, Response<FilmsResults> response) {
+                    public void onResponse(@NonNull Call<FilmsResults> call, @NonNull Response<FilmsResults> response) {
 
                         if(response.code() == SUCCESS_CODE && response.body() != null){
                             callback.onResult(response.body().getResults(), null, FIRST_PAGE + 1);
@@ -89,7 +90,7 @@ public class SimilarMoviesRepository extends BaseRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<FilmsResults> call, Throwable t) {
+                    public void onFailure(@NonNull Call<FilmsResults> call, @NonNull Throwable t) {
                         ErrorMessage errorMessage = new ErrorMessage();
                         errorMessage.setMessage(t.getMessage());
                         thereIsPaginationError.setValue(errorMessage);
@@ -103,7 +104,7 @@ public class SimilarMoviesRepository extends BaseRepository {
         filmService.getSimilarMovies(movieID, "pt-BR",String.valueOf(params.key))
                 .enqueue(new Callback<FilmsResults>() {
                     @Override
-                    public void onResponse(Call<FilmsResults> call, Response<FilmsResults> response) {
+                    public void onResponse(@NonNull Call<FilmsResults> call, @NonNull Response<FilmsResults> response) {
 
                         if(response.code() == SUCCESS_CODE && response.body() != null){
                             Integer key = (params.key > 1) ? params.key - 1 : null;
@@ -122,7 +123,7 @@ public class SimilarMoviesRepository extends BaseRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<FilmsResults> call, Throwable t) {
+                    public void onFailure(@NonNull Call<FilmsResults> call, @NonNull Throwable t) {
                         ErrorMessage errorMessage = new ErrorMessage();
                         errorMessage.setMessage(t.getMessage());
                         thereIsPaginationError.setValue(errorMessage);
@@ -136,7 +137,7 @@ public class SimilarMoviesRepository extends BaseRepository {
         filmService.getSimilarMovies(movieID,"pt-BR",String.valueOf(params.key))
                 .enqueue(new Callback<FilmsResults>() {
                     @Override
-                    public void onResponse(Call<FilmsResults> call, Response<FilmsResults> response) {
+                    public void onResponse(@NonNull Call<FilmsResults> call, @NonNull Response<FilmsResults> response) {
 
                         if(response.code() == SUCCESS_CODE && response.body() != null){
                             Integer key = (params.key < PAGE_SIZE)? params.key + 1 : null;
@@ -155,7 +156,7 @@ public class SimilarMoviesRepository extends BaseRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<FilmsResults> call, Throwable t) {
+                    public void onFailure(@NonNull Call<FilmsResults> call, @NonNull Throwable t) {
                         ErrorMessage errorMessage = new ErrorMessage();
                         errorMessage.setMessage(t.getMessage());
                         thereIsPaginationError.setValue(errorMessage);

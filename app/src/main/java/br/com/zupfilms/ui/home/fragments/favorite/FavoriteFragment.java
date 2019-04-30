@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
+import java.util.Objects;
 
 import br.com.zupfilms.R;
 import br.com.zupfilms.data.DB;
@@ -22,7 +23,6 @@ import br.com.zupfilms.model.MovieDetailsModelDB;
 import br.com.zupfilms.ui.BaseFragment;
 import br.com.zupfilms.ui.home.adapters.MoviesAdapter;
 import br.com.zupfilms.ui.home.movieDetailsActivity.MovieDetailsActivity;
-import br.com.zupfilms.ui.singleton.SingletonFilmGenres;
 import br.com.zupfilms.ui.singleton.SingletonFilmID;
 
 
@@ -32,9 +32,8 @@ public class FavoriteFragment extends BaseFragment implements SwipeRefreshLayout
     private FavoriteViewModel favoriteViewModel;
     private MoviesAdapter adapter;
     private DB db;
-    private RecyclerView.LayoutManager mLayoutManager;
     private List<MovieDetailsModelDB> modelDBList;
-    private MovieDetailsModelDB movieDetailsModelDB = new MovieDetailsModelDB();
+
 
     @Nullable
     @Override
@@ -49,11 +48,11 @@ public class FavoriteFragment extends BaseFragment implements SwipeRefreshLayout
 
         modelDBList = db.getAllFavoritesFilms();
 
-        adapter = new MoviesAdapter(getActivity(), modelDBList, SingletonFilmGenres.INSTANCE.getFilmGenres());
+        adapter = new MoviesAdapter(getActivity(), modelDBList);
 
         setupListenersAndObservers();
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
 
         RecyclerView recyclerView = SetupsLayout(view);
 
@@ -111,7 +110,7 @@ public class FavoriteFragment extends BaseFragment implements SwipeRefreshLayout
         });
     }
 
-    private Observer<MovieDetailsModel> thereIsMovieDetailsObserver = new Observer<MovieDetailsModel>() {
+    private final Observer<MovieDetailsModel> thereIsMovieDetailsObserver = new Observer<MovieDetailsModel>() {
         @Override
         public void onChanged(MovieDetailsModel movieDetailsModel) {
             if (movieDetailsModel != null && db != null) {
@@ -123,7 +122,7 @@ public class FavoriteFragment extends BaseFragment implements SwipeRefreshLayout
 
     @Override
     public void onRefresh() {
-        RecyclerView recyclerView = SetupsLayout(getView());
+        RecyclerView recyclerView = SetupsLayout(Objects.requireNonNull(getView()));
         recyclerView.setVisibility(View.GONE);
         if (adapter != null) {
             DB db = new DB(getActivity());

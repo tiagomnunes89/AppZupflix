@@ -17,21 +17,18 @@ import br.com.zupfilms.server.response.FilmsResults;
 import br.com.zupfilms.ui.BaseViewModel;
 import br.com.zupfilms.ui.home.adapters.FilmDataSourceFactory;
 
-//import br.com.zupfilms.server.repositories.FavoriteListRepository;
-
 public class MovieListViewModel extends BaseViewModel {
 
-    private Integer INITIAL_LOAD_SIZE_HINT = 10;
-    private Integer PREFETCH_DISTANCE_VALUE = 10;
-    private Integer PAGE_SIZE = 10;
-    private String MESSAGE_ERROR_RECURRENT = "Erro inesperado ao receber filmes. Feche o aplicativo e tente novamente mais tarde";
-    private FilmRepository filmRepository = new FilmRepository();
-    private String SERVICE_OR_CONNECTION_ERROR = "Falha ao receber filmes. Verifique a conexão e tente novamente.";
+    private final Integer INITIAL_LOAD_SIZE_HINT = 10;
+    private final Integer PREFETCH_DISTANCE_VALUE = 10;
+    private final Integer PAGE_SIZE = 10;
+    private final FilmRepository filmRepository = new FilmRepository();
+    private final String SERVICE_OR_CONNECTION_ERROR = "Falha ao receber filmes. Verifique a conexão e tente novamente.";
     private LiveData<PagedList<FilmResponse>> itemPagedList;
     private LiveData<PageKeyedDataSource<Integer, FilmResponse>> liveDataSource;
     private LiveData<ResponseModel<FilmsResults>> filmsResults;
-    private MutableLiveData<FilterIDAndPageSize> receiverAPageSizeAndGenreIDService = new MutableLiveData<>();
-    private MutableLiveData<FilmsResults> fragmentTellerThereIsFilmResults = new MutableLiveData<>();
+    private final MutableLiveData<FilterIDAndPageSize> receiverAPageSizeAndGenreIDService = new MutableLiveData<>();
+    private final MutableLiveData<FilmsResults> fragmentTellerThereIsFilmResults = new MutableLiveData<>();
     private String genreID;
 
 
@@ -43,7 +40,7 @@ public class MovieListViewModel extends BaseViewModel {
         return fragmentTellerThereIsFilmResults;
     }
 
-    private Observer<FilterIDAndPageSize> receiverAPageSizeAndGenreIDServiceObserver = new Observer<FilterIDAndPageSize>() {
+    private final Observer<FilterIDAndPageSize> receiverAPageSizeAndGenreIDServiceObserver = new Observer<FilterIDAndPageSize>() {
         @Override
         public void onChanged(FilterIDAndPageSize filterIDAndPageSize) {
             FilmDataSourceFactory itemDataSourceFactory =
@@ -62,7 +59,7 @@ public class MovieListViewModel extends BaseViewModel {
         }
     };
 
-    private Observer<ResponseModel<FilmsResults>> filmsResultsObserver = new Observer<ResponseModel<FilmsResults>>() {
+    private final Observer<ResponseModel<FilmsResults>> filmsResultsObserver = new Observer<ResponseModel<FilmsResults>>() {
         @Override
         public void onChanged(@Nullable ResponseModel<FilmsResults> responseModel) {
             if (responseModel != null) {
@@ -92,7 +89,7 @@ public class MovieListViewModel extends BaseViewModel {
         filmsResults.observeForever(filmsResultsObserver);
     }
 
-    private Observer<ErrorMessage> thereIsPaginationErrorObserve = new Observer<ErrorMessage>() {
+    private final Observer<ErrorMessage> thereIsPaginationErrorObserve = new Observer<ErrorMessage>() {
         @Override
         public void onChanged(@Nullable ErrorMessage errorMessage) {
             if (errorMessage != null) {
@@ -105,14 +102,10 @@ public class MovieListViewModel extends BaseViewModel {
     public void removeObserver() {
         super.removeObserver();
         if (filmsResults != null && filmRepository.getThereIsPaginationError() != null
-                && receiverAPageSizeAndGenreIDService != null
-                && getAddFavoriteFilm() != null
-                && getRemoveFavoriteFilm() != null) {
+                && receiverAPageSizeAndGenreIDService != null) {
             filmsResults.removeObserver(filmsResultsObserver);
             filmRepository.getThereIsPaginationError().removeObserver(thereIsPaginationErrorObserve);
             receiverAPageSizeAndGenreIDService.removeObserver(receiverAPageSizeAndGenreIDServiceObserver);
-            getAddFavoriteFilm().removeObserver(addFavoriteFilmObserver);
-            getRemoveFavoriteFilm().removeObserver(removeFavoriteFilmObserver);
         }
     }
 }

@@ -1,7 +1,6 @@
 package br.com.zupfilms.ui.home.fragments.favorite;
 
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -9,12 +8,12 @@ import android.widget.TextView;
 
 import br.com.zupfilms.R;
 
-public class FavoriteViewHolder {
+class FavoriteViewHolder {
 
-    ProgressBar progressBar;
-    FrameLayout frameLayout;
-    SwipeRefreshLayout swipeRefreshLayout;
-    TextView textViewFavoriteListNotFound;
+    private ProgressBar progressBar;
+    private FrameLayout frameLayout;
+    final SwipeRefreshLayout swipeRefreshLayout;
+    final TextView textViewFavoriteListNotFound;
 
     public FavoriteViewHolder(View view) {
         progressBar = view.findViewById(R.id.progress_bar);

@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -18,30 +17,29 @@ import java.util.List;
 
 import br.com.zupfilms.R;
 import br.com.zupfilms.model.MovieDetailsModel;
-import br.com.zupfilms.model.MovieDetailsModelDB;
 import br.com.zupfilms.server.response.CountriesResponse;
 import br.com.zupfilms.server.response.FilmResponse;
 import br.com.zupfilms.server.response.GenresResponse;
 
-public class DetailsViewHolder extends RecyclerView.ViewHolder{
+class DetailsViewHolder extends RecyclerView.ViewHolder{
 
-    TextView textViewTitle;
-    TextView textViewKeywords;
-    TextView textViewYear;
-    TextView textViewCountries;
-    TextView textViewRuntime;
-    TextView textViewPoints;
-    TextView textViewOverview;
-    RecyclerView recyclerViewDetails;
-    ProgressBar progressBar;
-    ImageView imageViewBanner;
-    ImageView imageViewPoster;
-    FrameLayout frameLayout;
-    CardView cardViewPoster;
-    TextView textViewTagline;
-    TextView textViewVoteCount;
-    CardView cardViewBanner;
-    CheckBox checkBox;
+    private final TextView textViewTitle;
+    private final TextView textViewKeywords;
+    private final TextView textViewYear;
+    private final TextView textViewCountries;
+    private final TextView textViewRuntime;
+    private final TextView textViewPoints;
+    private final TextView textViewOverview;
+    private final RecyclerView recyclerViewDetails;
+    private final ProgressBar progressBar;
+    private final ImageView imageViewBanner;
+    private final ImageView imageViewPoster;
+    private final FrameLayout frameLayout;
+    private final CardView cardViewPoster;
+    private final TextView textViewTagline;
+    private final TextView textViewVoteCount;
+    private final CardView cardViewBanner;
+    private final CheckBox checkBox;
 
 
     public DetailsViewHolder(View view, final FilmAdapterDetailsList.OnCheckBoxClickListener onCheckBoxClickListener,

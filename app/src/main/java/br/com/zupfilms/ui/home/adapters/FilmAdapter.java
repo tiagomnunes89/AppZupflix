@@ -13,12 +13,9 @@ import android.view.ViewGroup;
 
 import com.sdsmdg.tastytoast.TastyToast;
 
-import java.util.List;
 import java.util.Objects;
 
 import br.com.zupfilms.R;
-import br.com.zupfilms.data.DB;
-import br.com.zupfilms.model.MovieDetailsModelDB;
 import br.com.zupfilms.server.response.FilmGenres;
 import br.com.zupfilms.server.response.FilmResponse;
 import br.com.zupfilms.ui.singleton.SingletonTotalResults;
@@ -27,10 +24,10 @@ public class FilmAdapter extends PagedListAdapter<FilmResponse, RecyclerView.Vie
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_PROGRESS = 1;
-    private Context mCtx;
+    private final Context mCtx;
     private FilmAdapter.OnItemClickListener onItemClickListener;
     private FilmAdapter.OnCheckBoxClickListener onCheckBoxClickListener;
-    private FilmGenres filmGenres;
+    private final FilmGenres filmGenres;
 
     public interface OnItemClickListener {
         void onItemClick(int position, PagedList<FilmResponse> currentList);
@@ -70,6 +67,7 @@ public class FilmAdapter extends PagedListAdapter<FilmResponse, RecyclerView.Vie
         return false;
     }
 
+    @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
@@ -83,7 +81,7 @@ public class FilmAdapter extends PagedListAdapter<FilmResponse, RecyclerView.Vie
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (viewHolder instanceof ItemViewHolder) {
             ((ItemViewHolder) viewHolder).setFilmResponseInformation(getItem(position), filmGenres);
         } else if (viewHolder instanceof LoadingViewHolder) {
@@ -95,15 +93,15 @@ public class FilmAdapter extends PagedListAdapter<FilmResponse, RecyclerView.Vie
     }
 
 
-    private static DiffUtil.ItemCallback<FilmResponse> DIFF_CALLBACK =
+    private static final DiffUtil.ItemCallback<FilmResponse> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<FilmResponse>() {
                 @Override
                 public boolean areItemsTheSame(FilmResponse oldItem, FilmResponse newItem) {
-                    return oldItem.getId() == newItem.getId();
+                    return Objects.equals(oldItem, newItem);
                 }
 
                 @Override
-                public boolean areContentsTheSame(FilmResponse oldItem, FilmResponse newItem) {
+                public boolean areContentsTheSame(@NonNull FilmResponse oldItem, @NonNull FilmResponse newItem) {
                     return Objects.equals(oldItem, newItem);
                 }
             };

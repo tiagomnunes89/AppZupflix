@@ -2,7 +2,6 @@ package br.com.zupfilms.ui.home.fragments.home;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -10,14 +9,13 @@ import android.widget.TextView;
 
 import br.com.zupfilms.R;
 
-public class HomeFragmentViewHolder {
+class HomeFragmentViewHolder {
 
-    TabLayout tabLayout;
-    ViewPager viewPager;
-    Toolbar toolbar;
-    ProgressBar progressBar;
-    FrameLayout frameLayout;
-    TextView textViewServiceDisable;
+    final TabLayout tabLayout;
+    final ViewPager viewPager;
+    final ProgressBar progressBar;
+    final FrameLayout frameLayout;
+    final TextView textViewServiceDisable;
 
     public HomeFragmentViewHolder(View view) {
         tabLayout = view.findViewById(R.id.tabLayout);

@@ -9,18 +9,13 @@ import br.com.zupfilms.server.response.FilmResponse;
 
 public class SearchDataSourceFactory extends DataSource.Factory {
 
-    private MutableLiveData<PageKeyedDataSource<Integer, FilmResponse>> itemLiveDataSource = new MutableLiveData<>();
-    private int pageSize;
-    private String ID;
-    private String FILTER;
+    private final MutableLiveData<PageKeyedDataSource<Integer, FilmResponse>> itemLiveDataSource = new MutableLiveData<>();
+    private final int pageSize;
+    private final String ID;
 
-    public SearchDataSourceFactory(Integer pageSize, String ID, String filter) {
+    public SearchDataSourceFactory(Integer pageSize, String ID) {
         this.pageSize = pageSize;
         this.ID = ID;
-        this.FILTER = filter;
-    }
-
-    public SearchDataSourceFactory() {
     }
 
     @Override

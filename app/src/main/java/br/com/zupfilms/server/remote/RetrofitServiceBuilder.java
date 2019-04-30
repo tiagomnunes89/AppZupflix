@@ -1,5 +1,7 @@
 package br.com.zupfilms.server.remote;
 
+import android.support.annotation.NonNull;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -19,15 +21,16 @@ public class RetrofitServiceBuilder {
 
     private static final String KEY_SERVICE_VALIDATION = "d272326e467344029e68e3c4ff0b4059";
 
-    private static HttpLoggingInterceptor logger =
+    private static final HttpLoggingInterceptor logger =
             new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 
-    private static OkHttpClient.Builder okHttp =
+    private static final OkHttpClient.Builder okHttp =
             new OkHttpClient.Builder()
                     .addInterceptor(logger)
                     .addInterceptor(new Interceptor() {
+                        @NonNull
                         @Override
-                        public Response intercept(Chain chain) throws IOException {
+                        public Response intercept(@NonNull Chain chain) throws IOException {
                             Request request = chain.request();
                             HttpUrl url = request.url().newBuilder().addQueryParameter("api_key",KEY_SERVICE_VALIDATION).build();
                             request = request.newBuilder().url(url).build();
@@ -46,7 +49,7 @@ public class RetrofitServiceBuilder {
                 .client(okHttp.build()).build();
     }
 
-    private static Retrofit retrofit = getRetroInstance();
+    private static final Retrofit retrofit = getRetroInstance();
 
     public static <S> S buildService(Class<S> serviceType){
         return retrofit.create(serviceType);

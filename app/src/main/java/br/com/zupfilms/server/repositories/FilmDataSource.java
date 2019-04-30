@@ -8,12 +8,12 @@ import br.com.zupfilms.server.response.FilmResponse;
 
 public class FilmDataSource extends PageKeyedDataSource<Integer, FilmResponse> {
 
-    private int PAGE_SIZE;
-    private String FILTER;
+    private final int PAGE_SIZE;
     private static final int FIRST_PAGE = 1;
-    private String genreID;
-    private FilmRepository filmRepository = new FilmRepository();
-    private Thread requestDelay = new Thread();
+    private final String genreID;
+    private final FilmRepository filmRepository = new FilmRepository();
+    private final Thread requestDelay = new Thread();
+    private final String FILTER;
 
     public FilmDataSource(int pageSize, String genreID, String filter) {
         this.PAGE_SIZE = pageSize;
@@ -24,7 +24,7 @@ public class FilmDataSource extends PageKeyedDataSource<Integer, FilmResponse> {
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull final LoadInitialCallback<Integer, FilmResponse> callback) {
         try {
-            requestDelay.sleep(5000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -35,7 +35,7 @@ public class FilmDataSource extends PageKeyedDataSource<Integer, FilmResponse> {
     @Override
     public void loadBefore(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, FilmResponse> callback) {
         try {
-            requestDelay.sleep(1500);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -45,7 +45,7 @@ public class FilmDataSource extends PageKeyedDataSource<Integer, FilmResponse> {
     @Override
     public void loadAfter(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, FilmResponse> callback) {
         try {
-            requestDelay.sleep(1500);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

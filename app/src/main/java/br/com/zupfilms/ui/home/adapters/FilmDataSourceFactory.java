@@ -9,7 +9,7 @@ import br.com.zupfilms.server.response.FilmResponse;
 
 public class FilmDataSourceFactory extends DataSource.Factory {
 
-    private MutableLiveData<PageKeyedDataSource<Integer, FilmResponse>> itemLiveDataSource = new MutableLiveData<>();
+    private final MutableLiveData<PageKeyedDataSource<Integer, FilmResponse>> itemLiveDataSource = new MutableLiveData<>();
     private int pageSize;
     private String ID;
     private String FILTER;
@@ -17,9 +17,6 @@ public class FilmDataSourceFactory extends DataSource.Factory {
     public FilmDataSourceFactory(Integer pageSize, String ID) {
         this.pageSize = pageSize;
         this.ID = ID;
-    }
-
-    public FilmDataSourceFactory() {
     }
 
     @Override

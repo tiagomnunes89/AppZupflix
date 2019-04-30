@@ -8,18 +8,15 @@ import android.support.annotation.Nullable;
 import br.com.zupfilms.model.ResponseModel;
 import br.com.zupfilms.server.repositories.FilmRepository;
 import br.com.zupfilms.server.response.FilmGenres;
-import br.com.zupfilms.server.response.GenresResponse;
 import br.com.zupfilms.ui.BaseViewModel;
 
 public class HomeFragmentViewModel extends BaseViewModel {
 
-    private String SERVICE_OR_CONNECTION_ERROR = "Falha ao receber lista de gêneros. Verifique a conexão e tente novamente.";
-
-    private FilmRepository filmRepository = new FilmRepository();
+    private final FilmRepository filmRepository = new FilmRepository();
 
     private LiveData<ResponseModel<FilmGenres>> getGenreList;
 
-    private MutableLiveData<FilmGenres> thereIsAGenreList = new MutableLiveData<>();
+    private final MutableLiveData<FilmGenres> thereIsAGenreList = new MutableLiveData<>();
 
 
     public MutableLiveData<FilmGenres> getThereIsAGenreList() {
@@ -32,7 +29,7 @@ public class HomeFragmentViewModel extends BaseViewModel {
         getGenreList.observeForever(filmGenresObserver);
     }
 
-    private Observer<ResponseModel<FilmGenres>> filmGenresObserver = new Observer<ResponseModel<FilmGenres>>() {
+    private final Observer<ResponseModel<FilmGenres>> filmGenresObserver = new Observer<ResponseModel<FilmGenres>>() {
         @Override
         public void onChanged(@Nullable ResponseModel<FilmGenres> responseFilmGenres) {
             isLoading.setValue(false);
@@ -41,6 +38,7 @@ public class HomeFragmentViewModel extends BaseViewModel {
                     thereIsAGenreList.setValue(responseFilmGenres.getResponse());
                 }
             } else {
+                String SERVICE_OR_CONNECTION_ERROR = "Falha ao receber lista de gêneros. Verifique a conexão e tente novamente.";
                 isErrorMessageForToast.setValue(SERVICE_OR_CONNECTION_ERROR);
             }
         }

@@ -26,11 +26,11 @@ public class FilmAdapterDetailsList extends PagedListAdapter<FilmResponse, Recyc
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_HEADER = -1;
     private static final int TYPE_PROGRESS = 1;
-    private Context mCtx;
+    private final Context mCtx;
     private FilmAdapterDetailsList.OnItemClickListener onItemClickListener;
-    private MovieDetailsModel movieDetailsModel;
+    private final MovieDetailsModel movieDetailsModel;
     private FilmAdapterDetailsList.OnCheckBoxClickListener onCheckBoxClickListener;
-    private FilmGenres filmGenres;
+    private final FilmGenres filmGenres;
 
     public interface OnItemClickListener {
         void onItemClick(int position, PagedList<FilmResponse> currentList);
@@ -77,6 +77,7 @@ public class FilmAdapterDetailsList extends PagedListAdapter<FilmResponse, Recyc
         return false;
     }
 
+    @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
@@ -93,7 +94,7 @@ public class FilmAdapterDetailsList extends PagedListAdapter<FilmResponse, Recyc
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (viewHolder instanceof ItemViewHolderDetails) {
             FilmResponse film = getItem(position-1);
             ((ItemViewHolderDetails) viewHolder).setFilmResponseInformation(film,filmGenres);
@@ -110,26 +111,18 @@ public class FilmAdapterDetailsList extends PagedListAdapter<FilmResponse, Recyc
     }
 
 
-    private static DiffUtil.ItemCallback<FilmResponse> DIFF_CALLBACK =
+    private static final DiffUtil.ItemCallback<FilmResponse> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<FilmResponse>() {
                 @Override
                 public boolean areItemsTheSame(FilmResponse oldItem, FilmResponse newItem) {
-                    return oldItem.getId() == newItem.getId();
+                    return Objects.equals(oldItem, newItem);
                 }
 
                 @Override
-                public boolean areContentsTheSame(FilmResponse oldItem, FilmResponse newItem) {
+                public boolean areContentsTheSame(@NonNull FilmResponse oldItem, @NonNull FilmResponse newItem) {
                     return Objects.equals(oldItem, newItem);
                 }
             };
-
-    public void remove(int position) {
-        if(getCurrentList()!=null){
-            getCurrentList().remove(position);
-        }
-        notifyItemRemoved(position);
-        notifyItemRangeRemoved(0,getCurrentList().size());
-    }
 
 
 }

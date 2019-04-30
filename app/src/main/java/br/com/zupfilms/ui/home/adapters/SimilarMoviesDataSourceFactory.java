@@ -9,16 +9,13 @@ import br.com.zupfilms.server.response.FilmResponse;
 
 public class SimilarMoviesDataSourceFactory extends DataSource.Factory {
 
-    private MutableLiveData<PageKeyedDataSource<Integer, FilmResponse>> itemLiveDataSource = new MutableLiveData<>();
-    private int pageSize;
-    private String movieID;
+    private final MutableLiveData<PageKeyedDataSource<Integer, FilmResponse>> itemLiveDataSource = new MutableLiveData<>();
+    private final int pageSize;
+    private final String movieID;
 
     public SimilarMoviesDataSourceFactory(Integer pageSize, String movieID) {
         this.pageSize = pageSize;
         this.movieID = movieID;
-    }
-
-    public SimilarMoviesDataSourceFactory() {
     }
 
     @Override

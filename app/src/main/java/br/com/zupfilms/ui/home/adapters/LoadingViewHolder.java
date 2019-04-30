@@ -6,9 +6,9 @@ import android.widget.FrameLayout;
 
 import br.com.zupfilms.R;
 
-public class LoadingViewHolder extends RecyclerView.ViewHolder{
+class LoadingViewHolder extends RecyclerView.ViewHolder{
 
-    FrameLayout frameLayoutLoad;
+    private FrameLayout frameLayoutLoad;
 
     public LoadingViewHolder(View view) {
         super(view);

@@ -11,8 +11,7 @@ public enum SingletonFilmID {
     }
 
     public static void setIDEntered(Integer id){
-        SingletonFilmID singletonID = SingletonFilmID.INSTANCE;
-        singletonID.setID(id);
+        SingletonFilmID.INSTANCE.setID(id);
     }
 
     public Integer getID(){

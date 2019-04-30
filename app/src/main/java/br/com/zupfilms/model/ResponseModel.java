@@ -24,10 +24,6 @@ public class ResponseModel <T> {
         return response;
     }
 
-    public ErrorMessage getErrorMessage() {
-        return errorMessage;
-    }
-
     public void setResponse(T response) {
         this.response = response;
     }

@@ -2,9 +2,9 @@ package br.com.zupfilms.ui.home.homeActivity;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.view.MenuItem;
@@ -21,31 +21,28 @@ import br.com.zupfilms.ui.home.fragments.search.SearchFragment;
 public class HomeActivity extends BaseActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private FragmentManager fragmentManager;
     private HomeActivityViewHolder homeActivityViewHolder;
 
 
-    private Fragment home = HomeFragment.newInstance();
-    private Fragment favorite = new FavoriteFragment();
-    private Fragment search = new SearchFragment();
+    private final Fragment home = HomeFragment.newInstance();
+    private final Fragment favorite = new FavoriteFragment();
+    private final Fragment search = new SearchFragment();
 
-    public Fragment getHome() {
+    private Fragment getHome() {
         return home;
     }
 
-    public Fragment getFavorite() {
+    private Fragment getFavorite() {
         return favorite;
     }
 
-    public Fragment getSearch() {
+    private Fragment getSearch() {
         return search;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        fragmentManager = getSupportFragmentManager();
 
         View view = this.getLayoutInflater().inflate(R.layout.activity_home, null);
         this.homeActivityViewHolder = new HomeActivityViewHolder(view);
@@ -67,7 +64,7 @@ public class HomeActivity extends BaseActivity
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        colorStatusBar(this.getWindow(), R.color.colorBlack, false);
+        colorStatusBar(this.getWindow());
     }
 
     private void setupListener() {
@@ -76,7 +73,7 @@ public class HomeActivity extends BaseActivity
                 .setOnNavigationItemSelectedListener(this);
     }
 
-    private View.OnClickListener backArrowListener = new View.OnClickListener() {
+    private final View.OnClickListener backArrowListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if(homeActivityViewHolder.bottomNavigationView.getSelectedItemId() != R.id.navigation_home){
@@ -86,7 +83,7 @@ public class HomeActivity extends BaseActivity
     };
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navigation_home:
                 pushFragments(TAG_FRAGMENT_HOME, getHome());

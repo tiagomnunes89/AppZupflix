@@ -49,7 +49,7 @@ public class HomeFragment extends BaseFragment {
         return view;
     }
 
-    private View.OnClickListener textServiceDisable = new View.OnClickListener() {
+    private final View.OnClickListener textServiceDisable = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             viewHolder.textViewServiceDisable.setVisibility(View.GONE);
@@ -71,7 +71,7 @@ public class HomeFragment extends BaseFragment {
         viewHolder.textViewServiceDisable.setOnClickListener(textServiceDisable);
     }
 
-    private Observer<String> isErrorMessageForToastObserver = new Observer<String>() {
+    private final Observer<String> isErrorMessageForToastObserver = new Observer<String>() {
         @Override
         public void onChanged(String message) {
             TastyToast.makeText(getActivity(),message, TastyToast.LENGTH_LONG, TastyToast.ERROR)
@@ -79,7 +79,7 @@ public class HomeFragment extends BaseFragment {
         }
     };
 
-    private Observer<FilmGenres> genresObserver = new Observer<FilmGenres>() {
+    private final Observer<FilmGenres> genresObserver = new Observer<FilmGenres>() {
         @Override
         public void onChanged(@Nullable FilmGenres filmGenres) {
             FragmentStatePagerAdapter fragmentStatePagerAdapter =
@@ -93,7 +93,7 @@ public class HomeFragment extends BaseFragment {
         }
     };
 
-    private Observer<Boolean> progressBarObserver = new Observer<Boolean>() {
+    private final Observer<Boolean> progressBarObserver = new Observer<Boolean>() {
         @Override
         public void onChanged(Boolean isLoading) {
             loadingExecutor(isLoading,

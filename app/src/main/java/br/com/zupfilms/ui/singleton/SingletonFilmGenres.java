@@ -13,8 +13,7 @@ public enum SingletonFilmGenres {
     }
 
     public static void createFilmGenres(FilmGenres filmGenres){
-        SingletonFilmGenres singletonFilmGenres = SingletonFilmGenres.INSTANCE;
-        singletonFilmGenres.setGenreList(filmGenres);
+        SingletonFilmGenres.INSTANCE.setGenreList(filmGenres);
     }
 
     public FilmGenres getFilmGenres(){

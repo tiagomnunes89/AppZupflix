@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-    public class DBCore extends SQLiteOpenHelper {
+    class DBCore extends SQLiteOpenHelper {
         private static final String BD_NAME = "movies_favorites";
         private static final int VERSION = 7;
 

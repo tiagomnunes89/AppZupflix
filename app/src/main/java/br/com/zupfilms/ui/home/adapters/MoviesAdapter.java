@@ -14,25 +14,18 @@ import java.util.List;
 
 import br.com.zupfilms.R;
 import br.com.zupfilms.model.MovieDetailsModelDB;
-import br.com.zupfilms.server.response.FilmGenres;
 
 public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private MoviesAdapter.OnItemClickListener onItemClickListener;
     private MoviesAdapter.OnCheckBoxClickListener onCheckBoxClickListener;
-    private FilmGenres filmGenres;
     private List<MovieDetailsModelDB> movieList;
-    private Context context;
+    private final Context context;
 
 
-    public MoviesAdapter(Context context, List<MovieDetailsModelDB> movieList, FilmGenres filmGenres) {
+    public MoviesAdapter(Context context, List<MovieDetailsModelDB> movieList) {
         this.context = context;
         this.movieList = movieList;
-        this.filmGenres = filmGenres;
-    }
-
-    public MoviesAdapter() {
-
     }
 
     public interface OnItemClickListener {
@@ -61,7 +54,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int position) {
         if (viewHolder instanceof FavoriteViewHolder) {
-            ((FavoriteViewHolder) viewHolder).setFilmResponseInformation(movieList.get(position), filmGenres);
+            ((FavoriteViewHolder) viewHolder).setFilmResponseInformation(movieList.get(position));
         } else {
             TastyToast.makeText(context, "Não foi possível carregar os detalhes deste filme.", TastyToast.LENGTH_LONG, TastyToast.ERROR)
                     .setGravity(Gravity.CENTER, 0, 700);

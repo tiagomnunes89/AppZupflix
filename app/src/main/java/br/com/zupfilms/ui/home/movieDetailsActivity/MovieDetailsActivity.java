@@ -19,7 +19,7 @@ import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.ThreeBounce;
 import com.sdsmdg.tastytoast.TastyToast;
 
-import java.util.List;
+import java.util.Objects;
 
 import br.com.zupfilms.R;
 import br.com.zupfilms.data.DB;
@@ -41,7 +41,7 @@ public class MovieDetailsActivity extends BaseActivity {
     private FilmAdapterDetailsList adapter;
     private LinearLayoutManager linearLayoutManager;
     private MovieDetailsModel mMovieDetailsModel;
-    private List<FilmResponse> movieListAnswers;
+
     private DB db;
 
     @Override
@@ -101,7 +101,7 @@ public class MovieDetailsActivity extends BaseActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        colorStatusBar(this.getWindow(), R.color.colorBlack, false);
+        colorStatusBar(this.getWindow());
     }
 
     private void setupLayoutManager() {
@@ -115,7 +115,7 @@ public class MovieDetailsActivity extends BaseActivity {
         movieDetailsViewHolder.checkBox.setOnCheckedChangeListener(onCheckedChangeDetailsListener);
     }
 
-    private CompoundButton.OnCheckedChangeListener onCheckedChangeDetailsListener = new CompoundButton.OnCheckedChangeListener() {
+    private final CompoundButton.OnCheckedChangeListener onCheckedChangeDetailsListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if(db != null){
@@ -144,7 +144,7 @@ public class MovieDetailsActivity extends BaseActivity {
         movieDetailsViewModel.getThereAreMovieDetailsToSaveOffline().observe(this, thereAreMovieDetailsToSaveOfflineObserver);
     }
 
-    private Observer<MovieDetailsModel> thereAreMovieDetailsToSaveOfflineObserver = new Observer<MovieDetailsModel>() {
+    private final Observer<MovieDetailsModel> thereAreMovieDetailsToSaveOfflineObserver = new Observer<MovieDetailsModel>() {
         @Override
         public void onChanged(MovieDetailsModel movieDetailsModel) {
             if (movieDetailsModel != null && db != null) {
@@ -155,7 +155,7 @@ public class MovieDetailsActivity extends BaseActivity {
         }
     };
 
-    private View.OnClickListener backArrowListener = new View.OnClickListener() {
+    private final View.OnClickListener backArrowListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             onBackPressed();
@@ -164,7 +164,7 @@ public class MovieDetailsActivity extends BaseActivity {
         }
     };
 
-    private View.OnClickListener titleToolbarOnClickListener = new View.OnClickListener() {
+    private final View.OnClickListener titleToolbarOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(MovieDetailsActivity.this, HomeActivity.class);
@@ -174,7 +174,7 @@ public class MovieDetailsActivity extends BaseActivity {
         }
     };
 
-    private Observer<String> isSuccessMessageForToastObserver = new Observer<String>() {
+    private final Observer<String> isSuccessMessageForToastObserver = new Observer<String>() {
         @Override
         public void onChanged(String message) {
             TastyToast.makeText(MovieDetailsActivity.this, message, TastyToast.LENGTH_LONG, TastyToast.SUCCESS)
@@ -191,7 +191,6 @@ public class MovieDetailsActivity extends BaseActivity {
     private final Observer<PagedList<FilmResponse>> pagedListObserver = new Observer<PagedList<FilmResponse>>() {
         @Override
         public void onChanged(PagedList<FilmResponse> filmResponses) {
-            movieListAnswers = filmResponses.snapshot();
             if (adapter == null && SingletonFilmGenres.INSTANCE.getFilmGenres() != null) {
                 if(mMovieDetailsModel != null){
                     adapter = new FilmAdapterDetailsList(MovieDetailsActivity.this,mMovieDetailsModel,SingletonFilmGenres.INSTANCE.getFilmGenres());
@@ -207,13 +206,13 @@ public class MovieDetailsActivity extends BaseActivity {
                     }
                 }
             } else {
-                adapter.submitList(filmResponses);
+                Objects.requireNonNull(adapter).submitList(filmResponses);
                 movieDetailsViewModel.getIsLoading().setValue(false);
             }
         }
     };
 
-    private Observer<String> isErrorMessageForToastObserver = new Observer<String>() {
+    private final Observer<String> isErrorMessageForToastObserver = new Observer<String>() {
         @Override
         public void onChanged(String message) {
             TastyToast.makeText(MovieDetailsActivity.this, message, TastyToast.LENGTH_LONG, TastyToast.ERROR)
@@ -221,7 +220,7 @@ public class MovieDetailsActivity extends BaseActivity {
         }
     };
 
-    private Observer<FilmsResults> homeTellerThereIsFilmResultsObserver = new Observer<FilmsResults>() {
+    private final Observer<FilmsResults> homeTellerThereIsFilmResultsObserver = new Observer<FilmsResults>() {
         @Override
         public void onChanged(final FilmsResults filmsResults) {
             movieDetailsViewModel.getItemPagedList().observe(MovieDetailsActivity.this, pagedListObserver);
@@ -230,7 +229,7 @@ public class MovieDetailsActivity extends BaseActivity {
         }
     };
 
-    private Observer<Boolean> progressBarObserver = new Observer<Boolean>() {
+    private final Observer<Boolean> progressBarObserver = new Observer<Boolean>() {
         @Override
         public void onChanged(Boolean isLoading) {
             loadingExecutor(isLoading,
@@ -239,7 +238,7 @@ public class MovieDetailsActivity extends BaseActivity {
         }
     };
 
-    private Observer<MovieDetailsModel> thereIsMovieDetailsObserver = new Observer<MovieDetailsModel>() {
+    private final Observer<MovieDetailsModel> thereIsMovieDetailsObserver = new Observer<MovieDetailsModel>() {
         @Override
         public void onChanged(final MovieDetailsModel movieDetailsModel) {
             mMovieDetailsModel = movieDetailsModel;
@@ -261,20 +260,20 @@ public class MovieDetailsActivity extends BaseActivity {
             adapter.setOnCheckBoxClickListener(new FilmAdapterDetailsList.OnCheckBoxClickListener() {
                 @Override
                 public void OnCheckBoxClick(int position, PagedList<FilmResponse> currentList, Boolean isChecked) {
-                    SingletonFilmID.setIDEntered(currentList.get(position).getId());
+                    SingletonFilmID.setIDEntered(Objects.requireNonNull(currentList.get(position)).getId());
                     if (db != null) {
                         if (isChecked) {
                             if(position == 0){
                                 movieDetailsViewModel.executeServiceGetMovieDetailsToSaveOffline(movieDetailsModel.getId());
                             } else {
-                                movieDetailsViewModel.executeServiceGetMovieDetailsToSaveOffline(currentList.get(position-1).getId());
+                                movieDetailsViewModel.executeServiceGetMovieDetailsToSaveOffline(Objects.requireNonNull(currentList.get(position - 1)).getId());
                             }
                         } else {
                             if(position == 0) {
                                 db.delete(movieDetailsModel.getId());
                                 adapter.notifyDataSetChanged();
                             } else {
-                                db.delete(currentList.get(position-1).getId());
+                                db.delete(Objects.requireNonNull(currentList.get(position - 1)).getId());
                                 adapter.notifyDataSetChanged();
                             }
                         }
@@ -286,7 +285,7 @@ public class MovieDetailsActivity extends BaseActivity {
                 public void onItemClick(int position, PagedList<FilmResponse> currentList) {
                     if (movieDetailsModel != null) {
                         movieDetailsViewModel.getIsLoading().setValue(true);
-                        SingletonFilmID.setIDEntered(currentList.get(position-1).getId());
+                        SingletonFilmID.setIDEntered(Objects.requireNonNull(currentList.get(position - 1)).getId());
                         if(SingletonFilmID.INSTANCE.getID() != null){
                             Intent intent = new Intent(MovieDetailsActivity.this, MovieDetailsActivity.class);
                             startActivity(intent);
@@ -297,7 +296,7 @@ public class MovieDetailsActivity extends BaseActivity {
         }
     };
 
-    public void loadingExecutor(Boolean isLoading, ProgressBar progressBar, FrameLayout frameLayout) {
+    private void loadingExecutor(Boolean isLoading, ProgressBar progressBar, FrameLayout frameLayout) {
         if (isLoading != null) {
             if (isLoading) {
                 Sprite threeBounce = new ThreeBounce();

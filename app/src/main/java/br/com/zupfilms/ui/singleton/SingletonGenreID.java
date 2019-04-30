@@ -11,8 +11,7 @@ public enum SingletonGenreID {
     }
 
     public static void setGenreIDEntered(String genreID){
-        SingletonGenreID singletonGenreID = SingletonGenreID.INSTANCE;
-        singletonGenreID.setGenreID(genreID);
+        SingletonGenreID.INSTANCE.setGenreID(genreID);
     }
 
     public String getGenreID(){

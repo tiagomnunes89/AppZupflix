@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import br.com.zupfilms.model.MovieDetailsModel;
@@ -17,28 +16,28 @@ import br.com.zupfilms.server.response.GenresResponse;
 
 public class DB {
 
-    private SQLiteDatabase db;
+    private final SQLiteDatabase db;
 
-    final static String TABLE_NAME = "favorites";
-    final static String COLUMN_MOVIEID = "movie_id";
-    final static String COLUMN_POSTER_PATH = "poster_path";
-    final static String COLUMN_BACKDROP_PATH = "backdrop_path";
-    final static String COLUMN_VOTE_AVERAGE = "vote_average";
-    final static String COLUMN_TITLE = "title";
-    final static String COLUMN_RELEASE_DATE = "release_date";
-    final static String COLUMN_GENRES = "genres";
-    final static String COLUMN_RUNTIME = "runtime";
-    final static String COLUMN_OVERVIEW = "overview";
-    final static String COLUMN_COUNTRIES = "production_countries";
-    final static String COLUMN_TAGLINE = "tagline";
-    final static String COLUMN_VOTE_COUNT = "vote_count";
+    private final static String TABLE_NAME = "favorites";
+    private final static String COLUMN_MOVIEID = "movie_id";
+    private final static String COLUMN_POSTER_PATH = "poster_path";
+    private final static String COLUMN_BACKDROP_PATH = "backdrop_path";
+    private final static String COLUMN_VOTE_AVERAGE = "vote_average";
+    private final static String COLUMN_TITLE = "title";
+    private final static String COLUMN_RELEASE_DATE = "release_date";
+    private final static String COLUMN_GENRES = "genres";
+    private final static String COLUMN_RUNTIME = "runtime";
+    private final static String COLUMN_OVERVIEW = "overview";
+    private final static String COLUMN_COUNTRIES = "production_countries";
+    private final static String COLUMN_TAGLINE = "tagline";
+    private final static String COLUMN_VOTE_COUNT = "vote_count";
 
     public DB(Context context) {
         DBCore auxBd = new DBCore(context);
         db = auxBd.getWritableDatabase();
     }
 
-    public Boolean insert(MovieDetailsModel movieDetailsModel) {
+    public void insert(MovieDetailsModel movieDetailsModel) {
         if(!findFavoriteFilmByID(movieDetailsModel.getId())){
             ContentValues values = new ContentValues();
             values.put(COLUMN_MOVIEID, movieDetailsModel.getId());
@@ -66,18 +65,14 @@ public class DB {
 
             Log.d("bd", "add film " + movieDetailsModel.getTitle());
             db.insert(TABLE_NAME, null, values);
-            return true;
         }
-        return false;
     }
 
-    public boolean delete(int movieID) {
+    public void delete(int movieID) {
         if(findFavoriteFilmByID(movieID)){
             db.delete(TABLE_NAME, " movie_id = " + movieID, null);
             Log.d("delete", "delete film " + movieID);
-            return true;
         }
-        return false;
     }
 
     public List<MovieDetailsModelDB> getAllFavoritesFilms() {
@@ -145,7 +140,7 @@ public class DB {
         return movie;
     }
 
-    public boolean findFavoriteFilmByID (Integer movieID) {
+    private boolean findFavoriteFilmByID(Integer movieID) {
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_MOVIEID + " = " + movieID, null);
         if(cursor != null){
             return cursor.moveToFirst();

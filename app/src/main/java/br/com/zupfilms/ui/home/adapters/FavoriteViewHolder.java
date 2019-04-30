@@ -7,7 +7,6 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -16,28 +15,25 @@ import java.util.List;
 
 import br.com.zupfilms.R;
 import br.com.zupfilms.model.MovieDetailsModelDB;
-import br.com.zupfilms.server.response.FilmGenres;
 
-public class FavoriteViewHolder extends RecyclerView.ViewHolder {
+class FavoriteViewHolder extends RecyclerView.ViewHolder {
 
-    private TextView textTitleFilm;
-    private ProgressBar progressBar;
-    private ImageView imageView;
-    private TextView keywords;
-    private TextView movieDescription;
-    private LinearLayout information;
-    private TextView year;
-    private FrameLayout filmNoteFrameLayout;
-    private TextView filmNote;
+    private final TextView textTitleFilm;
+    private final ImageView imageView;
+    private final TextView keywords;
+    private final TextView movieDescription;
+    private final TextView year;
+    private final TextView filmNote;
     private CheckBox checkBox;
-    private CardView cardViewPoster;
+    private final CardView cardViewPoster;
+    private final LinearLayout information;
+    private final FrameLayout filmNoteFrameLayout;
 
     public FavoriteViewHolder(View itemView, final MoviesAdapter.OnItemClickListener onItemClickListener,
                               final MoviesAdapter.OnCheckBoxClickListener onCheckBoxClickListener,
                               final List<MovieDetailsModelDB> currentList) {
         super(itemView);
 
-        progressBar = itemView.findViewById(R.id.movie_progress);
         imageView = itemView.findViewById(R.id.movie_poster);
         keywords = itemView.findViewById(R.id.textView_keywords);
         movieDescription = itemView.findViewById(R.id.movie_description);
@@ -76,7 +72,7 @@ public class FavoriteViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void setFilmResponseInformation(MovieDetailsModelDB film, FilmGenres allGenresList) {
+    public void setFilmResponseInformation(MovieDetailsModelDB film) {
         this.textTitleFilm.setText(film.getTitle());
         if (film.getPosterPath() == null || film.getPosterPath().isEmpty()) {
             this.cardViewPoster.setVisibility(View.INVISIBLE);

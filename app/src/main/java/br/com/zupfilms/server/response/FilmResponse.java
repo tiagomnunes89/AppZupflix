@@ -2,7 +2,6 @@ package br.com.zupfilms.server.response;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FilmResponse {
@@ -26,7 +25,7 @@ public class FilmResponse {
     @SerializedName("original_title")
     private String originalTitle;
     @SerializedName("genre_ids")
-    private List<Integer> genreIds = null;
+    private final List<Integer> genreIds = null;
     @SerializedName("backdrop_path")
     private String backdropPath;
     @SerializedName("adult")
@@ -96,9 +95,5 @@ public class FilmResponse {
 
     public boolean getFavoriteChecked() {
         return isFavoriteChecked;
-    }
-
-    public void setFavoriteChecked(boolean favoriteChecked) {
-        isFavoriteChecked = favoriteChecked;
     }
 }

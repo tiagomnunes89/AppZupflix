@@ -11,8 +11,7 @@ public enum SingletonTotalResults {
     }
 
     public static void setTotalResultsEntered(Integer totalResults){
-        SingletonTotalResults singletonTotalResults = SingletonTotalResults.INSTANCE;
-        singletonTotalResults.setTotalResults(totalResults);
+        SingletonTotalResults.INSTANCE.setTotalResults(totalResults);
     }
 
     public Integer getTotalResults(){

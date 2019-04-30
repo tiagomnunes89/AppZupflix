@@ -4,15 +4,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import br.com.zupfilms.R;
 
-public class MovieListViewHolder {
+class MovieListViewHolder {
 
-    ProgressBar progressBar;
-    FrameLayout frameLayout;
-    RecyclerView recyclerView;
+    final ProgressBar progressBar;
+    final FrameLayout frameLayout;
+    final RecyclerView recyclerView;
 
     public MovieListViewHolder(View view) {
         progressBar = view.findViewById(R.id.progress_bar);

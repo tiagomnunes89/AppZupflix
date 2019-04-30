@@ -16,32 +16,29 @@ import br.com.zupfilms.server.repositories.SimilarMoviesRepository;
 import br.com.zupfilms.server.response.FilmResponse;
 import br.com.zupfilms.server.response.FilmsResults;
 import br.com.zupfilms.ui.BaseViewModel;
-import br.com.zupfilms.ui.home.adapters.FilmDataSourceFactory;
 import br.com.zupfilms.ui.home.adapters.SimilarMoviesDataSourceFactory;
 import br.com.zupfilms.ui.singleton.SingletonFilmID;
 
 public class MovieDetailsViewModel extends BaseViewModel {
 
-    private FilmRepository filmRepository = new FilmRepository();
-    private SimilarMoviesRepository similarMoviesRepository = new SimilarMoviesRepository();
+    private final FilmRepository filmRepository = new FilmRepository();
+    private final SimilarMoviesRepository similarMoviesRepository = new SimilarMoviesRepository();
 
     private LiveData<ResponseModel<MovieDetailsModel>> getMovieDetails;
 
-    private MutableLiveData<MovieDetailsModel> thereIsMovieDetails = new MutableLiveData<>();
+    private final MutableLiveData<MovieDetailsModel> thereIsMovieDetails = new MutableLiveData<>();
 
-    private String SERVICE_OR_CONNECTION_ERROR = "Falha ao receber detalhes do filme. Verifique a conexão e tente novamente.";
-    private String FILTER_SIMILARITY = "similarity";
-    private Integer INITIAL_LOAD_SIZE_HINT = 10;
-    private Integer PREFETCH_DISTANCE_VALUE = 10;
-    private Integer PAGE_SIZE = 10;
-    private String MESSAGE_ERROR_RECURRENT = "Erro inesperado ao receber filmes. Feche o aplicativo e tente novamente mais tarde";
+    private final String SERVICE_OR_CONNECTION_ERROR = "Falha ao receber detalhes do filme. Verifique a conexão e tente novamente.";
+    private final Integer INITIAL_LOAD_SIZE_HINT = 10;
+    private final Integer PREFETCH_DISTANCE_VALUE = 10;
+    private final Integer PAGE_SIZE = 10;
 
     private LiveData<PagedList<FilmResponse>> itemPagedList;
     private LiveData<PageKeyedDataSource<Integer, FilmResponse>> liveDataSource;
-    private MutableLiveData<Integer> receiverPageSizeService = new MutableLiveData<>();
-    private MutableLiveData<FilmsResults> activityTellerThereIsFilmResults = new MutableLiveData<>();
+    private final MutableLiveData<Integer> receiverPageSizeService = new MutableLiveData<>();
+    private final MutableLiveData<FilmsResults> activityTellerThereIsFilmResults = new MutableLiveData<>();
     private LiveData<ResponseModel<FilmsResults>> filmsResults;
-    private MutableLiveData<Boolean> similarMoviesListEmpty = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> similarMoviesListEmpty = new MutableLiveData<>();
 
     public MutableLiveData<Boolean> getSimilarMoviesListEmpty() {
         return similarMoviesListEmpty;
@@ -65,7 +62,7 @@ public class MovieDetailsViewModel extends BaseViewModel {
         getMovieDetails.observeForever(getMovieDetailsObserver);
     }
 
-    private Observer<ResponseModel<MovieDetailsModel>> getMovieDetailsObserver = new Observer<ResponseModel<MovieDetailsModel>>() {
+    private final Observer<ResponseModel<MovieDetailsModel>> getMovieDetailsObserver = new Observer<ResponseModel<MovieDetailsModel>>() {
         @Override
         public void onChanged(@Nullable ResponseModel<MovieDetailsModel> movieDetails) {
             if (movieDetails != null) {
@@ -78,7 +75,7 @@ public class MovieDetailsViewModel extends BaseViewModel {
         }
     };
 
-    private Observer<Integer> receiverPageSizeServiceObserver = new Observer<Integer>() {
+    private final Observer<Integer> receiverPageSizeServiceObserver = new Observer<Integer>() {
         @Override
         public void onChanged(Integer pageSize) {
             SimilarMoviesDataSourceFactory itemDataSourceFactory =
@@ -96,7 +93,7 @@ public class MovieDetailsViewModel extends BaseViewModel {
         }
     };
 
-    private Observer<ResponseModel<FilmsResults>> filmsResultsObserver = new Observer<ResponseModel<FilmsResults>>() {
+    private final Observer<ResponseModel<FilmsResults>> filmsResultsObserver = new Observer<ResponseModel<FilmsResults>>() {
         @Override
         public void onChanged(@Nullable ResponseModel<FilmsResults> responseModel) {
             if (responseModel != null) {
@@ -127,7 +124,7 @@ public class MovieDetailsViewModel extends BaseViewModel {
         filmsResults.observeForever(filmsResultsObserver);
     }
 
-    private Observer<ErrorMessage> thereIsPaginationErrorObserve = new Observer<ErrorMessage>() {
+    private final Observer<ErrorMessage> thereIsPaginationErrorObserve = new Observer<ErrorMessage>() {
         @Override
         public void onChanged(@Nullable ErrorMessage errorMessage) {
             if (errorMessage != null) {
@@ -139,15 +136,10 @@ public class MovieDetailsViewModel extends BaseViewModel {
     @Override
     public void removeObserver() {
         super.removeObserver();
-        if (filmsResults != null && filmRepository.getThereIsPaginationError() != null
-                && receiverPageSizeService != null
-                && getAddFavoriteFilm() != null
-                && getRemoveFavoriteFilm() != null) {
+        if (filmsResults != null && filmRepository.getThereIsPaginationError() != null) {
             filmsResults.removeObserver(filmsResultsObserver);
             filmRepository.getThereIsPaginationError().removeObserver(thereIsPaginationErrorObserve);
             receiverPageSizeService.removeObserver(receiverPageSizeServiceObserver);
-            getAddFavoriteFilm().removeObserver(addFavoriteFilmObserver);
-            getRemoveFavoriteFilm().removeObserver(removeFavoriteFilmObserver);
         }
     }
 }

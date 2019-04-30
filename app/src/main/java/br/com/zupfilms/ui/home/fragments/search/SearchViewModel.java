@@ -11,8 +11,6 @@ import android.support.annotation.Nullable;
 import br.com.zupfilms.model.ErrorMessage;
 import br.com.zupfilms.model.FilterIDAndPageSize;
 import br.com.zupfilms.model.ResponseModel;
-//import br.com.zupfilms.server.repositories.FavoriteListRepository;
-//import br.com.zupfilms.server.repositories.FilmRepository;
 import br.com.zupfilms.server.repositories.SearchRepository;
 import br.com.zupfilms.server.response.FilmResponse;
 import br.com.zupfilms.server.response.FilmsResults;
@@ -22,20 +20,17 @@ import br.com.zupfilms.ui.home.adapters.SearchDataSourceFactory;
 public class SearchViewModel extends BaseViewModel {
 
     private final static String FIRST_PAGE = "1";
-    private final static String FILTER_NAME = "name";
-    private Integer PAGE_SIZE = 10;
-    private Integer INITIAL_LOAD_SIZE_HINT = 5;
-    private Integer PREFETCH_DISTANCE_VALUE = 5;
-    private String MESSAGE_ERROR_RECURRENT = "Erro inesperado ao receber filmes. Feche o aplicativo e tente novamente mais tarde";
-    private SearchRepository searchRepository = new SearchRepository();
-    //private FavoriteListRepository favoriteListRepository = new FavoriteListRepository();
-    private String SERVICE_OR_CONNECTION_ERROR = "Falha ao receber filmes. Verifique a conexão e tente novamente.";
+    private final Integer PAGE_SIZE = 10;
+    private final Integer INITIAL_LOAD_SIZE_HINT = 5;
+    private final Integer PREFETCH_DISTANCE_VALUE = 5;
+    private final SearchRepository searchRepository = new SearchRepository();
+    private final String SERVICE_OR_CONNECTION_ERROR = "Falha ao receber filmes. Verifique a conexão e tente novamente.";
     private LiveData<PagedList<FilmResponse>> itemPagedList;
     private LiveData<PageKeyedDataSource<Integer, FilmResponse>> liveDataSource;
     private LiveData<ResponseModel<FilmsResults>> filmsResults;
-    private MutableLiveData<FilterIDAndPageSize> receiverAPageSizeAndGenreIDService = new MutableLiveData<>();
-    private MutableLiveData<FilmsResults> fragmentTellerThereIsFilmResults = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isSearchEmpty = new MutableLiveData<>();
+    private final MutableLiveData<FilterIDAndPageSize> receiverAPageSizeAndGenreIDService = new MutableLiveData<>();
+    private final MutableLiveData<FilmsResults> fragmentTellerThereIsFilmResults = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isSearchEmpty = new MutableLiveData<>();
     private String queryMovies;
 
     public MutableLiveData<Boolean> getIsSearchEmpty() {
@@ -50,12 +45,12 @@ public class SearchViewModel extends BaseViewModel {
         return fragmentTellerThereIsFilmResults;
     }
 
-    private Observer<FilterIDAndPageSize> receiverAPageSizeAndGenreIDServiceObserver = new Observer<FilterIDAndPageSize>() {
+    private final Observer<FilterIDAndPageSize> receiverAPageSizeAndGenreIDServiceObserver = new Observer<FilterIDAndPageSize>() {
         @Override
         public void onChanged(FilterIDAndPageSize filterIDAndPageSize) {
             SearchDataSourceFactory itemDataSourceFactory =
                     new SearchDataSourceFactory(filterIDAndPageSize.getPageSize(),
-                            filterIDAndPageSize.getFilterID(),FILTER_NAME);
+                            filterIDAndPageSize.getFilterID());
             liveDataSource = itemDataSourceFactory.getItemLiveDataSource();
             PagedList.Config config =
                     (new PagedList.Config.Builder())
@@ -81,7 +76,7 @@ public class SearchViewModel extends BaseViewModel {
         }
     }
 
-    private Observer<ResponseModel<FilmsResults>> filmsResultsObserverSearch = new Observer<ResponseModel<FilmsResults>>() {
+    private final Observer<ResponseModel<FilmsResults>> filmsResultsObserverSearch = new Observer<ResponseModel<FilmsResults>>() {
         @Override
         public void onChanged(@Nullable ResponseModel<FilmsResults> responseModel) {
             if (responseModel != null) {
@@ -108,7 +103,7 @@ public class SearchViewModel extends BaseViewModel {
         receiverAPageSizeAndGenreIDService.observeForever(receiverAPageSizeAndGenreIDServiceObserver);
     }
     
-    private Observer<ErrorMessage> thereIsPaginationErrorObserve = new Observer<ErrorMessage>() {
+    private final Observer<ErrorMessage> thereIsPaginationErrorObserve = new Observer<ErrorMessage>() {
         @Override
         public void onChanged(@Nullable ErrorMessage errorMessage) {
             if(errorMessage != null){
@@ -120,15 +115,10 @@ public class SearchViewModel extends BaseViewModel {
     @Override
     public void removeObserver() {
         super.removeObserver();
-        if (filmsResults != null && searchRepository.getThereIsPaginationError() != null
-                &&  receiverAPageSizeAndGenreIDService != null
-                && getAddFavoriteFilm() != null
-                && getRemoveFavoriteFilm() != null)  {
+        if (filmsResults != null && searchRepository.getThereIsPaginationError() != null)  {
             filmsResults.removeObserver(filmsResultsObserverSearch);
             searchRepository.getThereIsPaginationError().removeObserver(thereIsPaginationErrorObserve);
             receiverAPageSizeAndGenreIDService.removeObserver(receiverAPageSizeAndGenreIDServiceObserver);
-            getAddFavoriteFilm().removeObserver(addFavoriteFilmObserver);
-            getRemoveFavoriteFilm().removeObserver(removeFavoriteFilmObserver);
         }
     }
 }

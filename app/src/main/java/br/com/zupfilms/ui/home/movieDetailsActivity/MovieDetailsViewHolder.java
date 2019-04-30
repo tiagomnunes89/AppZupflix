@@ -23,29 +23,29 @@ import br.com.zupfilms.model.MovieDetailsModelDB;
 import br.com.zupfilms.server.response.CountriesResponse;
 import br.com.zupfilms.server.response.GenresResponse;
 
-public class MovieDetailsViewHolder {
+class MovieDetailsViewHolder {
 
     RecyclerView recyclerViewDetails;
-    ProgressBar progressBarFragment;
+    final ProgressBar progressBarFragment;
     FrameLayout frameLayout;
-    TextView textViewToobar;
-    ImageView backArrow;
-    ViewGroup layoutItemDetails;
-    TextView textViewTitle;
-    TextView textViewKeywords;
-    TextView textViewYear;
-    TextView textViewCountries;
-    TextView textViewRuntime;
-    TextView textViewPoints;
-    TextView textViewOverview;
-    ImageView imageViewBanner;
-    ImageView imageViewPoster;
-    CardView cardViewPoster;
-    TextView textViewTagline;
-    TextView textViewVoteCount;
-    CardView cardViewBanner;
-    CheckBox checkBox;
-    LinearLayout linearLayoutVote;
+    final TextView textViewToobar;
+    final ImageView backArrow;
+    final ViewGroup layoutItemDetails;
+    private final TextView textViewTitle;
+    private final TextView textViewKeywords;
+    private final TextView textViewYear;
+    private final TextView textViewCountries;
+    private final TextView textViewRuntime;
+    private final TextView textViewPoints;
+    private final TextView textViewOverview;
+    private final ImageView imageViewBanner;
+    private final ImageView imageViewPoster;
+    private final CardView cardViewPoster;
+    private final TextView textViewTagline;
+    private final TextView textViewVoteCount;
+    private final CardView cardViewBanner;
+    final CheckBox checkBox;
+    private final LinearLayout linearLayoutVote;
 
     public MovieDetailsViewHolder(View view) {
         frameLayout = view.findViewById(R.id.loading_layout);

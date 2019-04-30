@@ -7,11 +7,10 @@ import br.com.zupfilms.server.response.FilmResponse;
 
 public class SimilarMoviesDataSource extends PageKeyedDataSource<Integer, FilmResponse> {
 
-    private int PAGE_SIZE;
+    private final int PAGE_SIZE;
     private static final int FIRST_PAGE = 1;
-    private String movieID;
-    private SimilarMoviesRepository similarMoviesRepository = new SimilarMoviesRepository();
-    private Thread requestDelay = new Thread();
+    private final String movieID;
+    private final SimilarMoviesRepository similarMoviesRepository = new SimilarMoviesRepository();
 
     public SimilarMoviesDataSource(int pageSize, String movieID) {
         this.PAGE_SIZE = pageSize;
@@ -26,7 +25,7 @@ public class SimilarMoviesDataSource extends PageKeyedDataSource<Integer, FilmRe
     @Override
     public void loadBefore(@NonNull final PageKeyedDataSource.LoadParams<Integer> params, @NonNull final PageKeyedDataSource.LoadCallback<Integer, FilmResponse> callback) {
         try {
-            requestDelay.sleep(1500);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -36,7 +35,7 @@ public class SimilarMoviesDataSource extends PageKeyedDataSource<Integer, FilmRe
     @Override
     public void loadAfter(@NonNull final PageKeyedDataSource.LoadParams<Integer> params, @NonNull final PageKeyedDataSource.LoadCallback<Integer, FilmResponse> callback) {
         try {
-            requestDelay.sleep(1500);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -11,7 +11,7 @@ import br.com.zupfilms.ui.singleton.SingletonGenreID;
 
 public class FragmentStateAdapter extends FragmentStatePagerAdapter {
 
-    private FilmGenres genre;
+    private final FilmGenres genre;
 
     public FragmentStateAdapter(FragmentManager fm, FilmGenres genre) {
         super(fm);

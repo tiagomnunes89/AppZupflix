@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -19,6 +20,8 @@ import android.widget.SearchView;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.ThreeBounce;
 import com.sdsmdg.tastytoast.TastyToast;
+
+import java.util.Objects;
 
 import br.com.zupfilms.R;
 import br.com.zupfilms.data.DB;
@@ -41,7 +44,7 @@ public class SearchFragment extends BaseFragment {
     private DB db;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         this.searchViewHolder = new SearchViewHolder(view);
@@ -61,7 +64,7 @@ public class SearchFragment extends BaseFragment {
         return view;
     }
 
-    private View.OnClickListener textServiceDisable = new View.OnClickListener() {
+    private final View.OnClickListener textServiceDisable = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             searchViewHolder.textViewServiceDisable.setVisibility(View.GONE);
@@ -115,7 +118,7 @@ public class SearchFragment extends BaseFragment {
         searchViewHolder.textViewServiceDisable.setOnClickListener(textServiceDisable);
     }
 
-    private Observer<MovieDetailsModel> thereIsMovieDetailsObserver = new Observer<MovieDetailsModel>() {
+    private final Observer<MovieDetailsModel> thereIsMovieDetailsObserver = new Observer<MovieDetailsModel>() {
         @Override
         public void onChanged(MovieDetailsModel movieDetailsModel) {
             if (movieDetailsModel != null && db != null) {
@@ -126,7 +129,7 @@ public class SearchFragment extends BaseFragment {
         }
     };
 
-    private Observer<Boolean> isSearchEmptyObserver = new Observer<Boolean>() {
+    private final Observer<Boolean> isSearchEmptyObserver = new Observer<Boolean>() {
         @Override
         public void onChanged(Boolean isSearchEmpty) {
             if (isSearchEmpty) {
@@ -145,7 +148,7 @@ public class SearchFragment extends BaseFragment {
         }
     };
 
-    private Observer<String> isSuccessMessageForToastObserver = new Observer<String>() {
+    private final Observer<String> isSuccessMessageForToastObserver = new Observer<String>() {
         @Override
         public void onChanged(String message) {
             TastyToast.makeText(getActivity(), message, TastyToast.LENGTH_LONG, TastyToast.SUCCESS)
@@ -153,7 +156,7 @@ public class SearchFragment extends BaseFragment {
         }
     };
 
-    private Observer<String> isErrorMessageForToastObserver = new Observer<String>() {
+    private final Observer<String> isErrorMessageForToastObserver = new Observer<String>() {
         @Override
         public void onChanged(String message) {
             TastyToast.makeText(getActivity(), message, TastyToast.LENGTH_LONG, TastyToast.ERROR)
@@ -169,7 +172,7 @@ public class SearchFragment extends BaseFragment {
         }
     };
 
-    private Observer<FilmsResults> homeTellerThereIsFilmResultsObserver = new Observer<FilmsResults>() {
+    private final Observer<FilmsResults> homeTellerThereIsFilmResultsObserver = new Observer<FilmsResults>() {
         @Override
         public void onChanged(final FilmsResults filmsResults) {
             searchViewModel.getItemPagedList().observe(SearchFragment.this, pagedListObserver);
@@ -178,12 +181,12 @@ public class SearchFragment extends BaseFragment {
             adapter.setOnCheckBoxClickListener(new FilmAdapter.OnCheckBoxClickListener() {
                 @Override
                 public void OnCheckBoxClick(int position, PagedList<FilmResponse> currentList, Boolean isChecked) {
-                    SingletonFilmID.setIDEntered(currentList.get(position).getId());
+                    SingletonFilmID.setIDEntered(Objects.requireNonNull(currentList.get(position)).getId());
                     if (db != null) {
                         if (isChecked) {
-                            searchViewModel.executeServiceGetMovieDetailsToSaveOffline(currentList.get(position).getId());
+                            searchViewModel.executeServiceGetMovieDetailsToSaveOffline(Objects.requireNonNull(currentList.get(position)).getId());
                         } else {
-                            db.delete(currentList.get(position).getId());
+                            db.delete(Objects.requireNonNull(currentList.get(position)).getId());
                             adapter.notifyDataSetChanged();
                         }
                     }
@@ -192,7 +195,7 @@ public class SearchFragment extends BaseFragment {
             adapter.setOnItemClickListener(new FilmAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(int position, PagedList<FilmResponse> currentList) {
-                    SingletonFilmID.setIDEntered(currentList.get(position).getId());
+                    SingletonFilmID.setIDEntered(Objects.requireNonNull(currentList.get(position)).getId());
                     if (SingletonFilmID.INSTANCE.getID() != null) {
                         Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
                         startActivity(intent);
@@ -202,7 +205,7 @@ public class SearchFragment extends BaseFragment {
         }
     };
 
-    private Observer<Boolean> progressBarObserver = new Observer<Boolean>() {
+    private final Observer<Boolean> progressBarObserver = new Observer<Boolean>() {
         @Override
         public void onChanged(Boolean isLoading) {
             loadingExecutor(isLoading,
@@ -211,7 +214,7 @@ public class SearchFragment extends BaseFragment {
         }
     };
 
-    private SearchView.OnQueryTextListener searchViewListener = new SearchView.OnQueryTextListener() {
+    private final SearchView.OnQueryTextListener searchViewListener = new SearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextSubmit(String query) {
             return false;
@@ -245,7 +248,7 @@ public class SearchFragment extends BaseFragment {
         }
     };
 
-    public void loadingExecutor(Boolean isLoading, ProgressBar progressBar, FrameLayout frameLayout) {
+    protected void loadingExecutor(Boolean isLoading, ProgressBar progressBar, FrameLayout frameLayout) {
         if (isLoading != null && getActivity() != null) {
             if (isLoading) {
                 Sprite threeBounce = new ThreeBounce();

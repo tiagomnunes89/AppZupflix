@@ -10,15 +10,15 @@ import android.widget.TextView;
 
 import br.com.zupfilms.R;
 
-public class SearchViewHolder {
+class SearchViewHolder {
 
-    ProgressBar progressBar;
-    FrameLayout frameLayout;
-    RecyclerView recyclerView;
-    SearchView searchView;
-    TextView textViewFilmNotFound;
-    BottomNavigationView bottomNavigationView;
-    TextView textViewServiceDisable;
+    final ProgressBar progressBar;
+    final FrameLayout frameLayout;
+    final RecyclerView recyclerView;
+    final SearchView searchView;
+    final TextView textViewFilmNotFound;
+    private final BottomNavigationView bottomNavigationView;
+    final TextView textViewServiceDisable;
 
 
     public SearchViewHolder(View view) {
