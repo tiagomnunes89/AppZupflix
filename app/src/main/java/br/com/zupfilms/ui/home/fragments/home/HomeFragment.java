@@ -35,7 +35,7 @@ public class HomeFragment extends BaseFragment {
 
         viewModelHome = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
 
-        if(verifyConection()){
+        if(verifyConnection()){
             viewHolder.textViewServiceDisable.setVisibility(View.GONE);
             viewModelHome.executeServiceGetGenreList();
             viewHolder.tabLayout.setVisibility(View.VISIBLE);
@@ -53,7 +53,7 @@ public class HomeFragment extends BaseFragment {
         @Override
         public void onClick(View v) {
             viewHolder.textViewServiceDisable.setVisibility(View.GONE);
-            if(verifyConection()){
+            if(verifyConnection()){
                 viewHolder.textViewServiceDisable.setVisibility(View.GONE);
                 viewModelHome.executeServiceGetGenreList();
                 viewHolder.tabLayout.setVisibility(View.VISIBLE);

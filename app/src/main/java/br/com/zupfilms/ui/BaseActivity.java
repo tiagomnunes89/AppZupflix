@@ -107,16 +107,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         ft.commitAllowingStateLoss();
     }
 
-    public boolean verifyConection() {
-        boolean conected;
-        ConnectivityManager conectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (conectivityManager.getActiveNetworkInfo() != null
-                && conectivityManager.getActiveNetworkInfo().isAvailable()
-                && conectivityManager.getActiveNetworkInfo().isConnected()) {
-            conected = true;
+    public boolean connectionVerifier() {
+        boolean connected;
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getActiveNetworkInfo() != null
+                && connectivityManager.getActiveNetworkInfo().isAvailable()
+                && connectivityManager.getActiveNetworkInfo().isConnected()) {
+            connected = true;
         } else {
-            conected = false;
+            connected = false;
         }
-        return conected;
+        return connected;
     }
 }

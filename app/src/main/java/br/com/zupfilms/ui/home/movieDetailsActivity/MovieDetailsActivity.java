@@ -41,7 +41,7 @@ public class MovieDetailsActivity extends BaseActivity {
     private FilmAdapterDetailsList adapter;
     private LinearLayoutManager linearLayoutManager;
     private MovieDetailsModel mMovieDetailsModel;
-    private List<FilmResponse> listfilmResponses;
+    private List<FilmResponse> movieListAnswers;
     private DB db;
 
     @Override
@@ -70,7 +70,7 @@ public class MovieDetailsActivity extends BaseActivity {
         setupLayoutManager();
 
         if(SingletonFilmID.INSTANCE.getID() != null){
-            if(verifyConection()){
+            if(connectionVerifier()){
                 Integer filmID = SingletonFilmID.INSTANCE.getID();
                 movieDetailsViewModel.executeServiceGetMovieDetails(filmID);
                 movieDetailsViewModel.executeServiceGetSimilarMovies("1",filmID);
@@ -141,10 +141,10 @@ public class MovieDetailsActivity extends BaseActivity {
         movieDetailsViewModel.getThereIsMovieDetails().observe(this,thereIsMovieDetailsObserver);
         movieDetailsViewModel.getActivityTellerThereIsFilmResults().observe(this, homeTellerThereIsFilmResultsObserver);
         movieDetailsViewModel.getIsErrorMessageForToast().observe(this, isErrorMessageForToastObserver);
-        movieDetailsViewModel.getThereIsMovieDetailsToSaveOffiline().observe(this, thereIsMovieDetailsToSaveOffilineObserver);
+        movieDetailsViewModel.getThereAreMovieDetailsToSaveOffline().observe(this, thereAreMovieDetailsToSaveOfflineObserver);
     }
 
-    private Observer<MovieDetailsModel> thereIsMovieDetailsToSaveOffilineObserver = new Observer<MovieDetailsModel>() {
+    private Observer<MovieDetailsModel> thereAreMovieDetailsToSaveOfflineObserver = new Observer<MovieDetailsModel>() {
         @Override
         public void onChanged(MovieDetailsModel movieDetailsModel) {
             if (movieDetailsModel != null && db != null) {
@@ -191,14 +191,14 @@ public class MovieDetailsActivity extends BaseActivity {
     private final Observer<PagedList<FilmResponse>> pagedListObserver = new Observer<PagedList<FilmResponse>>() {
         @Override
         public void onChanged(PagedList<FilmResponse> filmResponses) {
-            listfilmResponses = filmResponses.snapshot();
+            movieListAnswers = filmResponses.snapshot();
             if (adapter == null && SingletonFilmGenres.INSTANCE.getFilmGenres() != null) {
                 if(mMovieDetailsModel != null){
                     adapter = new FilmAdapterDetailsList(MovieDetailsActivity.this,mMovieDetailsModel,SingletonFilmGenres.INSTANCE.getFilmGenres());
                 } else {
                     if(SingletonFilmID.INSTANCE.getID() != null){
                         Integer filmID = SingletonFilmID.INSTANCE.getID();
-                        movieDetailsViewModel.executeServiceGetMovieDetailsToSaveOffiline(filmID);
+                        movieDetailsViewModel.executeServiceGetMovieDetailsToSaveOffline(filmID);
                         movieDetailsViewModel.executeServiceGetSimilarMovies("1",filmID);
                     } else {
                         Intent intent = new Intent(MovieDetailsActivity.this, HomeActivity.class);
@@ -265,9 +265,9 @@ public class MovieDetailsActivity extends BaseActivity {
                     if (db != null) {
                         if (isChecked) {
                             if(position == 0){
-                                movieDetailsViewModel.executeServiceGetMovieDetailsToSaveOffiline(movieDetailsModel.getId());
+                                movieDetailsViewModel.executeServiceGetMovieDetailsToSaveOffline(movieDetailsModel.getId());
                             } else {
-                                movieDetailsViewModel.executeServiceGetMovieDetailsToSaveOffiline(currentList.get(position-1).getId());
+                                movieDetailsViewModel.executeServiceGetMovieDetailsToSaveOffline(currentList.get(position-1).getId());
                             }
                         } else {
                             if(position == 0) {

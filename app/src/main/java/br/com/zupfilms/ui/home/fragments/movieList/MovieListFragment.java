@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,9 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sdsmdg.tastytoast.TastyToast;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import br.com.zupfilms.R;
 import br.com.zupfilms.data.DB;
@@ -52,7 +48,7 @@ public class MovieListFragment extends BaseFragment {
 
         movieListViewModel = ViewModelProviders.of(MovieListFragment.this).get(MovieListViewModel.class);
 
-        if (verifyConection()) {
+        if (verifyConnection()) {
             if (SingletonGenreID.INSTANCE.getGenreID() != null) {
                 movieListViewModel.executeServiceGetFilmResults(FIRST_PAGE, SingletonGenreID.INSTANCE.getGenreID());
                 if (adapter == null) {
@@ -96,7 +92,7 @@ public class MovieListFragment extends BaseFragment {
         movieListViewModel.getIsLoading().observe(this, progressBarObserver);
         movieListViewModel.getFragmentTellerThereIsFilmResults().observe(this, homeTellerThereIsFilmResultsObserver);
         movieListViewModel.getIsErrorMessageForToast().observe(this, isErrorMessageForToastObserver);
-        movieListViewModel.getThereIsMovieDetailsToSaveOffiline().observe(this, thereIsMovieDetailsObserver);
+        movieListViewModel.getThereAreMovieDetailsToSaveOffline().observe(this, thereIsMovieDetailsObserver);
     }
 
     private Observer<MovieDetailsModel> thereIsMovieDetailsObserver = new Observer<MovieDetailsModel>() {
@@ -145,7 +141,7 @@ public class MovieListFragment extends BaseFragment {
                     SingletonFilmID.setIDEntered(currentList.get(position).getId());
                     if (db != null) {
                         if (isChecked) {
-                            movieListViewModel.executeServiceGetMovieDetailsToSaveOffiline(currentList.get(position).getId());
+                            movieListViewModel.executeServiceGetMovieDetailsToSaveOffline(currentList.get(position).getId());
                         } else {
                             db.delete(currentList.get(position).getId());
                             adapter.notifyDataSetChanged();

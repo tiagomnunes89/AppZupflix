@@ -2,9 +2,7 @@ package br.com.zupfilms.ui.home.fragments.favorite;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,8 +24,6 @@ import br.com.zupfilms.ui.home.adapters.MoviesAdapter;
 import br.com.zupfilms.ui.home.movieDetailsActivity.MovieDetailsActivity;
 import br.com.zupfilms.ui.singleton.SingletonFilmGenres;
 import br.com.zupfilms.ui.singleton.SingletonFilmID;
-
-import static android.support.v4.content.ContextCompat.getSystemService;
 
 
 public class FavoriteFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -81,13 +77,13 @@ public class FavoriteFragment extends BaseFragment implements SwipeRefreshLayout
 
     private void setupListenersAndObservers() {
         favoriteViewHolder.swipeRefreshLayout.setOnRefreshListener(this);
-        favoriteViewModel.getThereIsMovieDetailsToSaveOffiline().observe(this, thereIsMovieDetailsObserver);
+        favoriteViewModel.getThereAreMovieDetailsToSaveOffline().observe(this, thereIsMovieDetailsObserver);
         adapter.setOnCheckBoxClickListener(new MoviesAdapter.OnCheckBoxClickListener() {
             @Override
             public void OnCheckBoxClick(int position, List<MovieDetailsModelDB> currentList, Boolean isChecked) {
                 SingletonFilmID.setIDEntered(currentList.get(position).getId());
                 if (isChecked) {
-                    favoriteViewModel.executeServiceGetMovieDetailsToSaveOffiline(currentList.get(position).getId());
+                    favoriteViewModel.executeServiceGetMovieDetailsToSaveOffline(currentList.get(position).getId());
                 } else {
                     db.delete(currentList.get(position).getId());
                     adapter.notifyDataSetChanged();
@@ -97,7 +93,7 @@ public class FavoriteFragment extends BaseFragment implements SwipeRefreshLayout
         adapter.setOnItemClickListener(new MoviesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, List<MovieDetailsModelDB> currentList) {
-                if (verifyConection()) {
+                if (verifyConnection()) {
                     SingletonFilmID.setIDEntered(currentList.get(position).getId());
                     if (SingletonFilmID.INSTANCE.getID() != null) {
                         Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);

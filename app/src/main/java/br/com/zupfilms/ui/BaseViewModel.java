@@ -67,13 +67,13 @@ public abstract class BaseViewModel extends ViewModel {
 
     private LiveData<ResponseModel<MovieDetailsModel>> getMovieDetails;
 
-    private MutableLiveData<MovieDetailsModel> thereIsMovieDetailsToSaveOffiline = new MutableLiveData<>();
+    private MutableLiveData<MovieDetailsModel> thereAreMovieDetailsToSaveOffline = new MutableLiveData<>();
 
-    public MutableLiveData<MovieDetailsModel> getThereIsMovieDetailsToSaveOffiline() {
-        return thereIsMovieDetailsToSaveOffiline;
+    public MutableLiveData<MovieDetailsModel> getThereAreMovieDetailsToSaveOffline() {
+        return thereAreMovieDetailsToSaveOffline;
     }
 
-    public void executeServiceGetMovieDetailsToSaveOffiline(int movieID) {
+    public void executeServiceGetMovieDetailsToSaveOffline(int movieID) {
         getMovieDetails = filmRepository.getMovieDetails(movieID);
         getMovieDetails.observeForever(getMovieDetailsToSaveOfflineObserver);
     }
@@ -83,7 +83,7 @@ public abstract class BaseViewModel extends ViewModel {
         public void onChanged(@Nullable ResponseModel<MovieDetailsModel> movieDetails) {
             if (movieDetails != null) {
                 if (movieDetails.getCode() == SUCCESS_CODE) {
-                    thereIsMovieDetailsToSaveOffiline.setValue(movieDetails.getResponse());
+                    thereAreMovieDetailsToSaveOffline.setValue(movieDetails.getResponse());
                 }
             } else {
                 isErrorMessageForToast.setValue(SERVICE_OR_CONNECTION_ERROR_MOVIE_DETAILS);

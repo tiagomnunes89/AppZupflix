@@ -28,7 +28,7 @@ public class ItemViewHolderDetails extends RecyclerView.ViewHolder {
     private ImageView imageView;
     private TextView keywords;
     private TextView movieDescription;
-    private LinearLayout informations;
+    private LinearLayout information;
     private TextView year;
     private FrameLayout filmNoteFrameLayout;
     private TextView filmNote;
@@ -44,8 +44,8 @@ public class ItemViewHolderDetails extends RecyclerView.ViewHolder {
         imageView = itemView.findViewById(R.id.movie_poster);
         keywords = itemView.findViewById(R.id.textView_keywords);
         movieDescription = itemView.findViewById(R.id.movie_description);
-        informations = itemView.findViewById(R.id.linearLayout_year);
-        year = informations.findViewById(R.id.textView_year);
+        information = itemView.findViewById(R.id.linearLayout_year);
+        year = information.findViewById(R.id.textView_year);
         filmNoteFrameLayout = itemView.findViewById(R.id.frameLayout_filmNote);
         filmNote = filmNoteFrameLayout.findViewById(R.id.textView_filmNote);
         textTitleFilm = itemView.findViewById(R.id.text_title_film);

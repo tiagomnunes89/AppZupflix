@@ -78,16 +78,16 @@ public abstract class BaseFragment extends Fragment {
         return keywordList.toString();
     }
 
-    public boolean verifyConection() {
-        boolean conected;
-        ConnectivityManager conectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (conectivityManager.getActiveNetworkInfo() != null
-                && conectivityManager.getActiveNetworkInfo().isAvailable()
-                && conectivityManager.getActiveNetworkInfo().isConnected()) {
-            conected = true;
+    public boolean verifyConnection() {
+        boolean connected;
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getActiveNetworkInfo() != null
+                && connectivityManager.getActiveNetworkInfo().isAvailable()
+                && connectivityManager.getActiveNetworkInfo().isConnected()) {
+            connected = true;
         } else {
-            conected = false;
+            connected = false;
         }
-        return conected;
+        return connected;
     }
 }

@@ -65,7 +65,7 @@ public class SearchFragment extends BaseFragment {
         @Override
         public void onClick(View v) {
             searchViewHolder.textViewServiceDisable.setVisibility(View.GONE);
-            if(verifyConection()){
+            if(verifyConnection()){
                 searchViewHolder.searchView.setQuery("",false);
                 searchViewHolder.searchView.setQueryHint("Conectado. Busque seu filme aqui!");
             } else {
@@ -111,7 +111,7 @@ public class SearchFragment extends BaseFragment {
         searchViewModel.getFragmentTellerThereIsFilmResults().observe(this, homeTellerThereIsFilmResultsObserver);
         searchViewModel.getIsErrorMessageForToast().observe(this, isErrorMessageForToastObserver);
         searchViewModel.getIsSearchEmpty().observe(this, isSearchEmptyObserver);
-        searchViewModel.getThereIsMovieDetailsToSaveOffiline().observe(this, thereIsMovieDetailsObserver);
+        searchViewModel.getThereAreMovieDetailsToSaveOffline().observe(this, thereIsMovieDetailsObserver);
         searchViewHolder.textViewServiceDisable.setOnClickListener(textServiceDisable);
     }
 
@@ -181,7 +181,7 @@ public class SearchFragment extends BaseFragment {
                     SingletonFilmID.setIDEntered(currentList.get(position).getId());
                     if (db != null) {
                         if (isChecked) {
-                            searchViewModel.executeServiceGetMovieDetailsToSaveOffiline(currentList.get(position).getId());
+                            searchViewModel.executeServiceGetMovieDetailsToSaveOffline(currentList.get(position).getId());
                         } else {
                             db.delete(currentList.get(position).getId());
                             adapter.notifyDataSetChanged();
@@ -221,7 +221,7 @@ public class SearchFragment extends BaseFragment {
         @Override
         public boolean onQueryTextChange(String newText) {
             searchViewHolder.recyclerView.setVisibility(View.GONE);
-            if (verifyConection()) {
+            if (verifyConnection()) {
                 if (!newText.isEmpty()) {
                     if(SingletonFilmID.INSTANCE.getID() != null && adapter != null){
                         SingletonFilmID.setIDEntered(null);

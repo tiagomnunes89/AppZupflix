@@ -21,10 +21,10 @@
     <string name="movieBannerDescription">movie banner</string>
     <string name="place_holder_banner_description">place holder banner</string>
     <string name="favoriteListEmpty">Sua lista de filmes favoritos está vazia.\n\nDeslize para baixo para atualizar a lista!</string>
-    <string name="NO_CONNECTION_MESSAGE">Se conecte a internet para realizar buscas!</string>
-    <string name="no_connection_list_film">Não é possível listar filmes.\nSe conectou já internet CLIQUE AQUI</string>
-    <string name="no_connection_search_film">Não é possível buscar filmes.\nSe conectou já internet CLIQUE AQUI</string>
-    <string name="NO_SERVICE_OFFILINE_DETAILS">Não foi possivel recuperar detalhes offline deste filme. Conecte-se a internet!</string>
+    <string name="NO_CONNECTION_MESSAGE">Ative sua internet para realizar buscas!</string>
+    <string name="no_connection_list_film">Não é possível listar filmes sem acesso à internet.\nQuando ativar sua conexão CLIQUE AQUI</string>
+    <string name="no_connection_search_film">Não é possível buscar filmes sem acesso à internet.\nQuando ativar sua conexão CLIQUE AQUI</string>
+    <string name="NO_SERVICE_OFFILINE_DETAILS">Não foi possível recuperar detalhes offline para este título. Ative a sua internet!</string>
     <string name="description_backarrow">backArrow</string>
 </resources>
 

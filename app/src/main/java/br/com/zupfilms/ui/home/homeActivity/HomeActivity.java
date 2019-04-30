@@ -56,7 +56,7 @@ public class HomeActivity extends BaseActivity
         setSupportActionBar(homeActivityViewHolder.toolbar);
 
         SpannableString spannableString = new SpannableString("ZUP" + "FLIX");
-        spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 2, 0);
+        spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 3, 0);
         homeActivityViewHolder.titleToolBar.setText(spannableString);
 
         if (savedInstanceState == null) {
@@ -85,7 +85,6 @@ public class HomeActivity extends BaseActivity
         }
     };
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
