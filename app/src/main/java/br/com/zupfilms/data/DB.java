@@ -145,9 +145,12 @@ public class DB {
         return movie;
     }
 
-    public Boolean findFavoriteFilmByID (Integer movieID) {
+    public boolean findFavoriteFilmByID (Integer movieID) {
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_MOVIEID + " = " + movieID, null);
-        return cursor.moveToFirst();
+        if(cursor != null){
+            return cursor.moveToFirst();
+        }
+        return false;
     }
 
     private String sentenceBuilder(List<String> listString) {

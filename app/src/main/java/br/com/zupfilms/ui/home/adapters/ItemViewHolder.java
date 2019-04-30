@@ -100,6 +100,9 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
             }
 
         }
+        if(film.getFavoriteChecked()){
+            checkBox.setChecked(true);
+        }
         keywords.setText(sentenceBuilder(filmGenreList));
         this.movieDescription.setText(film.getOverview());
         if(!film.getReleaseDate().isEmpty() && film.getReleaseDate().length()>=4){

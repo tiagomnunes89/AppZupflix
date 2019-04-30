@@ -8,7 +8,6 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/fragment_favorite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.home.fragments.favorite.FavoriteFragment">
@@ -24,7 +23,6 @@
             app:cardElevation="@dimen/cardElevation">
 
             <TextView
-                android:id="@+id/text_view_favorites"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/bigMargin"

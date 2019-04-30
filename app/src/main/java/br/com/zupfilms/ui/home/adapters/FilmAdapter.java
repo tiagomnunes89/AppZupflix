@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 
 import br.com.zupfilms.R;
+import br.com.zupfilms.data.DB;
 import br.com.zupfilms.model.MovieDetailsModelDB;
 import br.com.zupfilms.server.response.FilmGenres;
 import br.com.zupfilms.server.response.FilmResponse;
@@ -55,7 +56,7 @@ public class FilmAdapter extends PagedListAdapter<FilmResponse, RecyclerView.Vie
 
     @Override
     public int getItemViewType(int position) {
-        if (isPositionLoader(position)){
+        if (isPositionLoader(position)) {
             return TYPE_PROGRESS;
         } else {
             return TYPE_ITEM;
@@ -63,8 +64,8 @@ public class FilmAdapter extends PagedListAdapter<FilmResponse, RecyclerView.Vie
     }
 
     private boolean isPositionLoader(int position) {
-        if(SingletonTotalResults.INSTANCE.getTotalResults() != null){
-            return getItemCount() -1 == position && position != SingletonTotalResults.INSTANCE.getTotalResults()-1;
+        if (SingletonTotalResults.INSTANCE.getTotalResults() != null) {
+            return getItemCount() - 1 == position && position != SingletonTotalResults.INSTANCE.getTotalResults() - 1;
         }
         return false;
     }
@@ -73,8 +74,8 @@ public class FilmAdapter extends PagedListAdapter<FilmResponse, RecyclerView.Vie
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
             View view = LayoutInflater.from(mCtx).inflate(R.layout.item_film, parent, false);
-            return new ItemViewHolder(view, this.onItemClickListener, this.onCheckBoxClickListener,getCurrentList());
-        } else if(viewType == TYPE_PROGRESS){
+            return new ItemViewHolder(view, this.onItemClickListener, this.onCheckBoxClickListener, getCurrentList());
+        } else if (viewType == TYPE_PROGRESS) {
             View view = LayoutInflater.from(mCtx).inflate(R.layout.loading_layout_list, parent, false);
             return new LoadingViewHolder(view);
         }
@@ -84,8 +85,8 @@ public class FilmAdapter extends PagedListAdapter<FilmResponse, RecyclerView.Vie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         if (viewHolder instanceof ItemViewHolder) {
-            ((ItemViewHolder) viewHolder).setFilmResponseInformation(getItem(position),filmGenres);
-        }  else if (viewHolder instanceof LoadingViewHolder) {
+            ((ItemViewHolder) viewHolder).setFilmResponseInformation(getItem(position), filmGenres);
+        } else if (viewHolder instanceof LoadingViewHolder) {
 
         } else {
             TastyToast.makeText(mCtx, "Não foi possível carregar os detalhes deste filme.", TastyToast.LENGTH_LONG, TastyToast.ERROR)
@@ -107,12 +108,4 @@ public class FilmAdapter extends PagedListAdapter<FilmResponse, RecyclerView.Vie
                 }
             };
 
-
-    public void remove(int position) {
-        if(getCurrentList()!=null){
-            getCurrentList().remove(position);
-        }
-        notifyItemRemoved(position);
-        notifyItemRangeRemoved(0,getItemCount());
-    }
 }

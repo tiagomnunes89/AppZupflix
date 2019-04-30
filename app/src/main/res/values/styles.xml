@@ -1,4 +1,4 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -9,36 +9,8 @@
     </style>
 
 
-    <style name="MyAppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorControlActivated">#e91e63</item>
-        <item name="colorControlNormal">#f57f17</item>
-        <item name="android:textColorSecondary">#673ab7</item>
-    </style>
-
-    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/colorPrimary</item>
-
-        <!-- Support library compatibility -->
-        <item name="background">@color/colorPrimary</item>
-        <item name="android:alwaysDrawnWithCache">true</item>
-        <item name="android:displayOptions">showTitle|showHome|homeAsUp</item>
-        <item name="android:icon">@android:color/white</item>
-    </style>
-
-    <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar"/>
-
-    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-
-
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="CircularProgress" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/background</item>
@@ -50,23 +22,6 @@
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/robotoregular</item>
         <item name="android:textColor">@color/colorTextWhite</item>
-    </style>
-
-    <style name="YellowBall"
-        >
-        <item name="android:background">@drawable/ic_yellow_ball</item>
-        <item name="android:elevation">4dp</item>
-        <item name="android:stateListAnimator">@null</item>
-        <item name="android:text">6.9</item>
-        <item name="android:height">50dp</item>
-        <item name="android:width">50dp</item>
-    </style>
-
-    <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem"/>
-
-    <style name="spinnerDropDownItemStyle" parent="Widget.AppCompat.ListView.DropDown">
-        <item name="android:dividerHeight">2dip</item>
-        <item name="android:divider">#808080</item>
     </style>
 
 </resources>

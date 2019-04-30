@@ -3,28 +3,15 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorBackground">#f5f6f7</color>
-    <color name="colorEmailHeadHint">#5b5a5a</color>
     <color name="colorBorderEmailInput">#cfd0d1</color>
-    <color name="colorBottonEmailPreLogin">#129793</color>
-    <color name="colorTextBottonEmailPreLogin">#ffffff</color>
-    <color name="colorTextError">#db4437</color>
-    <color name="colorBorderEmailInputError">#fe3824</color>
-    <color name="colorTextRed">#fe3824</color>
-    <color name="colorRed">#fe3824</color>
     <color name="colorTransparent">#00FFFFFF</color>
-    <color name="colorTextDefault">#5b5a5a</color>
     <color name="colorTextWhite">#ffffff</color>
     <color name="colorBlack">#000000</color>
     <color name="background">#FFFFFF</color>
-    <color name="fragmentBackground">#F5F6F7</color>
     <color name="placeholder_grey">#AAADC4</color>
-    <color name="gray">#808080</color>
     <color name="yellow">#ffcd00</color>
     <color name="imdb_background_color">#ffcd00</color>
     <color name="white">#FFFFFF</color>
-    <color name="blue_background">#3374FF</color>
-    <color name="dark_blue">#020A1C</color>
     <color name="dark_gray">#202125</color>
 
 

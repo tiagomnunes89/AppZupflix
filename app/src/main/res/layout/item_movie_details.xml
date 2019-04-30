@@ -20,7 +20,6 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/relative_layout_movie_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cardview_banner_details"
@@ -81,7 +80,6 @@
                         android:textColor="@color/colorBlack" />
 
                     <LinearLayout
-                        android:id="@+id/linearLayout_yearAndCountries"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/marginStartDetails"
@@ -107,7 +105,6 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/linearLayout_pointsRuntime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/marginStartDetails"
@@ -121,7 +118,6 @@
                             android:background="@drawable/imdb_icon">
 
                             <TextView
-                                android:id="@+id/textView_imdb"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
@@ -258,7 +254,6 @@
                     android:src="@drawable/banner_placeholder_background" />
 
                 <ProgressBar
-                    android:id="@+id/movie_progress_banner"
                     style="@style/Widget.AppCompat.ProgressBar"
                     android:layout_width="@dimen/marginTwentyEight"
                     android:layout_height="@dimen/marginTwentyEight"
