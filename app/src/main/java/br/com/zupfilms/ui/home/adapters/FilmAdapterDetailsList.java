@@ -122,4 +122,14 @@ public class FilmAdapterDetailsList extends PagedListAdapter<FilmResponse, Recyc
                     return Objects.equals(oldItem, newItem);
                 }
             };
+
+    public void remove(int position) {
+        if(getCurrentList()!=null){
+            getCurrentList().remove(position);
+        }
+        notifyItemRemoved(position);
+        notifyItemRangeRemoved(0,getCurrentList().size());
+    }
+
+
 }

@@ -2,52 +2,41 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/home_drawer"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:showIn="@layout/activity_home">
 
-    <android.support.design.widget.AppBarLayout
+    <TextView
+        android:id="@+id/textHomeTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/encodesanssemisondensed_regular"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/marginOrPaddingTen"
+        android:layout_marginStart="@dimen/marginThirty"
+        android:textColor="@color/colorTextWhite"
+        android:textSize="@dimen/textSizeToolbar" />
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:popupTheme="@style/PopupOverlay">
-
-            <TextView
-                android:id="@+id/textHomeTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/encodesanssemisondensed_regular"
-                android:textSize="@dimen/textSizeToolbar"
-                android:gravity="center"
-                android:layout_marginEnd="@dimen/marginFifty"
-                android:layout_marginStart="@dimen/marginOrPaddingTwenty"
-                android:textColor="@color/colorTextWhite"/>
-
-        </android.support.v7.widget.Toolbar>
-
-    </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/content_home_drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="?attr/actionBarSize"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginBottom="?attr/actionBarSize">
 
     </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
+        android:id="@+id/botton_nav_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
 </android.support.design.widget.CoordinatorLayout>

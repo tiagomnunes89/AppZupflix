@@ -29,7 +29,6 @@ public class MovieDetailsViewModel extends BaseViewModel {
 
     private MutableLiveData<MovieDetailsModel> thereIsMovieDetails = new MutableLiveData<>();
 
-
     private String SERVICE_OR_CONNECTION_ERROR = "Falha ao receber detalhes do filme. Verifique a conexão e tente novamente.";
     private String FILTER_SIMILARITY = "similarity";
     private Integer INITIAL_LOAD_SIZE_HINT = 10;
@@ -60,8 +59,8 @@ public class MovieDetailsViewModel extends BaseViewModel {
         return thereIsMovieDetails;
     }
 
+
     public void executeServiceGetMovieDetails(int movieID) {
-        isLoading.setValue(true);
         getMovieDetails = filmRepository.getMovieDetails(movieID);
         getMovieDetails.observeForever(getMovieDetailsObserver);
     }

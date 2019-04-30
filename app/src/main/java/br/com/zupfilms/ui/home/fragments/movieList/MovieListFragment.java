@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import com.sdsmdg.tastytoast.TastyToast;
 
 import br.com.zupfilms.R;
+import br.com.zupfilms.data.DB;
+import br.com.zupfilms.model.MovieDetailsModel;
 import br.com.zupfilms.server.response.FilmResponse;
 import br.com.zupfilms.server.response.FilmsResults;
 import br.com.zupfilms.ui.BaseFragment;
@@ -25,14 +27,14 @@ import br.com.zupfilms.ui.singleton.SingletonFilmID;
 import br.com.zupfilms.ui.singleton.SingletonGenreID;
 import br.com.zupfilms.ui.singleton.SingletonTotalResults;
 
-public class MovieListFragment extends BaseFragment{
+public class MovieListFragment extends BaseFragment {
 
     private MovieListViewModel movieListViewModel;
     private MovieListViewHolder movieListViewHolder;
     private FilmAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
     private String FIRST_PAGE = "1";
-
+    private DB db;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,8 +44,10 @@ public class MovieListFragment extends BaseFragment{
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
+        db = new DB(getActivity());
+
         if (adapter == null && SingletonFilmGenres.INSTANCE.getFilmGenres() != null) {
-            adapter = new FilmAdapter(getActivity(),SingletonFilmGenres.INSTANCE.getFilmGenres());
+            adapter = new FilmAdapter(getActivity(), SingletonFilmGenres.INSTANCE.getFilmGenres());
         }
 
         movieListViewModel = ViewModelProviders.of(MovieListFragment.this).get(MovieListViewModel.class);
@@ -77,7 +81,19 @@ public class MovieListFragment extends BaseFragment{
         movieListViewModel.getIsLoading().observe(this, progressBarObserver);
         movieListViewModel.getFragmentTellerThereIsFilmResults().observe(this, homeTellerThereIsFilmResultsObserver);
         movieListViewModel.getIsErrorMessageForToast().observe(this, isErrorMessageForToastObserver);
+        movieListViewModel.getThereIsMovieDetailsToSaveOffiline().observe(this, thereIsMovieDetailsObserver);
     }
+
+    private Observer<MovieDetailsModel> thereIsMovieDetailsObserver = new Observer<MovieDetailsModel>() {
+        @Override
+        public void onChanged(MovieDetailsModel movieDetailsModel) {
+            if (movieDetailsModel != null && db != null) {
+                db.insert(movieDetailsModel);
+                adapter.notifyDataSetChanged();
+            }
+
+        }
+    };
 
     private Observer<String> isSuccessMessageForToastObserver = new Observer<String>() {
         @Override
@@ -113,13 +129,15 @@ public class MovieListFragment extends BaseFragment{
                 @Override
                 public void OnCheckBoxClick(int position, PagedList<FilmResponse> currentList, Boolean isChecked) {
                     SingletonFilmID.setIDEntered(currentList.get(position).getId());
-/*                    if (isChecked) {
-                        movieListViewModel.executeAddFavoriteFilm("email",
-                                String.valueOf(SingletonFilmID.INSTANCE.getID()));
-                    } else {
-                        movieListViewModel.executeRemoveFavoriteFilm("email",
-                                String.valueOf(SingletonFilmID.INSTANCE.getID()));
-                    }*/
+                    if (db != null) {
+                        if (isChecked) {
+                            movieListViewModel.executeServiceGetMovieDetailsToSaveOffiline(currentList.get(position).getId());
+                        } else {
+                            db.delete(currentList.get(position).getId());
+                            adapter.remove(position);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
                 }
             });
             adapter.setOnItemClickListener(new FilmAdapter.OnItemClickListener() {

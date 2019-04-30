@@ -99,9 +99,9 @@
     <string name="imdb">IMDB</string>
     <string name="totalNoteFilm">/10</string>
     <string name="diretor">"Diretor: "</string>
-    <string name="directorsNames">James Cameron</string>
-    <string name="writer">"Escritor: "</string>
-    <string name="writersNames">James Cameron</string>
+    <string name="tagline">Frase do Filme</string>
+    <string name="votos">"Quantidade de votos: "</string>
+    <string name="vote_count">1234</string>
     <string name="similarOptions">Opções Semelhantes:</string>
     <string name="movieBannerDescription">movie banner</string>
     <string name="place_holder_banner_description">place holder banner</string>

@@ -1,14 +1,13 @@
 package br.com.zupfilms.ui.home.adapters;
 
 import android.arch.paging.PagedList;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -19,6 +18,7 @@ import java.util.List;
 
 import br.com.zupfilms.R;
 import br.com.zupfilms.model.MovieDetailsModel;
+import br.com.zupfilms.model.MovieDetailsModelDB;
 import br.com.zupfilms.server.response.CountriesResponse;
 import br.com.zupfilms.server.response.FilmResponse;
 import br.com.zupfilms.server.response.GenresResponse;
@@ -38,8 +38,11 @@ public class DetailsViewHolder extends RecyclerView.ViewHolder{
     ImageView imageViewPoster;
     FrameLayout frameLayout;
     CardView cardViewPoster;
+    TextView textViewTagline;
+    TextView textViewVoteCount;
     CardView cardViewBanner;
     CheckBox checkBox;
+
 
     public DetailsViewHolder(View view, final FilmAdapterDetailsList.OnCheckBoxClickListener onCheckBoxClickListener,
     final PagedList<FilmResponse> currentList) {
@@ -54,6 +57,8 @@ public class DetailsViewHolder extends RecyclerView.ViewHolder{
         textViewOverview = view.findViewById(R.id.textView_overview_details);
         recyclerViewDetails = view.findViewById(R.id.recycler_films);
         progressBar = view.findViewById(R.id.progress_bar);
+        textViewTagline = view.findViewById(R.id.textView_tagline);
+        textViewVoteCount = view.findViewById(R.id.textView_voteCountDetails);
         cardViewBanner = view.findViewById(R.id.cardview_banner_details);
         cardViewPoster = view.findViewById(R.id.cardview_poster_details);
         imageViewBanner = view.findViewById(R.id.imageView_banner_details);
@@ -104,6 +109,8 @@ public class DetailsViewHolder extends RecyclerView.ViewHolder{
         this.textViewPoints.setText(String.valueOf(movieDetailsModel.getVote_average()));
         String runtime = movieDetailsModel.getRuntime() + "min";
         this.textViewRuntime.setText(runtime);
+        this.textViewTagline.setText(movieDetailsModel.getTagline());
+        this.textViewVoteCount.setText(String.valueOf(movieDetailsModel.getVote_count()));
         this.textViewYear.setText(movieDetailsModel.getRelease_date().substring(0,4));
         this.textViewTitle.setText(movieDetailsModel.getTitle());
         if(movieDetailsModel.getPoster_path() == null || movieDetailsModel.getPoster_path().isEmpty()){

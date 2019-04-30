@@ -14,16 +14,13 @@ public class HomeActivityViewHolder {
 
     BottomNavigationView bottomNavigationView;
     Toolbar toolbar;
-    NavigationView navigationView;
     DrawerLayout drawerLayout;
     TextView titleToolBar;
 
     HomeActivityViewHolder(View view) {
-        toolbar = view.findViewById(R.id.toolbar);
-        navigationView = view.findViewById(R.id.nav_view);
         drawerLayout = view.findViewById(R.id.drawer_layout);
         CoordinatorLayout homeDrawer = view.findViewById(R.id.home_drawer);
-        bottomNavigationView = homeDrawer.findViewById(R.id.bottom_navigation);
+        bottomNavigationView = homeDrawer.findViewById(R.id.botton_nav_view);
         titleToolBar = homeDrawer.findViewById(R.id.textHomeTitle);
     }
 }

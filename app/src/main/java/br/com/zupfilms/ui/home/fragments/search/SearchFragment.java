@@ -21,6 +21,8 @@ import com.github.ybq.android.spinkit.style.ThreeBounce;
 import com.sdsmdg.tastytoast.TastyToast;
 
 import br.com.zupfilms.R;
+import br.com.zupfilms.data.DB;
+import br.com.zupfilms.model.MovieDetailsModel;
 import br.com.zupfilms.server.response.FilmResponse;
 import br.com.zupfilms.server.response.FilmsResults;
 import br.com.zupfilms.ui.BaseFragment;
@@ -36,12 +38,15 @@ public class SearchFragment extends BaseFragment {
     private SearchViewModel searchViewModel;
     private FilmAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
+    private DB db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         this.searchViewHolder = new SearchViewHolder(view);
+
+        db = new DB(getActivity());
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
@@ -90,7 +95,19 @@ public class SearchFragment extends BaseFragment {
         searchViewModel.getFragmentTellerThereIsFilmResults().observe(this, homeTellerThereIsFilmResultsObserver);
         searchViewModel.getIsErrorMessageForToast().observe(this, isErrorMessageForToastObserver);
         searchViewModel.getIsSearchEmpty().observe(this, isSearchEmptyObserver);
+        searchViewModel.getThereIsMovieDetailsToSaveOffiline().observe(this,thereIsMovieDetailsObserver);
     }
+
+    private Observer<MovieDetailsModel> thereIsMovieDetailsObserver = new Observer<MovieDetailsModel>() {
+        @Override
+        public void onChanged(MovieDetailsModel movieDetailsModel) {
+            if(movieDetailsModel != null && db != null){
+                db.insert(movieDetailsModel);
+                adapter.notifyDataSetChanged();
+            }
+
+        }
+    };
 
     private Observer<Boolean> isSearchEmptyObserver = new Observer<Boolean>() {
         @Override
@@ -140,13 +157,15 @@ public class SearchFragment extends BaseFragment {
                 @Override
                 public void OnCheckBoxClick(int position, PagedList<FilmResponse> currentList, Boolean isChecked) {
                     SingletonFilmID.setIDEntered(currentList.get(position).getId());
-/*                    if (isChecked) {
-                        searchViewModel.executeAddFavoriteFilm("email",
-                                String.valueOf(SingletonFilmID.INSTANCE.getID()));
-                    } else {
-                        searchViewModel.executeRemoveFavoriteFilm("email",
-                                String.valueOf(SingletonFilmID.INSTANCE.getID()));
-                    }*/
+                    if(db != null){
+                        if(isChecked){
+                            searchViewModel.executeServiceGetMovieDetailsToSaveOffiline(currentList.get(position).getId());
+                        } else {
+                            db.delete(currentList.get(position).getId());
+                            adapter.remove(position);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
                 }
             });
             adapter.setOnItemClickListener(new FilmAdapter.OnItemClickListener() {

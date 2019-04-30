@@ -13,9 +13,11 @@ import android.view.ViewGroup;
 
 import com.sdsmdg.tastytoast.TastyToast;
 
+import java.util.List;
 import java.util.Objects;
 
 import br.com.zupfilms.R;
+import br.com.zupfilms.model.MovieDetailsModelDB;
 import br.com.zupfilms.server.response.FilmGenres;
 import br.com.zupfilms.server.response.FilmResponse;
 import br.com.zupfilms.ui.singleton.SingletonTotalResults;
@@ -105,4 +107,12 @@ public class FilmAdapter extends PagedListAdapter<FilmResponse, RecyclerView.Vie
                 }
             };
 
+
+    public void remove(int position) {
+        if(getCurrentList()!=null){
+            getCurrentList().remove(position);
+        }
+        notifyItemRemoved(position);
+        notifyItemRangeRemoved(0,getItemCount());
+    }
 }
