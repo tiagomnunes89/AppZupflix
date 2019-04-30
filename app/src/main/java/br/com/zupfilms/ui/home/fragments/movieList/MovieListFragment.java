@@ -21,6 +21,7 @@ import br.com.zupfilms.server.response.FilmResponse;
 import br.com.zupfilms.server.response.FilmsResults;
 import br.com.zupfilms.ui.BaseFragment;
 import br.com.zupfilms.ui.home.adapters.FilmAdapter;
+import br.com.zupfilms.ui.home.homeActivity.HomeActivity;
 import br.com.zupfilms.ui.home.movieDetailsActivity.MovieDetailsActivity;
 import br.com.zupfilms.ui.singleton.SingletonFilmGenres;
 import br.com.zupfilms.ui.singleton.SingletonFilmID;
@@ -46,35 +47,28 @@ public class MovieListFragment extends BaseFragment {
 
         db = new DB(getActivity());
 
-        if (adapter == null && SingletonFilmGenres.INSTANCE.getFilmGenres() != null) {
-            adapter = new FilmAdapter(getActivity(), SingletonFilmGenres.INSTANCE.getFilmGenres());
-        }
-
         movieListViewModel = ViewModelProviders.of(MovieListFragment.this).get(MovieListViewModel.class);
 
-        if (SingletonGenreID.INSTANCE.getGenreID() != null) {
-            if(verifyConection()){
+        if (verifyConection()) {
+            if (SingletonGenreID.INSTANCE.getGenreID() != null) {
                 movieListViewModel.executeServiceGetFilmResults(FIRST_PAGE, SingletonGenreID.INSTANCE.getGenreID());
+                if (adapter == null) {
+                    adapter = new FilmAdapter(getActivity(), SingletonFilmGenres.INSTANCE.getFilmGenres());
+                }
+                movieListViewHolder.recyclerView.setVisibility(View.VISIBLE);
             } else {
-                TastyToast.makeText(getActivity(), getString(R.string.NO_CONNECTION_MESSAGE_LIST_FILMS), TastyToast.LENGTH_LONG, TastyToast.ERROR)
-                        .setGravity(Gravity.CENTER, 0, 700);
-                movieListViewHolder.textViewServiceDisable.setVisibility(View.VISIBLE);
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
+        } else {
+            Intent intent = new Intent(getActivity(), HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
+
         return view;
     }
-
-    private View.OnClickListener textServiceDisable = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            movieListViewHolder.textViewServiceDisable.setVisibility(View.GONE);
-            if(verifyConection()){
-                movieListViewModel.executeServiceGetFilmResults(FIRST_PAGE, SingletonGenreID.INSTANCE.getGenreID());
-            } else {
-                movieListViewHolder.textViewServiceDisable.setVisibility(View.VISIBLE);
-            }
-        }
-    };
 
     @Override
     public void onPause() {
@@ -100,7 +94,6 @@ public class MovieListFragment extends BaseFragment {
         movieListViewModel.getFragmentTellerThereIsFilmResults().observe(this, homeTellerThereIsFilmResultsObserver);
         movieListViewModel.getIsErrorMessageForToast().observe(this, isErrorMessageForToastObserver);
         movieListViewModel.getThereIsMovieDetailsToSaveOffiline().observe(this, thereIsMovieDetailsObserver);
-        movieListViewHolder.textViewServiceDisable.setOnClickListener(textServiceDisable);
     }
 
     private Observer<MovieDetailsModel> thereIsMovieDetailsObserver = new Observer<MovieDetailsModel>() {

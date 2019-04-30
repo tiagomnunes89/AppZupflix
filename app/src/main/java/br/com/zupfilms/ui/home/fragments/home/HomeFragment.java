@@ -36,8 +36,11 @@ public class HomeFragment extends BaseFragment {
         viewModelHome = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
 
         if(verifyConection()){
+            viewHolder.textViewServiceDisable.setVisibility(View.GONE);
             viewModelHome.executeServiceGetGenreList();
+            viewHolder.tabLayout.setVisibility(View.VISIBLE);
         } else {
+            viewHolder.tabLayout.setVisibility(View.GONE);
             viewHolder.textViewServiceDisable.setVisibility(View.VISIBLE);
         }
 
@@ -51,8 +54,11 @@ public class HomeFragment extends BaseFragment {
         public void onClick(View v) {
             viewHolder.textViewServiceDisable.setVisibility(View.GONE);
             if(verifyConection()){
+                viewHolder.textViewServiceDisable.setVisibility(View.GONE);
                 viewModelHome.executeServiceGetGenreList();
+                viewHolder.tabLayout.setVisibility(View.VISIBLE);
             } else {
+                viewHolder.tabLayout.setVisibility(View.GONE);
                 viewHolder.textViewServiceDisable.setVisibility(View.VISIBLE);
             }
         }

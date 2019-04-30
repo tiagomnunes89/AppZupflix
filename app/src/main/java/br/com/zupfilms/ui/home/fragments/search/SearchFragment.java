@@ -69,6 +69,7 @@ public class SearchFragment extends BaseFragment {
                 searchViewHolder.searchView.setQuery("",false);
                 searchViewHolder.searchView.setQueryHint("Conectado. Busque seu filme aqui!");
             } else {
+                searchViewHolder.textViewFilmNotFound.setVisibility(View.GONE);
                 searchViewHolder.textViewServiceDisable.setVisibility(View.VISIBLE);
             }
         }
@@ -130,10 +131,15 @@ public class SearchFragment extends BaseFragment {
         public void onChanged(Boolean isSearchEmpty) {
             if (isSearchEmpty) {
                 searchViewModel.getIsLoading().setValue(false);
+                searchViewHolder.textViewServiceDisable.setVisibility(View.GONE);
                 searchViewHolder.textViewFilmNotFound.setVisibility(View.VISIBLE);
                 searchViewHolder.recyclerView.setVisibility(View.GONE);
             } else {
                 searchViewHolder.textViewFilmNotFound.setVisibility(View.GONE);
+                if(adapter != null){
+                    adapter.submitList(null);
+                    adapter.notifyDataSetChanged();
+                }
                 searchViewHolder.recyclerView.setVisibility(View.VISIBLE);
             }
         }
@@ -233,6 +239,7 @@ public class SearchFragment extends BaseFragment {
                 searchViewHolder.recyclerView.setVisibility(View.GONE);
                 TastyToast.makeText(getActivity(), getString(R.string.NO_CONNECTION_MESSAGE), TastyToast.LENGTH_LONG, TastyToast.ERROR)
                         .setGravity(Gravity.CENTER, 0, 700);
+                searchViewHolder.textViewFilmNotFound.setVisibility(View.GONE);
                 searchViewHolder.textViewServiceDisable.setVisibility(View.VISIBLE);
             }
             return false;
