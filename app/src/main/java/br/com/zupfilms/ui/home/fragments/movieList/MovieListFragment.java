@@ -47,9 +47,9 @@ public class MovieListFragment extends BaseFragment {
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
-        db = new DB(getActivity());
-
         movieListViewModel = ViewModelProviders.of(MovieListFragment.this).get(MovieListViewModel.class);
+
+        db = new DB(getActivity());
 
         if (verifyConnection()) {
             if (SingletonGenreID.INSTANCE.getGenreID() != null) {

@@ -8,6 +8,9 @@ import android.arch.paging.PageKeyedDataSource;
 import android.arch.paging.PagedList;
 import android.support.annotation.Nullable;
 
+import javax.inject.Inject;
+
+import br.com.zupfilms.dagger.application.AppApplication;
 import br.com.zupfilms.model.ErrorMessage;
 import br.com.zupfilms.model.FilterIDAndPageSize;
 import br.com.zupfilms.model.ResponseModel;
@@ -19,11 +22,17 @@ import br.com.zupfilms.ui.home.adapters.SearchDataSourceFactory;
 
 public class SearchViewModel extends BaseViewModel {
 
+    @Inject
+    SearchRepository searchRepository;
+
+    public SearchViewModel() {
+        AppApplication.getComponentRepositories().inject(this);
+    }
+
     private final static String FIRST_PAGE = "1";
     private final Integer PAGE_SIZE = 10;
     private final Integer INITIAL_LOAD_SIZE_HINT = 5;
     private final Integer PREFETCH_DISTANCE_VALUE = 5;
-    private final SearchRepository searchRepository = new SearchRepository();
     private final String SERVICE_OR_CONNECTION_ERROR = "Falha ao receber filmes. Verifique a conexão e tente novamente.";
     private LiveData<PagedList<FilmResponse>> itemPagedList;
     private LiveData<PageKeyedDataSource<Integer, FilmResponse>> liveDataSource;

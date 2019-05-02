@@ -8,6 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.ThreeBounce;
 
 import java.util.Objects;
 
@@ -75,5 +80,19 @@ public abstract class BaseActivity extends AppCompatActivity {
                 && connectivityManager.getActiveNetworkInfo().isAvailable()
                 && connectivityManager.getActiveNetworkInfo().isConnected();
         return connected;
+    }
+
+    protected void loadingExecutor(Boolean isLoading, ProgressBar progressBar, FrameLayout frameLayout) {
+        if (isLoading != null) {
+            if (isLoading) {
+                Sprite threeBounce = new ThreeBounce();
+                progressBar.setIndeterminateDrawable(threeBounce);
+                frameLayout.setVisibility(View.VISIBLE);
+            } else {
+                Sprite threeBounce = new ThreeBounce();
+                progressBar.setIndeterminateDrawable(threeBounce);
+                frameLayout.setVisibility(View.INVISIBLE);
+            }
+        }
     }
 }

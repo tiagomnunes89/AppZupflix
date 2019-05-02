@@ -8,10 +8,12 @@ import android.arch.paging.PageKeyedDataSource;
 import android.arch.paging.PagedList;
 import android.support.annotation.Nullable;
 
+import javax.inject.Inject;
+
+import br.com.zupfilms.dagger.application.AppApplication;
 import br.com.zupfilms.model.ErrorMessage;
 import br.com.zupfilms.model.MovieDetailsModel;
 import br.com.zupfilms.model.ResponseModel;
-import br.com.zupfilms.server.repositories.FilmRepository;
 import br.com.zupfilms.server.repositories.SimilarMoviesRepository;
 import br.com.zupfilms.server.response.FilmResponse;
 import br.com.zupfilms.server.response.FilmsResults;
@@ -21,8 +23,12 @@ import br.com.zupfilms.ui.singleton.SingletonFilmID;
 
 public class MovieDetailsViewModel extends BaseViewModel {
 
-    private final FilmRepository filmRepository = new FilmRepository();
-    private final SimilarMoviesRepository similarMoviesRepository = new SimilarMoviesRepository();
+    @Inject
+    SimilarMoviesRepository similarMoviesRepository;
+
+    public MovieDetailsViewModel() {
+        AppApplication.getComponentRepositories().inject(this);
+    }
 
     private LiveData<ResponseModel<MovieDetailsModel>> getMovieDetails;
 

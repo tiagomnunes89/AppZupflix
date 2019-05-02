@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import br.com.zupfilms.model.ErrorMessage;
 import br.com.zupfilms.model.FilterIDAndPageSize;
 import br.com.zupfilms.model.ResponseModel;
-import br.com.zupfilms.server.repositories.FilmRepository;
 import br.com.zupfilms.server.response.FilmResponse;
 import br.com.zupfilms.server.response.FilmsResults;
 import br.com.zupfilms.ui.BaseViewModel;
@@ -22,7 +21,6 @@ public class MovieListViewModel extends BaseViewModel {
     private final Integer INITIAL_LOAD_SIZE_HINT = 10;
     private final Integer PREFETCH_DISTANCE_VALUE = 10;
     private final Integer PAGE_SIZE = 10;
-    private final FilmRepository filmRepository = new FilmRepository();
     private final String SERVICE_OR_CONNECTION_ERROR = "Falha ao receber filmes. Verifique a conexão e tente novamente.";
     private LiveData<PagedList<FilmResponse>> itemPagedList;
     private LiveData<PageKeyedDataSource<Integer, FilmResponse>> liveDataSource;

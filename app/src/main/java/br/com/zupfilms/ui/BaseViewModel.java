@@ -4,17 +4,24 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
-import android.support.annotation.Nullable;
 
+import javax.inject.Inject;
+
+import br.com.zupfilms.dagger.application.AppApplication;
 import br.com.zupfilms.model.MovieDetailsModel;
 import br.com.zupfilms.model.ResponseModel;
 import br.com.zupfilms.server.repositories.FilmRepository;
 
-
 public abstract class BaseViewModel extends ViewModel {
 
+    @Inject
+    protected FilmRepository filmRepository;
+
+    public BaseViewModel() {
+        AppApplication.getComponentRepositories().inject(this);
+    }
+
     protected final int SUCCESS_CODE = 200;
-    private final FilmRepository filmRepository = new FilmRepository();
 
     protected final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
@@ -45,17 +52,14 @@ public abstract class BaseViewModel extends ViewModel {
         getMovieDetails.observeForever(getMovieDetailsToSaveOfflineObserver);
     }
 
-    private final Observer<ResponseModel<MovieDetailsModel>> getMovieDetailsToSaveOfflineObserver = new Observer<ResponseModel<MovieDetailsModel>>() {
-        @Override
-        public void onChanged(@Nullable ResponseModel<MovieDetailsModel> movieDetails) {
-            if (movieDetails != null) {
-                if (movieDetails.getCode() == SUCCESS_CODE) {
-                    thereAreMovieDetailsToSaveOffline.setValue(movieDetails.getResponse());
-                }
-            } else {
-                String SERVICE_OR_CONNECTION_ERROR_MOVIE_DETAILS = "Falha ao receber detalhes do filme. Verifique a conexão e tente novamente.";
-                isErrorMessageForToast.setValue(SERVICE_OR_CONNECTION_ERROR_MOVIE_DETAILS);
+    private final Observer<ResponseModel<MovieDetailsModel>> getMovieDetailsToSaveOfflineObserver = movieDetails -> {
+        if (movieDetails != null) {
+            if (movieDetails.getCode() == SUCCESS_CODE) {
+                thereAreMovieDetailsToSaveOffline.setValue(movieDetails.getResponse());
             }
+        } else {
+            String SERVICE_OR_CONNECTION_ERROR_MOVIE_DETAILS = "Falha ao receber detalhes do filme. Verifique a conexão e tente novamente.";
+            isErrorMessageForToast.setValue(SERVICE_OR_CONNECTION_ERROR_MOVIE_DETAILS);
         }
     };
 

@@ -6,13 +6,10 @@ import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 
 import br.com.zupfilms.model.ResponseModel;
-import br.com.zupfilms.server.repositories.FilmRepository;
 import br.com.zupfilms.server.response.FilmGenres;
 import br.com.zupfilms.ui.BaseViewModel;
 
 public class HomeFragmentViewModel extends BaseViewModel {
-
-    private final FilmRepository filmRepository = new FilmRepository();
 
     private LiveData<ResponseModel<FilmGenres>> getGenreList;
 

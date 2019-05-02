@@ -12,11 +12,7 @@ import android.text.style.StyleSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 
-import com.github.ybq.android.spinkit.sprite.Sprite;
-import com.github.ybq.android.spinkit.style.ThreeBounce;
 import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.Objects;
@@ -53,13 +49,13 @@ public class MovieDetailsActivity extends BaseActivity {
 
         setContentView(view);
 
+        db = new DB(this);
+
         movieDetailsViewModel = ViewModelProviders.of(this).get(MovieDetailsViewModel.class);
 
         SpannableString spannableString = new SpannableString("ZUP" + "FLIX");
         spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 2, 0);
         movieDetailsViewHolder.textViewToobar.setText(spannableString);
-
-        db = new DB(this);
 
         setupListeners();
 
@@ -242,71 +238,48 @@ public class MovieDetailsActivity extends BaseActivity {
         @Override
         public void onChanged(final MovieDetailsModel movieDetailsModel) {
             mMovieDetailsModel = movieDetailsModel;
-            movieDetailsViewModel.getSimilarMoviesListEmpty().observe(MovieDetailsActivity.this, new Observer<Boolean>() {
-                @Override
-                public void onChanged(Boolean isSimilarMoviesListEmpty) {
-                    if(isSimilarMoviesListEmpty && mMovieDetailsModel != null){
-                        movieDetailsViewHolder.setMovieDetailsInformation(mMovieDetailsModel);
-                        movieDetailsViewHolder.layoutItemDetails.setVisibility(View.VISIBLE);
-                    } else {
-                        movieDetailsViewHolder.layoutItemDetails.setVisibility(View.GONE);
-                    }
+            movieDetailsViewModel.getSimilarMoviesListEmpty().observe(MovieDetailsActivity.this, isSimilarMoviesListEmpty -> {
+                if(isSimilarMoviesListEmpty && mMovieDetailsModel != null){
+                    movieDetailsViewHolder.setMovieDetailsInformation(mMovieDetailsModel);
+                    movieDetailsViewHolder.layoutItemDetails.setVisibility(View.VISIBLE);
+                } else {
+                    movieDetailsViewHolder.layoutItemDetails.setVisibility(View.GONE);
                 }
             });
             if (adapter == null && SingletonFilmGenres.INSTANCE.getFilmGenres() != null) {
                 adapter = new FilmAdapterDetailsList(MovieDetailsActivity.this,mMovieDetailsModel,SingletonFilmGenres.INSTANCE.getFilmGenres());
             }
             movieDetailsViewHolder.recyclerViewDetails.setAdapter(adapter);
-            adapter.setOnCheckBoxClickListener(new FilmAdapterDetailsList.OnCheckBoxClickListener() {
-                @Override
-                public void OnCheckBoxClick(int position, PagedList<FilmResponse> currentList, Boolean isChecked) {
-                    SingletonFilmID.setIDEntered(Objects.requireNonNull(currentList.get(position)).getId());
-                    if (db != null) {
-                        if (isChecked) {
-                            if(position == 0){
-                                movieDetailsViewModel.executeServiceGetMovieDetailsToSaveOffline(movieDetailsModel.getId());
-                            } else {
-                                movieDetailsViewModel.executeServiceGetMovieDetailsToSaveOffline(Objects.requireNonNull(currentList.get(position - 1)).getId());
-                            }
+            adapter.setOnCheckBoxClickListener((position, currentList, isChecked) -> {
+                SingletonFilmID.setIDEntered(Objects.requireNonNull(currentList.get(position)).getId());
+                if (db != null) {
+                    if (isChecked) {
+                        if(position == 0){
+                            movieDetailsViewModel.executeServiceGetMovieDetailsToSaveOffline(movieDetailsModel.getId());
                         } else {
-                            if(position == 0) {
-                                db.delete(movieDetailsModel.getId());
-                                adapter.notifyDataSetChanged();
-                            } else {
-                                db.delete(Objects.requireNonNull(currentList.get(position - 1)).getId());
-                                adapter.notifyDataSetChanged();
-                            }
+                            movieDetailsViewModel.executeServiceGetMovieDetailsToSaveOffline(Objects.requireNonNull(currentList.get(position - 1)).getId());
+                        }
+                    } else {
+                        if(position == 0) {
+                            db.delete(movieDetailsModel.getId());
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            db.delete(Objects.requireNonNull(currentList.get(position - 1)).getId());
+                            adapter.notifyDataSetChanged();
                         }
                     }
                 }
             });
-            adapter.setOnItemClickListener(new FilmAdapterDetailsList.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position, PagedList<FilmResponse> currentList) {
-                    if (movieDetailsModel != null) {
-                        movieDetailsViewModel.getIsLoading().setValue(true);
-                        SingletonFilmID.setIDEntered(Objects.requireNonNull(currentList.get(position - 1)).getId());
-                        if(SingletonFilmID.INSTANCE.getID() != null){
-                            Intent intent = new Intent(MovieDetailsActivity.this, MovieDetailsActivity.class);
-                            startActivity(intent);
-                        }
+            adapter.setOnItemClickListener((position, currentList) -> {
+                if (movieDetailsModel != null) {
+                    movieDetailsViewModel.getIsLoading().setValue(true);
+                    SingletonFilmID.setIDEntered(Objects.requireNonNull(currentList.get(position - 1)).getId());
+                    if(SingletonFilmID.INSTANCE.getID() != null){
+                        Intent intent = new Intent(MovieDetailsActivity.this, MovieDetailsActivity.class);
+                        startActivity(intent);
                     }
                 }
             });
         }
     };
-
-    private void loadingExecutor(Boolean isLoading, ProgressBar progressBar, FrameLayout frameLayout) {
-        if (isLoading != null) {
-            if (isLoading) {
-                Sprite threeBounce = new ThreeBounce();
-                progressBar.setIndeterminateDrawable(threeBounce);
-                frameLayout.setVisibility(View.VISIBLE);
-            } else {
-                Sprite threeBounce = new ThreeBounce();
-                progressBar.setIndeterminateDrawable(threeBounce);
-                frameLayout.setVisibility(View.INVISIBLE);
-            }
-        }
-    }
 }

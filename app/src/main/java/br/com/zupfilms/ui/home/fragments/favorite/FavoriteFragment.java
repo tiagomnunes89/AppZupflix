@@ -31,8 +31,8 @@ public class FavoriteFragment extends BaseFragment implements SwipeRefreshLayout
     private FavoriteViewHolder favoriteViewHolder;
     private FavoriteViewModel favoriteViewModel;
     private MoviesAdapter adapter;
-    private DB db;
     private List<MovieDetailsModelDB> modelDBList;
+    private DB db;
 
 
     @Nullable
@@ -77,36 +77,30 @@ public class FavoriteFragment extends BaseFragment implements SwipeRefreshLayout
     private void setupListenersAndObservers() {
         favoriteViewHolder.swipeRefreshLayout.setOnRefreshListener(this);
         favoriteViewModel.getThereAreMovieDetailsToSaveOffline().observe(this, thereIsMovieDetailsObserver);
-        adapter.setOnCheckBoxClickListener(new MoviesAdapter.OnCheckBoxClickListener() {
-            @Override
-            public void OnCheckBoxClick(int position, List<MovieDetailsModelDB> currentList, Boolean isChecked) {
-                SingletonFilmID.setIDEntered(currentList.get(position).getId());
-                if (isChecked) {
-                    favoriteViewModel.executeServiceGetMovieDetailsToSaveOffline(currentList.get(position).getId());
-                } else {
-                    db.delete(currentList.get(position).getId());
-                    adapter.notifyDataSetChanged();
-                }
+        adapter.setOnCheckBoxClickListener((position, currentList, isChecked) -> {
+            SingletonFilmID.setIDEntered(currentList.get(position).getId());
+            if (isChecked) {
+                favoriteViewModel.executeServiceGetMovieDetailsToSaveOffline(currentList.get(position).getId());
+            } else {
+                db.delete(currentList.get(position).getId());
+                adapter.notifyDataSetChanged();
             }
         });
-        adapter.setOnItemClickListener(new MoviesAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, List<MovieDetailsModelDB> currentList) {
-                if (verifyConnection()) {
-                    SingletonFilmID.setIDEntered(currentList.get(position).getId());
-                    if (SingletonFilmID.INSTANCE.getID() != null) {
-                        Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
-                        startActivity(intent);
-                    }
-                } else {
-                    SingletonFilmID.setIDEntered(modelDBList.get(position).getId());
-                    if (SingletonFilmID.INSTANCE.getID() != null) {
-                        Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
-                        startActivity(intent);
-                    }
+        adapter.setOnItemClickListener((position, currentList) -> {
+            if (verifyConnection()) {
+                SingletonFilmID.setIDEntered(currentList.get(position).getId());
+                if (SingletonFilmID.INSTANCE.getID() != null) {
+                    Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
+                    startActivity(intent);
                 }
-
+            } else {
+                SingletonFilmID.setIDEntered(modelDBList.get(position).getId());
+                if (SingletonFilmID.INSTANCE.getID() != null) {
+                    Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
+                    startActivity(intent);
+                }
             }
+
         });
     }
 

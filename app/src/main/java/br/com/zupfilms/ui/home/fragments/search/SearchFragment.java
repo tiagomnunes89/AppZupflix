@@ -49,11 +49,11 @@ public class SearchFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         this.searchViewHolder = new SearchViewHolder(view);
 
-        db = new DB(getActivity());
-
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
         searchViewModel = ViewModelProviders.of(SearchFragment.this).get(SearchViewModel.class);
+
+        db = new DB(getActivity());
 
         searchViewHolder.searchView.setQueryHint("Buscar filmes...");
 
