@@ -65,26 +65,28 @@ public class MovieDetailsActivity extends BaseActivity {
 
         setupLayoutManager();
 
-        if(SingletonFilmID.INSTANCE.getID() != null){
-            if(connectionVerifier()){
-                Integer filmID = SingletonFilmID.INSTANCE.getID();
-                movieDetailsViewModel.executeServiceGetMovieDetails(filmID);
-                movieDetailsViewModel.executeServiceGetSimilarMovies("1",filmID);
-            } else {
-                Integer filmID = SingletonFilmID.INSTANCE.getID();
-                MovieDetailsModelDB movieDetailsModelDB = db.getOneFavoritesFilms(filmID);
-                if(movieDetailsModelDB != null){
-                    movieDetailsViewHolder.setMovieDetailsDBInformation(movieDetailsModelDB);
-                    movieDetailsViewHolder.layoutItemDetails.setVisibility(View.VISIBLE);
+        if(savedInstanceState == null){
+            if(SingletonFilmID.INSTANCE.getID() != null){
+                if(connectionVerifier()){
+                    Integer filmID = SingletonFilmID.INSTANCE.getID();
+                    movieDetailsViewModel.executeServiceGetMovieDetails(filmID);
+                    movieDetailsViewModel.executeServiceGetSimilarMovies("1",filmID);
                 } else {
-                    TastyToast.makeText(MovieDetailsActivity.this, getString(R.string.NO_SERVICE_OFFILINE_DETAILS), TastyToast.LENGTH_LONG, TastyToast.ERROR)
-                            .setGravity(Gravity.CENTER, 0, 700);
+                    Integer filmID = SingletonFilmID.INSTANCE.getID();
+                    MovieDetailsModelDB movieDetailsModelDB = db.getOneFavoritesFilms(filmID);
+                    if(movieDetailsModelDB != null){
+                        movieDetailsViewHolder.setMovieDetailsDBInformation(movieDetailsModelDB);
+                        movieDetailsViewHolder.layoutItemDetails.setVisibility(View.VISIBLE);
+                    } else {
+                        TastyToast.makeText(MovieDetailsActivity.this, getString(R.string.NO_SERVICE_OFFILINE_DETAILS), TastyToast.LENGTH_LONG, TastyToast.ERROR)
+                                .setGravity(Gravity.CENTER, 0, 700);
+                    }
                 }
+            } else {
+                Intent intent = new Intent(MovieDetailsActivity.this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
-        } else {
-            Intent intent = new Intent(MovieDetailsActivity.this, HomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
         }
     }
 

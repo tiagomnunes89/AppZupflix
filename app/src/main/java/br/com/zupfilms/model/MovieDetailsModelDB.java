@@ -2,24 +2,24 @@ package br.com.zupfilms.model;
 
 public class MovieDetailsModelDB {
 
-    private Integer id;
+    private int id;
     private String posterPath;
     private String backdropPath;
     private float vote_average;
     private String title;
     private String releaseDate;
     private String genres;
-    private Integer runtime;
+    private int runtime;
     private String overview;
     private String countries;
     private String tagline;
-    private Integer voteCount;
+    private int voteCount;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -71,11 +71,11 @@ public class MovieDetailsModelDB {
         this.genres = genres;
     }
 
-    public Integer getRuntime() {
+    public int getRuntime() {
         return runtime;
     }
 
-    public void setRuntime(Integer runtime) {
+    public void setRuntime(int runtime) {
         this.runtime = runtime;
     }
 
@@ -103,11 +103,11 @@ public class MovieDetailsModelDB {
         this.tagline = tagline;
     }
 
-    public Integer getVoteCount() {
+    public int getVoteCount() {
         return voteCount;
     }
 
-    public void setVoteCount(Integer voteCount) {
+    public void setVoteCount(int voteCount) {
         this.voteCount = voteCount;
     }
 }

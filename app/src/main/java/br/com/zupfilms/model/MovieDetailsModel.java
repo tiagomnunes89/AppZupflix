@@ -7,21 +7,21 @@ import br.com.zupfilms.server.response.GenresResponse;
 
 public class MovieDetailsModel {
 
-    private Integer id;
+    private int id;
     private String poster_path;
     private String backdrop_path;
     private float vote_average;
     private String title;
     private String release_date;
     private List<GenresResponse> genres;
-    private Integer runtime;
+    private int runtime;
     private String overview;
     private List<CountriesResponse> production_countries;
     private String tagline;
-    private Integer vote_count;
+    private int vote_count;
     private Boolean isFavoriteChecked;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -49,7 +49,7 @@ public class MovieDetailsModel {
         return genres;
     }
 
-    public Integer getRuntime() {
+    public int getRuntime() {
         return runtime;
     }
 
@@ -65,8 +65,11 @@ public class MovieDetailsModel {
         return tagline;
     }
 
-    public Integer getVote_count() {
+    public int getVote_count() {
         return vote_count;
     }
 
+    public Boolean getFavoriteChecked() {
+        return isFavoriteChecked;
+    }
 }

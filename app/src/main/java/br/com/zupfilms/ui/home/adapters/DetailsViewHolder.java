@@ -105,8 +105,10 @@ class DetailsViewHolder extends RecyclerView.ViewHolder{
         }
         this.textViewCountries.setText(sentenceBuilder(listCountries));
         this.textViewPoints.setText(String.valueOf(movieDetailsModel.getVote_average()));
-        String runtime = movieDetailsModel.getRuntime() + "min";
-        this.textViewRuntime.setText(runtime);
+        if(movieDetailsModel.getRuntime() != 0){
+            String runtime = movieDetailsModel.getRuntime() + "min";
+            this.textViewRuntime.setText(runtime);
+        }
         this.textViewTagline.setText(movieDetailsModel.getTagline());
         this.textViewVoteCount.setText(String.valueOf(movieDetailsModel.getVote_count()));
         if(!movieDetailsModel.getRelease_date().isEmpty() && movieDetailsModel.getRelease_date().length()>=4){
