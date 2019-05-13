@@ -12,7 +12,6 @@ import android.view.View;
 
 import br.com.zupfilms.R;
 import br.com.zupfilms.ui.BaseActivity;
-//import br.com.zupfilms.ui.home.fragments.favorite.FavoriteFragment;
 import br.com.zupfilms.ui.home.fragments.favorite.FavoriteFragment;
 import br.com.zupfilms.ui.home.fragments.home.HomeFragment;
 import br.com.zupfilms.ui.home.fragments.search.SearchFragment;

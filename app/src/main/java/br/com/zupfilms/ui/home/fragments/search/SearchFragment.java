@@ -156,13 +156,8 @@ public class SearchFragment extends BaseFragment {
         }
     };
 
-    private final Observer<String> isErrorMessageForToastObserver = new Observer<String>() {
-        @Override
-        public void onChanged(String message) {
-            TastyToast.makeText(getActivity(), message, TastyToast.LENGTH_LONG, TastyToast.ERROR)
-                    .setGravity(Gravity.CENTER, 0, 700);
-        }
-    };
+    private final Observer<String> isErrorMessageForToastObserver = message -> TastyToast.makeText(getActivity(), message, TastyToast.LENGTH_LONG, TastyToast.ERROR)
+            .setGravity(Gravity.CENTER, 0, 700);
 
     private final Observer<PagedList<FilmResponse>> pagedListObserver = new Observer<PagedList<FilmResponse>>() {
         @Override
@@ -178,28 +173,22 @@ public class SearchFragment extends BaseFragment {
             searchViewModel.getItemPagedList().observe(SearchFragment.this, pagedListObserver);
             searchViewHolder.recyclerView.setAdapter(adapter);
             SingletonTotalResults.setTotalResultsEntered(filmsResults.getTotal_results());
-            adapter.setOnCheckBoxClickListener(new FilmAdapter.OnCheckBoxClickListener() {
-                @Override
-                public void OnCheckBoxClick(int position, PagedList<FilmResponse> currentList, Boolean isChecked) {
-                    SingletonFilmID.setIDEntered(Objects.requireNonNull(currentList.get(position)).getId());
-                    if (db != null) {
-                        if (isChecked) {
-                            searchViewModel.executeServiceGetMovieDetailsToSaveOffline(Objects.requireNonNull(currentList.get(position)).getId());
-                        } else {
-                            db.delete(Objects.requireNonNull(currentList.get(position)).getId());
-                            adapter.notifyDataSetChanged();
-                        }
+            adapter.setOnCheckBoxClickListener((position, currentList, isChecked) -> {
+                SingletonFilmID.setIDEntered(Objects.requireNonNull(currentList.get(position)).getId());
+                if (db != null) {
+                    if (isChecked) {
+                        searchViewModel.executeServiceGetMovieDetailsToSaveOffline(Objects.requireNonNull(currentList.get(position)).getId());
+                    } else {
+                        db.delete(Objects.requireNonNull(currentList.get(position)).getId());
+                        adapter.notifyDataSetChanged();
                     }
                 }
             });
-            adapter.setOnItemClickListener(new FilmAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position, PagedList<FilmResponse> currentList) {
-                    SingletonFilmID.setIDEntered(Objects.requireNonNull(currentList.get(position)).getId());
-                    if (SingletonFilmID.INSTANCE.getID() != null) {
-                        Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
-                        startActivity(intent);
-                    }
+            adapter.setOnItemClickListener((position, currentList) -> {
+                SingletonFilmID.setIDEntered(Objects.requireNonNull(currentList.get(position)).getId());
+                if (SingletonFilmID.INSTANCE.getID() != null) {
+                    Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
+                    startActivity(intent);
                 }
             });
         }

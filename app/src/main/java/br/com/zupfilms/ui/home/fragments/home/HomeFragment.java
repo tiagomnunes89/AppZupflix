@@ -71,13 +71,8 @@ public class HomeFragment extends BaseFragment {
         viewHolder.textViewServiceDisable.setOnClickListener(textServiceDisable);
     }
 
-    private final Observer<String> isErrorMessageForToastObserver = new Observer<String>() {
-        @Override
-        public void onChanged(String message) {
-            TastyToast.makeText(getActivity(),message, TastyToast.LENGTH_LONG, TastyToast.ERROR)
-                    .setGravity(Gravity.CENTER,0,700);
-        }
-    };
+    private final Observer<String> isErrorMessageForToastObserver = message -> TastyToast.makeText(getActivity(),message, TastyToast.LENGTH_LONG, TastyToast.ERROR)
+            .setGravity(Gravity.CENTER,0,700);
 
     private final Observer<FilmGenres> genresObserver = new Observer<FilmGenres>() {
         @Override

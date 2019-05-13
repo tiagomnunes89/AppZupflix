@@ -68,16 +68,13 @@ public class MovieDetailsViewModel extends BaseViewModel {
         getMovieDetails.observeForever(getMovieDetailsObserver);
     }
 
-    private final Observer<ResponseModel<MovieDetailsModel>> getMovieDetailsObserver = new Observer<ResponseModel<MovieDetailsModel>>() {
-        @Override
-        public void onChanged(@Nullable ResponseModel<MovieDetailsModel> movieDetails) {
-            if (movieDetails != null) {
-                if (movieDetails.getCode() == SUCCESS_CODE) {
-                    thereIsMovieDetails.setValue(movieDetails.getResponse());
-                }
-            } else {
-                isErrorMessageForToast.setValue(SERVICE_OR_CONNECTION_ERROR);
+    private final Observer<ResponseModel<MovieDetailsModel>> getMovieDetailsObserver = movieDetails -> {
+        if (movieDetails != null) {
+            if (movieDetails.getCode() == SUCCESS_CODE) {
+                thereIsMovieDetails.setValue(movieDetails.getResponse());
             }
+        } else {
+            isErrorMessageForToast.setValue(SERVICE_OR_CONNECTION_ERROR);
         }
     };
 
@@ -99,22 +96,19 @@ public class MovieDetailsViewModel extends BaseViewModel {
         }
     };
 
-    private final Observer<ResponseModel<FilmsResults>> filmsResultsObserver = new Observer<ResponseModel<FilmsResults>>() {
-        @Override
-        public void onChanged(@Nullable ResponseModel<FilmsResults> responseModel) {
-            if (responseModel != null) {
-                if (responseModel.getCode() == SUCCESS_CODE) {
-                    receiverPageSizeService.setValue(responseModel.getResponse().getTotal_pages());
-                    activityTellerThereIsFilmResults.setValue(responseModel.getResponse());
-                    if (responseModel.getResponse().getTotal_results() == 0) {
-                        similarMoviesListEmpty.setValue(true);
-                    } else {
-                        similarMoviesListEmpty.setValue(false);
-                    }
+    private final Observer<ResponseModel<FilmsResults>> filmsResultsObserver = responseModel -> {
+        if (responseModel != null) {
+            if (responseModel.getCode() == SUCCESS_CODE) {
+                receiverPageSizeService.setValue(responseModel.getResponse().getTotal_pages());
+                activityTellerThereIsFilmResults.setValue(responseModel.getResponse());
+                if (responseModel.getResponse().getTotal_results() == 0) {
+                    similarMoviesListEmpty.setValue(true);
+                } else {
+                    similarMoviesListEmpty.setValue(false);
                 }
-            } else {
-                isErrorMessageForToast.setValue(SERVICE_OR_CONNECTION_ERROR);
             }
+        } else {
+            isErrorMessageForToast.setValue(SERVICE_OR_CONNECTION_ERROR);
         }
     };
 
@@ -130,12 +124,9 @@ public class MovieDetailsViewModel extends BaseViewModel {
         filmsResults.observeForever(filmsResultsObserver);
     }
 
-    private final Observer<ErrorMessage> thereIsPaginationErrorObserve = new Observer<ErrorMessage>() {
-        @Override
-        public void onChanged(@Nullable ErrorMessage errorMessage) {
-            if (errorMessage != null) {
-                isErrorMessageForToast.setValue(errorMessage.getMessage());
-            }
+    private final Observer<ErrorMessage> thereIsPaginationErrorObserve = errorMessage -> {
+        if (errorMessage != null) {
+            isErrorMessageForToast.setValue(errorMessage.getMessage());
         }
     };
 

@@ -85,24 +85,21 @@ public class SearchViewModel extends BaseViewModel {
         }
     }
 
-    private final Observer<ResponseModel<FilmsResults>> filmsResultsObserverSearch = new Observer<ResponseModel<FilmsResults>>() {
-        @Override
-        public void onChanged(@Nullable ResponseModel<FilmsResults> responseModel) {
-            if (responseModel != null) {
-                if (responseModel.getCode() == SUCCESS_CODE) {
-                    if(responseModel.getResponse().getTotal_results() !=0 && SearchViewModel.this.queryMovies != null){
-                        FilterIDAndPageSize filterIDAndPageSize = new FilterIDAndPageSize(responseModel.getResponse().getTotal_pages(),
-                                SearchViewModel.this.queryMovies);
-                        receiverAPageSizeAndGenreIDService.setValue(filterIDAndPageSize);
-                        fragmentTellerThereIsFilmResults.setValue(responseModel.getResponse());
-                        isSearchEmpty.setValue(false);
-                    } else {
-                        isSearchEmpty.setValue(true);
-                    }
+    private final Observer<ResponseModel<FilmsResults>> filmsResultsObserverSearch = responseModel -> {
+        if (responseModel != null) {
+            if (responseModel.getCode() == SUCCESS_CODE) {
+                if(responseModel.getResponse().getTotal_results() !=0 && SearchViewModel.this.queryMovies != null){
+                    FilterIDAndPageSize filterIDAndPageSize = new FilterIDAndPageSize(responseModel.getResponse().getTotal_pages(),
+                            SearchViewModel.this.queryMovies);
+                    receiverAPageSizeAndGenreIDService.setValue(filterIDAndPageSize);
+                    fragmentTellerThereIsFilmResults.setValue(responseModel.getResponse());
+                    isSearchEmpty.setValue(false);
+                } else {
+                    isSearchEmpty.setValue(true);
                 }
-            } else {
-                isErrorMessageForToast.setValue(SERVICE_OR_CONNECTION_ERROR);
             }
+        } else {
+            isErrorMessageForToast.setValue(SERVICE_OR_CONNECTION_ERROR);
         }
     };
 
@@ -112,12 +109,9 @@ public class SearchViewModel extends BaseViewModel {
         receiverAPageSizeAndGenreIDService.observeForever(receiverAPageSizeAndGenreIDServiceObserver);
     }
     
-    private final Observer<ErrorMessage> thereIsPaginationErrorObserve = new Observer<ErrorMessage>() {
-        @Override
-        public void onChanged(@Nullable ErrorMessage errorMessage) {
-            if(errorMessage != null){
-                isErrorMessageForToast.setValue(errorMessage.getMessage());
-            }
+    private final Observer<ErrorMessage> thereIsPaginationErrorObserve = errorMessage -> {
+        if(errorMessage != null){
+            isErrorMessageForToast.setValue(errorMessage.getMessage());
         }
     };
 

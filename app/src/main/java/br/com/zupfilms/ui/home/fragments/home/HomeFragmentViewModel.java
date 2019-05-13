@@ -26,18 +26,15 @@ public class HomeFragmentViewModel extends BaseViewModel {
         getGenreList.observeForever(filmGenresObserver);
     }
 
-    private final Observer<ResponseModel<FilmGenres>> filmGenresObserver = new Observer<ResponseModel<FilmGenres>>() {
-        @Override
-        public void onChanged(@Nullable ResponseModel<FilmGenres> responseFilmGenres) {
-            isLoading.setValue(false);
-            if (responseFilmGenres != null) {
-                if (responseFilmGenres.getCode() == SUCCESS_CODE) {
-                    thereIsAGenreList.setValue(responseFilmGenres.getResponse());
-                }
-            } else {
-                String SERVICE_OR_CONNECTION_ERROR = "Falha ao receber lista de gêneros. Verifique a conexão e tente novamente.";
-                isErrorMessageForToast.setValue(SERVICE_OR_CONNECTION_ERROR);
+    private final Observer<ResponseModel<FilmGenres>> filmGenresObserver = responseFilmGenres -> {
+        isLoading.setValue(false);
+        if (responseFilmGenres != null) {
+            if (responseFilmGenres.getCode() == SUCCESS_CODE) {
+                thereIsAGenreList.setValue(responseFilmGenres.getResponse());
             }
+        } else {
+            String SERVICE_OR_CONNECTION_ERROR = "Falha ao receber lista de gêneros. Verifique a conexão e tente novamente.";
+            isErrorMessageForToast.setValue(SERVICE_OR_CONNECTION_ERROR);
         }
     };
 

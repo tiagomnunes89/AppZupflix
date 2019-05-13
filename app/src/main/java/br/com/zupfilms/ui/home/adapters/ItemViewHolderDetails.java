@@ -49,26 +49,20 @@ class ItemViewHolderDetails extends RecyclerView.ViewHolder {
         checkBox = itemView.findViewById(R.id.checkbox_favorite);
         cardViewPoster = itemView.findViewById(R.id.cardview_poster_item);
         checkBox = itemView.findViewById(R.id.checkbox_favorite);
-        checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onCheckBoxClickListener != null) {
-                    int position = getAdapterPosition();
-                    if(checkBox.isChecked()){
-                        onCheckBoxClickListener.OnCheckBoxClick(position,currentList,true);
-                    } else {
-                        onCheckBoxClickListener.OnCheckBoxClick(position, currentList,false);
-                    }
+        checkBox.setOnClickListener(v -> {
+            if (onCheckBoxClickListener != null) {
+                int position = getAdapterPosition();
+                if(checkBox.isChecked()){
+                    onCheckBoxClickListener.OnCheckBoxClick(position,currentList,true);
+                } else {
+                    onCheckBoxClickListener.OnCheckBoxClick(position, currentList,false);
                 }
             }
         });
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onItemClickListener != null) {
-                    int position = getAdapterPosition();
-                        onItemClickListener.onItemClick(position, currentList);
-                }
+        itemView.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                int position = getAdapterPosition();
+                    onItemClickListener.onItemClick(position, currentList);
             }
         });
     }

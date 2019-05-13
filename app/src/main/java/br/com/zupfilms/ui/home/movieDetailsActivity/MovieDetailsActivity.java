@@ -153,32 +153,21 @@ public class MovieDetailsActivity extends BaseActivity {
         }
     };
 
-    private final View.OnClickListener backArrowListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onBackPressed();
-            SingletonFilmID.setIDEntered(null);
+    private final View.OnClickListener backArrowListener = v -> {
+        onBackPressed();
+        SingletonFilmID.setIDEntered(null);
 
-        }
     };
 
-    private final View.OnClickListener titleToolbarOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(MovieDetailsActivity.this, HomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            SingletonFilmID.setIDEntered(null);
-        }
+    private final View.OnClickListener titleToolbarOnClickListener = v -> {
+        Intent intent = new Intent(MovieDetailsActivity.this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        SingletonFilmID.setIDEntered(null);
     };
 
-    private final Observer<String> isSuccessMessageForToastObserver = new Observer<String>() {
-        @Override
-        public void onChanged(String message) {
-            TastyToast.makeText(MovieDetailsActivity.this, message, TastyToast.LENGTH_LONG, TastyToast.SUCCESS)
-                    .setGravity(Gravity.CENTER, 0, 700);
-        }
-    };
+    private final Observer<String> isSuccessMessageForToastObserver = message -> TastyToast.makeText(MovieDetailsActivity.this, message, TastyToast.LENGTH_LONG, TastyToast.SUCCESS)
+            .setGravity(Gravity.CENTER, 0, 700);
 
     @Override
     public void onBackPressed() {
@@ -210,13 +199,8 @@ public class MovieDetailsActivity extends BaseActivity {
         }
     };
 
-    private final Observer<String> isErrorMessageForToastObserver = new Observer<String>() {
-        @Override
-        public void onChanged(String message) {
-            TastyToast.makeText(MovieDetailsActivity.this, message, TastyToast.LENGTH_LONG, TastyToast.ERROR)
-                    .setGravity(Gravity.CENTER, 0, 700);
-        }
-    };
+    private final Observer<String> isErrorMessageForToastObserver = message -> TastyToast.makeText(MovieDetailsActivity.this, message, TastyToast.LENGTH_LONG, TastyToast.ERROR)
+            .setGravity(Gravity.CENTER, 0, 700);
 
     private final Observer<FilmsResults> homeTellerThereIsFilmResultsObserver = new Observer<FilmsResults>() {
         @Override

@@ -57,19 +57,16 @@ public class MovieListViewModel extends BaseViewModel {
         }
     };
 
-    private final Observer<ResponseModel<FilmsResults>> filmsResultsObserver = new Observer<ResponseModel<FilmsResults>>() {
-        @Override
-        public void onChanged(@Nullable ResponseModel<FilmsResults> responseModel) {
-            if (responseModel != null) {
-                if (responseModel.getCode() == SUCCESS_CODE && responseModel.getResponse().getTotal_pages() != null && MovieListViewModel.this.genreID != null) {
-                    FilterIDAndPageSize filterIDAndPageSize = new FilterIDAndPageSize(responseModel.getResponse().getTotal_pages(),
-                            MovieListViewModel.this.genreID);
-                    receiverAPageSizeAndGenreIDService.setValue(filterIDAndPageSize);
-                    fragmentTellerThereIsFilmResults.setValue(responseModel.getResponse());
-                }
-            } else {
-                isErrorMessageForToast.setValue(SERVICE_OR_CONNECTION_ERROR);
+    private final Observer<ResponseModel<FilmsResults>> filmsResultsObserver = responseModel -> {
+        if (responseModel != null) {
+            if (responseModel.getCode() == SUCCESS_CODE && responseModel.getResponse().getTotal_pages() != null && MovieListViewModel.this.genreID != null) {
+                FilterIDAndPageSize filterIDAndPageSize = new FilterIDAndPageSize(responseModel.getResponse().getTotal_pages(),
+                        MovieListViewModel.this.genreID);
+                receiverAPageSizeAndGenreIDService.setValue(filterIDAndPageSize);
+                fragmentTellerThereIsFilmResults.setValue(responseModel.getResponse());
             }
+        } else {
+            isErrorMessageForToast.setValue(SERVICE_OR_CONNECTION_ERROR);
         }
     };
 
@@ -87,12 +84,9 @@ public class MovieListViewModel extends BaseViewModel {
         filmsResults.observeForever(filmsResultsObserver);
     }
 
-    private final Observer<ErrorMessage> thereIsPaginationErrorObserve = new Observer<ErrorMessage>() {
-        @Override
-        public void onChanged(@Nullable ErrorMessage errorMessage) {
-            if (errorMessage != null) {
-                isErrorMessageForToast.setValue(errorMessage.getMessage());
-            }
+    private final Observer<ErrorMessage> thereIsPaginationErrorObserve = errorMessage -> {
+        if (errorMessage != null) {
+            isErrorMessageForToast.setValue(errorMessage.getMessage());
         }
     };
 

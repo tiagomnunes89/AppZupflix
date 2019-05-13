@@ -62,16 +62,13 @@ class DetailsViewHolder extends RecyclerView.ViewHolder{
         imageViewBanner = view.findViewById(R.id.imageView_banner_details);
         imageViewPoster = view.findViewById(R.id.imageView_poster_details);
         checkBox = view.findViewById(R.id.checkbox_favorite_details);
-        checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onCheckBoxClickListener != null) {
-                    int position = getAdapterPosition();
-                    if(checkBox.isChecked()){
-                        onCheckBoxClickListener.OnCheckBoxClick(position,currentList,true);
-                    } else {
-                        onCheckBoxClickListener.OnCheckBoxClick(position, currentList,false);
-                    }
+        checkBox.setOnClickListener(v -> {
+            if (onCheckBoxClickListener != null) {
+                int position = getAdapterPosition();
+                if(checkBox.isChecked()){
+                    onCheckBoxClickListener.OnCheckBoxClick(position,currentList,true);
+                } else {
+                    onCheckBoxClickListener.OnCheckBoxClick(position, currentList,false);
                 }
             }
         });
