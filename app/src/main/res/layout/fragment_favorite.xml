@@ -30,7 +30,7 @@
                 android:layout_marginBottom="@dimen/midMargin"
                 android:fontFamily="@font/robotoregular"
                 android:text="@string/favorites"
-                android:textColor="@color/colorTextWhite"
+                android:textColor="@color/white"
                 android:textSize="@dimen/textSizeSubtitle" />
 
         </android.support.v7.widget.CardView>
@@ -50,6 +50,7 @@
             android:drawablePadding="@dimen/midMargin"
             android:fontFamily="@font/dosis_bold"
             android:gravity="center"
+            android:textColor="@color/white"
             android:layout_centerInParent="true"
             android:text="@string/favoriteListEmpty"
             android:textSize="@dimen/textSizeSmall"

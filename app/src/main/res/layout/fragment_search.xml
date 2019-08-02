@@ -20,8 +20,8 @@
             android:layout_height="wrap_content"
             android:closeIcon="@drawable/ic_close"
             android:layout_margin="@dimen/activity_margin_half"
-            style="@style/Theme.Design.Light"
-            android:backgroundTint="@color/dark_gray"
+            android:backgroundTint="@color/white"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog"
             android:background="@drawable/border_input"
             android:inputType="text"
             android:iconifiedByDefault="true"
@@ -61,7 +61,7 @@
                 android:layout_height="match_parent"
                 android:scrollbars="none">
             </android.support.v7.widget.RecyclerView>
-            
+
         </FrameLayout>
 
         <TextView
@@ -81,6 +81,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:textSize="@dimen/textSizeSmall"
+            android:textColor="@color/white"
             android:fontFamily="@font/dosis_bold"
             android:visibility="gone"
             android:text="@string/errorMessageFilmNotFound"/>
