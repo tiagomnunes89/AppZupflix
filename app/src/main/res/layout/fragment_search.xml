@@ -21,12 +21,12 @@
             android:closeIcon="@drawable/ic_close"
             android:layout_margin="@dimen/activity_margin_half"
             android:backgroundTint="@color/white"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog"
+            android:theme="@style/Theme.AppCompat.Light"
             android:background="@drawable/border_input"
             android:inputType="text"
+            android:queryHint="@string/hintSearch"
             android:iconifiedByDefault="true"
-            android:focusableInTouchMode="false"
-            app:defaultQueryHint="@string/hintSearch"/>
+            android:focusableInTouchMode="false" />
 
     </android.support.v7.widget.CardView>
 

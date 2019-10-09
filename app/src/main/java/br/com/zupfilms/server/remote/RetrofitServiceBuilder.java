@@ -12,7 +12,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitServiceBuilder {
@@ -44,7 +43,6 @@ public class RetrofitServiceBuilder {
 
     private static Retrofit getRetroInstance() {
         return new Retrofit.Builder().baseUrl(URL)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttp.build()).build();
     }
