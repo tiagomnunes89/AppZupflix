@@ -40,6 +40,7 @@ public class FavoriteFragment extends BaseFragment implements SwipeRefreshLayout
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
+
         this.favoriteViewHolder = new FavoriteViewHolder(view);
 
         favoriteViewModel = ViewModelProviders.of(FavoriteFragment.this).get(FavoriteViewModel.class);
