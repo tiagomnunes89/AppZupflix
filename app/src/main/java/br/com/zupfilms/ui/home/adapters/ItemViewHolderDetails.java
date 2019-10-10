@@ -104,7 +104,7 @@ class ItemViewHolderDetails extends RecyclerView.ViewHolder {
         }
         keywords.setText(sentenceBuilder(filmGenreList));
         this.movieDescription.setText(film.getOverview());
-        if(!film.getReleaseDate().isEmpty() && film.getReleaseDate().length()>=4){
+        if(film.getReleaseDate() != null && !film.getReleaseDate().isEmpty() && film.getReleaseDate().length()>=4){
             year.setText(film.getReleaseDate().substring(0, 4));
         }
         this.filmNote.setText(String.valueOf(film.getVoteAverage()));
