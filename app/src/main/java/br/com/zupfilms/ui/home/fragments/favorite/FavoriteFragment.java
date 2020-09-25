@@ -1,14 +1,15 @@
 package br.com.zupfilms.ui.home.fragments.favorite;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,7 @@ public class FavoriteFragment extends BaseFragment implements SwipeRefreshLayout
 
     private void setupListenersAndObservers() {
         favoriteViewHolder.swipeRefreshLayout.setOnRefreshListener(this);
-        favoriteViewModel.getThereAreMovieDetailsToSaveOffline().observe(this, thereIsMovieDetailsObserver);
+        favoriteViewModel.getThereAreMovieDetailsToSaveOffline().observe(this.getViewLifecycleOwner(), thereIsMovieDetailsObserver);
         adapter.setOnCheckBoxClickListener((position, currentList, isChecked) -> {
             SingletonFilmID.setIDEntered(currentList.get(position).getId());
             if (isChecked) {

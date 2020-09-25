@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "api-7238136670188016108-580270",
+  "private_key_id": "a1e1aa169666c8e0aade3ce6be191a52ab00578a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDbQWK3/uT9qS1Q\nCMnfzIrePOLS1F4cMyRfgIDpMyEDLMWrXNCeAMGkhC6AmuZywmimlgjeHT/FL3f1\nosR9G/c6h0Eey4yqKtWow2YgDUwoXT5eHxIjbzDt7A3nqWSiGMYt6w4wi8rGzQzK\nBE8fmtdUbHUQZbs2+bUft6rm6zOHhm4nliTJ76VsfthDP/BdIhUCDp2dC4IhSN/E\n6C1BCmAlTVw0I6mj3t2WZkS7CR3pQq/JMzvxQrqpPpQEj3WWtrHC/1lzv6ROgV44\nmwKdatcfv0R9D8yJLVwBObUU/BHvKSP9F7iLB5PK6Q6a6K7AazqH0Gr25Dt8yU1+\n3uo6CXYrAgMBAAECggEAHVkYN1wVbLrAx6Nq2jENLt2O2FJNh+V0le/5Jr3i9QOA\n21o2ISAldg8CESbVd+umib3a0Vha7oWsafhv5/XerDqUheRlyhVSZMpFmOlkFfcS\nimi1oIFEAbovdks0ntnwFQ9kkSz1EeflMVlNpK5blP+w1RFjnjfjKFazt+soX5ho\nedQMrZFnwR+Pi6LtCWacYGctIfmntI870SQ+wU7zRRYZAXf6NXle7uWG6wCayx5J\nsZts4iE0o8A9+hLR03zldc1vnp+gtNiE1yCsG0/b/JIL4rLYU1+uQxum97b9BYV7\nVWhN005sHD0UAh5xVCEDjgFvzl6oMBxs13bww8u6UQKBgQDybfu4x2JVO/GD6QPF\nju5CwDXYBj8YCMZO1qCtOT8TPI68kJR4a7HW9PNG+kPt/AmRarfvne06n+FyAzrY\n0zNGLfMEazsF+M45pCDbkKzyQzSmnckza9PxcgmBVJL8/c9c5+Kn53qaMIdKKqrx\nlJyCTKWv5lUjzrWTvJemC4pVowKBgQDnh1Dd6Uv+ODfJDFUvsFvdzayGZ3htJNip\n14FaVug+EtWx1RUy3qLkeqlnIDihSjdVkPbS4VqJOHzN0FG+44Pv9C1L1siYQD5z\nWrMyosBYqkm4eYiPV4AahvYWaY3v/gzHUc0SFwTsS8IhiPwQnelS8oCZ8DOKOoti\nuFBiU0WV2QKBgFPaDtMew7hPf33svs06XtbfvL/3iSM7BbyHKBRCVLrGm2hFadUt\nCtoa53qJXa2XG4gcrXpH2aIJYuUYkOYmRvnjMsc4f7XVFR+C0YqgQ/GXpUJsGQec\nKDa/BuKg6iZvc6Xi3tbMje9/EYxpra7ZhDjdYgGxXYmBGfT7qkhYfYSZAoGAJukA\n2CqLEPBVv74I2vjil4YnRndBL+aPWwvSu2H7qeL0cuyCoYf1DDzpF2G84q5cWk8A\njDQ/SOxrXRNziYcm9z6sFiDEmYHCfRRzJUFg3gXQWeZi4uQrrUmdNesLZZfmgeDn\ne/DObP/WYlhpNEm1mrESl8xcfRCVuEONjti7yxECgYAD6jI06+pE+OwSsIhsHCdk\nlGYHMKyBFS+hYFLAcWOmaCbO2LdHSl2aKiQVFZX+c2D9xw/QsFQMfHje4Ft6ANb4\nDfb/tWPnyCBejMcgXf5wN1RwcJVP49f+4TIBT6+f7W2BKiRY+DkzUjBw/fYnqOAS\ni7L+nki0JgiGZhEzfWxlqw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "fastlane-zupflix@api-7238136670188016108-580270.iam.gserviceaccount.com",
+  "client_id": "101405660565797097988",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/fastlane-zupflix%40api-7238136670188016108-580270.iam.gserviceaccount.com"
+}

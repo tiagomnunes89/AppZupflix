@@ -1,9 +1,9 @@
 package br.com.zupfilms.server.repositories;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.paging.PageKeyedDataSource;
-import android.support.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.paging.PageKeyedDataSource;
+import androidx.annotation.NonNull;
 
 import br.com.zupfilms.model.ErrorMessage;
 import br.com.zupfilms.model.MovieDetailsModel;

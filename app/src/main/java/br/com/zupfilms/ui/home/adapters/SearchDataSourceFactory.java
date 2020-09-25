@@ -1,8 +1,8 @@
 package br.com.zupfilms.ui.home.adapters;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.paging.DataSource;
-import android.arch.paging.PageKeyedDataSource;
+import androidx.lifecycle.MutableLiveData;
+import androidx.paging.DataSource;
+import androidx.paging.PageKeyedDataSource;
 
 import br.com.zupfilms.server.repositories.SearchDataSource;
 import br.com.zupfilms.server.response.FilmResponse;

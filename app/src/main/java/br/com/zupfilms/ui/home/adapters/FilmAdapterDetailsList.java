@@ -1,11 +1,11 @@
 package br.com.zupfilms.ui.home.adapters;
 
-import android.arch.paging.PagedList;
-import android.arch.paging.PagedListAdapter;
+import androidx.paging.PagedList;
+import androidx.paging.PagedListAdapter;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;

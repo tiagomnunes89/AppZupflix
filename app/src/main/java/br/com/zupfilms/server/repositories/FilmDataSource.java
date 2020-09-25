@@ -1,7 +1,7 @@
 package br.com.zupfilms.server.repositories;
 
-import android.arch.paging.PageKeyedDataSource;
-import android.support.annotation.NonNull;
+import androidx.paging.PageKeyedDataSource;
+import androidx.annotation.NonNull;
 
 import br.com.zupfilms.server.response.FilmResponse;
 
